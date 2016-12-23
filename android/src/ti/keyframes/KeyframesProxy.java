@@ -82,8 +82,18 @@ public class KeyframesProxy extends TiViewProxy
 	}
 
 	@Kroll.method
+    public void initialize() {
+        
+    }
+	
+	@Kroll.method
     public void stopAnimation() {
         kfDrawable.stopAnimation();
+    }
+
+	@Kroll.method
+    public void stopAnimationAtLoopEnd() {
+        kfDrawable.stopAnimationAtLoopEnd();
     }
 
     @Kroll.method
@@ -93,14 +103,17 @@ public class KeyframesProxy extends TiViewProxy
     
 	@Kroll.method
     public void pauseAnimation() {
-		// Not supported in Version 1.0
-        //kfDrawable.pauseAnimation();
+		kfDrawable.pauseAnimation();
     }
 	
 	@Kroll.method
     public void resumeAnimation() {
-		// Not supported in Version 1.0
-        //kfDrawable.resumeAnimation();
+		kfDrawable.resumeAnimation();
+    }
+	
+	@Kroll.method
+    public void seekToProgress(float pos) {
+		kfDrawable.seekToProgress(pos);
     }
 
 	// Constructor
