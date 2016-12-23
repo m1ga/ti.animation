@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+apiversion: 3
+architectures: armeabi-v7a x86
+description: ti.keyframes
+author: Your Name
+license: Specify your license
+copyright: Copyright (c) 2016 by Your Company
+
+# these should not be edited
+name: ti.keyframes
+moduleid: ti.keyframes
+guid: 0af214dd-5fa0-4cc7-b8c3-268fb78a03d5
+platform: android
+minsdk: 6.0.0.GA

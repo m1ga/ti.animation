@@ -1,0 +1,18 @@
+%define lookup-function-name lookupGeneratedInit
+%define class-name TiKeyframesBindings
+%{
+
+#include <string.h>
+#include <v8.h>
+#include <KrollBindings.h>
+
+#include "ti.keyframes.KeyframesProxy.h"
+#include "ti.keyframes.TiKeyframesModule.h"
+
+
+%}
+struct titanium::bindings::BindEntry;
+%%
+ti.keyframes.KeyframesProxy, ::ti::keyframes::tikeyframes::KeyframesProxy::bindProxy, ::ti::keyframes::tikeyframes::KeyframesProxy::dispose
+ti.keyframes.TiKeyframesModule, ::ti::keyframes::TiKeyframesModule::bindProxy, ::ti::keyframes::TiKeyframesModule::dispose
+%%
