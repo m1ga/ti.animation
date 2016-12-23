@@ -116,6 +116,16 @@ public class KeyframesProxy extends TiViewProxy
 		kfDrawable.seekToProgress(pos);
     }
 
+	@Kroll.method
+    public int getFrameCount() {
+		return kfImage.getFrameCount();
+    }
+	
+	@Kroll.method
+    public int getFrameRate() {
+		return kfImage.getFrameRate();
+    }
+
 	// Constructor
 	public KeyframesProxy()
 	{

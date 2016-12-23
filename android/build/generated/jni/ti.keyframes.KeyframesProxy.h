@@ -31,14 +31,16 @@ private:
 
 	// Methods -----------------------------------------------------------
 	static void stopAnimation(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void getMessage(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void setMessage(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void getFrameCount(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void startAnimation(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void resumeAnimation(const v8::FunctionCallbackInfo<v8::Value>&);
 	static void seekToProgress(const v8::FunctionCallbackInfo<v8::Value>&);
 	static void printMessage(const v8::FunctionCallbackInfo<v8::Value>&);
 	static void stopAnimationAtLoopEnd(const v8::FunctionCallbackInfo<v8::Value>&);
-	static void getMessage(const v8::FunctionCallbackInfo<v8::Value>&);
 	static void initialize(const v8::FunctionCallbackInfo<v8::Value>&);
-	static void setMessage(const v8::FunctionCallbackInfo<v8::Value>&);
-	static void startAnimation(const v8::FunctionCallbackInfo<v8::Value>&);
-	static void resumeAnimation(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void getFrameRate(const v8::FunctionCallbackInfo<v8::Value>&);
 	static void pauseAnimation(const v8::FunctionCallbackInfo<v8::Value>&);
 
 	// Dynamic property accessors ----------------------------------------
