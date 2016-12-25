@@ -84,13 +84,13 @@ Local<FunctionTemplate> KeyframesProxy::getProxyTemplate(Isolate* isolate)
 	// Method bindings --------------------------------------------------------
 	titanium::SetProtoMethod(isolate, t, "stopAnimation", KeyframesProxy::stopAnimation);
 	titanium::SetProtoMethod(isolate, t, "getMessage", KeyframesProxy::getMessage);
-	titanium::SetProtoMethod(isolate, t, "setMessage", KeyframesProxy::setMessage);
 	titanium::SetProtoMethod(isolate, t, "getFrameCount", KeyframesProxy::getFrameCount);
+	titanium::SetProtoMethod(isolate, t, "setMessage", KeyframesProxy::setMessage);
 	titanium::SetProtoMethod(isolate, t, "startAnimation", KeyframesProxy::startAnimation);
 	titanium::SetProtoMethod(isolate, t, "resumeAnimation", KeyframesProxy::resumeAnimation);
 	titanium::SetProtoMethod(isolate, t, "seekToProgress", KeyframesProxy::seekToProgress);
-	titanium::SetProtoMethod(isolate, t, "printMessage", KeyframesProxy::printMessage);
 	titanium::SetProtoMethod(isolate, t, "stopAnimationAtLoopEnd", KeyframesProxy::stopAnimationAtLoopEnd);
+	titanium::SetProtoMethod(isolate, t, "printMessage", KeyframesProxy::printMessage);
 	titanium::SetProtoMethod(isolate, t, "initialize", KeyframesProxy::initialize);
 	titanium::SetProtoMethod(isolate, t, "getFrameRate", KeyframesProxy::getFrameRate);
 	titanium::SetProtoMethod(isolate, t, "pauseAnimation", KeyframesProxy::pauseAnimation);
@@ -232,6 +232,63 @@ void KeyframesProxy::getMessage(const FunctionCallbackInfo<Value>& args)
 	args.GetReturnValue().Set(v8Result);
 
 }
+void KeyframesProxy::getFrameCount(const FunctionCallbackInfo<Value>& args)
+{
+	LOGD(TAG, "getFrameCount()");
+	Isolate* isolate = args.GetIsolate();
+	HandleScope scope(isolate);
+
+	JNIEnv *env = titanium::JNIScope::getEnv();
+	if (!env) {
+		titanium::JSException::GetJNIEnvironmentError(isolate);
+		return;
+	}
+	static jmethodID methodID = NULL;
+	if (!methodID) {
+		methodID = env->GetMethodID(KeyframesProxy::javaClass, "getFrameCount", "()I");
+		if (!methodID) {
+			const char *error = "Couldn't find proxy method 'getFrameCount' with signature '()I'";
+			LOGE(TAG, error);
+				titanium::JSException::Error(isolate, error);
+				return;
+		}
+	}
+
+	Local<Object> holder = args.Holder();
+	// If holder isn't the JavaObject wrapper we expect, look up the prototype chain
+	if (!JavaObject::isJavaObject(holder)) {
+		holder = holder->FindInstanceInPrototypeChain(getProxyTemplate(isolate));
+	}
+
+	titanium::Proxy* proxy = titanium::Proxy::unwrap(holder);
+
+	jvalue* jArguments = 0;
+
+	jobject javaProxy = proxy->getJavaObject();
+	jint jResult = (jint)env->CallIntMethodA(javaProxy, methodID, jArguments);
+
+
+
+	if (!JavaObject::useGlobalRefs) {
+		env->DeleteLocalRef(javaProxy);
+	}
+
+
+
+	if (env->ExceptionCheck()) {
+		Local<Value> jsException = titanium::JSException::fromJavaException(isolate);
+		env->ExceptionClear();
+		return;
+	}
+
+
+	Local<Number> v8Result = titanium::TypeConverter::javaIntToJsNumber(isolate, env, jResult);
+
+
+
+	args.GetReturnValue().Set(v8Result);
+
+}
 void KeyframesProxy::setMessage(const FunctionCallbackInfo<Value>& args)
 {
 	LOGD(TAG, "setMessage()");
@@ -307,63 +364,6 @@ void KeyframesProxy::setMessage(const FunctionCallbackInfo<Value>& args)
 
 
 	args.GetReturnValue().Set(v8::Undefined(isolate));
-
-}
-void KeyframesProxy::getFrameCount(const FunctionCallbackInfo<Value>& args)
-{
-	LOGD(TAG, "getFrameCount()");
-	Isolate* isolate = args.GetIsolate();
-	HandleScope scope(isolate);
-
-	JNIEnv *env = titanium::JNIScope::getEnv();
-	if (!env) {
-		titanium::JSException::GetJNIEnvironmentError(isolate);
-		return;
-	}
-	static jmethodID methodID = NULL;
-	if (!methodID) {
-		methodID = env->GetMethodID(KeyframesProxy::javaClass, "getFrameCount", "()I");
-		if (!methodID) {
-			const char *error = "Couldn't find proxy method 'getFrameCount' with signature '()I'";
-			LOGE(TAG, error);
-				titanium::JSException::Error(isolate, error);
-				return;
-		}
-	}
-
-	Local<Object> holder = args.Holder();
-	// If holder isn't the JavaObject wrapper we expect, look up the prototype chain
-	if (!JavaObject::isJavaObject(holder)) {
-		holder = holder->FindInstanceInPrototypeChain(getProxyTemplate(isolate));
-	}
-
-	titanium::Proxy* proxy = titanium::Proxy::unwrap(holder);
-
-	jvalue* jArguments = 0;
-
-	jobject javaProxy = proxy->getJavaObject();
-	jint jResult = (jint)env->CallIntMethodA(javaProxy, methodID, jArguments);
-
-
-
-	if (!JavaObject::useGlobalRefs) {
-		env->DeleteLocalRef(javaProxy);
-	}
-
-
-
-	if (env->ExceptionCheck()) {
-		Local<Value> jsException = titanium::JSException::fromJavaException(isolate);
-		env->ExceptionClear();
-		return;
-	}
-
-
-	Local<Number> v8Result = titanium::TypeConverter::javaIntToJsNumber(isolate, env, jResult);
-
-
-
-	args.GetReturnValue().Set(v8Result);
 
 }
 void KeyframesProxy::startAnimation(const FunctionCallbackInfo<Value>& args)
@@ -549,6 +549,58 @@ void KeyframesProxy::seekToProgress(const FunctionCallbackInfo<Value>& args)
 	args.GetReturnValue().Set(v8::Undefined(isolate));
 
 }
+void KeyframesProxy::stopAnimationAtLoopEnd(const FunctionCallbackInfo<Value>& args)
+{
+	LOGD(TAG, "stopAnimationAtLoopEnd()");
+	Isolate* isolate = args.GetIsolate();
+	HandleScope scope(isolate);
+
+	JNIEnv *env = titanium::JNIScope::getEnv();
+	if (!env) {
+		titanium::JSException::GetJNIEnvironmentError(isolate);
+		return;
+	}
+	static jmethodID methodID = NULL;
+	if (!methodID) {
+		methodID = env->GetMethodID(KeyframesProxy::javaClass, "stopAnimationAtLoopEnd", "()V");
+		if (!methodID) {
+			const char *error = "Couldn't find proxy method 'stopAnimationAtLoopEnd' with signature '()V'";
+			LOGE(TAG, error);
+				titanium::JSException::Error(isolate, error);
+				return;
+		}
+	}
+
+	Local<Object> holder = args.Holder();
+	// If holder isn't the JavaObject wrapper we expect, look up the prototype chain
+	if (!JavaObject::isJavaObject(holder)) {
+		holder = holder->FindInstanceInPrototypeChain(getProxyTemplate(isolate));
+	}
+
+	titanium::Proxy* proxy = titanium::Proxy::unwrap(holder);
+
+	jvalue* jArguments = 0;
+
+	jobject javaProxy = proxy->getJavaObject();
+	env->CallVoidMethodA(javaProxy, methodID, jArguments);
+
+	if (!JavaObject::useGlobalRefs) {
+		env->DeleteLocalRef(javaProxy);
+	}
+
+
+
+	if (env->ExceptionCheck()) {
+		titanium::JSException::fromJavaException(isolate);
+		env->ExceptionClear();
+	}
+
+
+
+
+	args.GetReturnValue().Set(v8::Undefined(isolate));
+
+}
 void KeyframesProxy::printMessage(const FunctionCallbackInfo<Value>& args)
 {
 	LOGD(TAG, "printMessage()");
@@ -613,58 +665,6 @@ void KeyframesProxy::printMessage(const FunctionCallbackInfo<Value>& args)
 
 
 				env->DeleteLocalRef(jArguments[0].l);
-
-
-	if (env->ExceptionCheck()) {
-		titanium::JSException::fromJavaException(isolate);
-		env->ExceptionClear();
-	}
-
-
-
-
-	args.GetReturnValue().Set(v8::Undefined(isolate));
-
-}
-void KeyframesProxy::stopAnimationAtLoopEnd(const FunctionCallbackInfo<Value>& args)
-{
-	LOGD(TAG, "stopAnimationAtLoopEnd()");
-	Isolate* isolate = args.GetIsolate();
-	HandleScope scope(isolate);
-
-	JNIEnv *env = titanium::JNIScope::getEnv();
-	if (!env) {
-		titanium::JSException::GetJNIEnvironmentError(isolate);
-		return;
-	}
-	static jmethodID methodID = NULL;
-	if (!methodID) {
-		methodID = env->GetMethodID(KeyframesProxy::javaClass, "stopAnimationAtLoopEnd", "()V");
-		if (!methodID) {
-			const char *error = "Couldn't find proxy method 'stopAnimationAtLoopEnd' with signature '()V'";
-			LOGE(TAG, error);
-				titanium::JSException::Error(isolate, error);
-				return;
-		}
-	}
-
-	Local<Object> holder = args.Holder();
-	// If holder isn't the JavaObject wrapper we expect, look up the prototype chain
-	if (!JavaObject::isJavaObject(holder)) {
-		holder = holder->FindInstanceInPrototypeChain(getProxyTemplate(isolate));
-	}
-
-	titanium::Proxy* proxy = titanium::Proxy::unwrap(holder);
-
-	jvalue* jArguments = 0;
-
-	jobject javaProxy = proxy->getJavaObject();
-	env->CallVoidMethodA(javaProxy, methodID, jArguments);
-
-	if (!JavaObject::useGlobalRefs) {
-		env->DeleteLocalRef(javaProxy);
-	}
-
 
 
 	if (env->ExceptionCheck()) {

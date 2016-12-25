@@ -100,6 +100,7 @@ public class KeyframesProxy extends TiViewProxy
     public void startAnimation() {
         kfDrawable.startAnimation();
     }
+	
     
 	@Kroll.method
     public void pauseAnimation() {
