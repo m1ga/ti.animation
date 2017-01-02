@@ -102,6 +102,12 @@ public class KeyframesProxy extends TiViewProxy
     }
 	
     
+    @Kroll.method
+    public void playOnce() {
+        kfDrawable.playOnce();
+    }
+	
+    
 	@Kroll.method
     public void pauseAnimation() {
 		kfDrawable.pauseAnimation();
@@ -172,25 +178,5 @@ public class KeyframesProxy extends TiViewProxy
 				Log.i(LCAT, "error " + e);
 			}
 		}
-	}
-
-	// Methods
-	@Kroll.method
-	public void printMessage(String message)
-	{
-		Log.d(LCAT, "printing message: " + message);
-	}
-
-
-	@Kroll.getProperty @Kroll.method
-	public String getMessage()
-	{
-        return "Hello World from my module";
-	}
-
-	@Kroll.setProperty @Kroll.method
-	public void setMessage(String message)
-	{
-	    Log.d(LCAT, "Tried setting module message to: " + message);
 	}
 }

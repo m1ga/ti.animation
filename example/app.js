@@ -21,7 +21,7 @@ var view = TiKeyframes.createKeyframes({
 win.add(view);
 
 win.add(createButtonWithAction('Start animation', startAnimation));
-win.add(createButtonWithAction('Play till end', playEndAnimation));
+win.add(createButtonWithAction('Play once', playEndAnimation));
 win.add(createButtonWithAction('Pause animation', pauseAnimation));
 win.add(createButtonWithAction('Resume animation', resumeAnimation));
 
@@ -76,8 +76,5 @@ function resumeAnimation() {
 }
 
 function playEndAnimation() {
-    view.startAnimation();
-    setTimeout(function() {
-        view.stopAnimationAtLoopEnd();
-    }, 100);
+    view.playOnce();
 }

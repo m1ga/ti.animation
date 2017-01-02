@@ -9,10 +9,11 @@ Appcelerator Titanium Android module for Facebooks Keyframes libray. For an iOS 
 - Android
 
 ## Features
-- startAnimation
-- stopAnimation
-- pauseAnimation
-- resumeAnimation
+- startAnimation()
+- stopAnimation()
+- pauseAnimation()
+- resumeAnimation()
+- playOnce()
 - seekToProgress(percentage)
 - getFrameRate()
 - getFrameCount()
