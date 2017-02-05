@@ -1,6 +1,6 @@
 # Ti.Keyframes (Android)
 
-![gif](keyframes.gif)
+![gif](animation.gif)
 
 Appcelerator Titanium Android module for [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) libray and for [AirBnb Lottie](https://github.com/airbnb/lottie-android). 
 
