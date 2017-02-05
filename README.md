@@ -2,7 +2,9 @@
 
 ![gif](keyframes.gif)
 
-Appcelerator Titanium Android module for Facebooks Keyframes libray. For an iOS version visit https://github.com/hansemannn/ti.keyframes by Hans Knoechel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de))
+Appcelerator Titanium Android module for Facebooks Keyframes libray and for AirBnb Lottie. 
+
+For an iOS version of Ti.Keyframes visit https://github.com/hansemannn/ti.keyframes and for Ti.Lottie visit https://github.com/hansemannn/ti.lottie by Hans Knoechel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de))
 
 ## Requirements
 - Titanium Mobile SDK 6.0.0.GA or later
