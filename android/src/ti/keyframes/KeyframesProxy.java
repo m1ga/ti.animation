@@ -6,7 +6,7 @@
  * Please see the LICENSE included with this distribution for details.
  *
  */
-package ti.keyframes;
+package ti.animation;
 
 import android.app.Activity;
 import com.facebook.keyframes.*;
@@ -34,7 +34,7 @@ import android.widget.ImageView;
 import android.graphics.drawable.Drawable;
 
 
-@Kroll.proxy(creatableInModule=TiKeyframesModule.class)
+@Kroll.proxy(creatableInModule=TiAnimationModule.class)
 public class KeyframesProxy extends TiViewProxy
 {
 	// Standard Debugging variables

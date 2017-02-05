@@ -6,7 +6,7 @@
  * Please see the LICENSE included with this distribution for details.
  *
  */
-package ti.keyframes;
+package ti.animation;
 
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
@@ -16,15 +16,15 @@ import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
 
 
-@Kroll.module(name="TiKeyframes", id="ti.keyframes")
-public class TiKeyframesModule extends KrollModule
+@Kroll.module(name="TiAnimation", id="ti.animation")
+public class TiAnimationModule extends KrollModule
 {
 
 	// Standard Debugging variables
-	private static final String LCAT = "TiKeyframesModule";
+	private static final String LCAT = "TiAnimationModule";
 	private static final boolean DBG = TiConfig.LOGD;
 
-	public TiKeyframesModule()
+	public TiAnimationModule()
 	{
 		super();
 	}

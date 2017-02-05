@@ -1,4 +1,4 @@
-# Ti.Keyframes (Android)
+# Ti.Animation (Android)
 
 ![gif](animation.gif)
 

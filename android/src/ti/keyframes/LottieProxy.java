@@ -6,7 +6,7 @@
  * Please see the LICENSE included with this distribution for details.
  *
  */
-package ti.keyframes;
+package ti.animation;
 
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollProxy;
@@ -37,7 +37,7 @@ import org.json.JSONObject ;
 import java.lang.Exception ;
 
 
-@Kroll.proxy(creatableInModule=TiKeyframesModule.class)
+@Kroll.proxy(creatableInModule=TiAnimationModule.class)
 public class LottieProxy extends TiViewProxy
 {
 	// Standard Debugging variables

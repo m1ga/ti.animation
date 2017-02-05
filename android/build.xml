@@ -1,6 +1,6 @@
-<project name="ti.keyframes" default="dist">
+<project name="ti.animation" default="dist">
 	<description>
-		Ant build script for Titanium Android module ti.keyframes
+		Ant build script for Titanium Android module ti.animtaion
 	</description>
 
 	<property name="ti.module.root" location="${basedir}"/>
