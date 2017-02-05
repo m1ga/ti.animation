@@ -2,7 +2,7 @@
 
 ![gif](keyframes.gif)
 
-Appcelerator Titanium Android module for Facebooks Keyframes libray and for AirBnb Lottie. 
+Appcelerator Titanium Android module for [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) libray and for [AirBnb Lottie](https://github.com/airbnb/lottie-android). 
 
 For an iOS version of Ti.Keyframes visit https://github.com/hansemannn/ti.keyframes and for Ti.Lottie visit https://github.com/hansemannn/ti.lottie by Hans Knoechel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de))
 
