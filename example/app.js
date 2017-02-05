@@ -1,4 +1,4 @@
-var TiKeyframes = require('ti.keyframes');
+var TiAnimation = require('ti.animation');
 
 var win = Ti.UI.createWindow({
     backgroundColor: '#fff',
@@ -12,7 +12,7 @@ var lbl = Ti.UI.createLabel({
 
 var offset = 0;
 
-var view = TiKeyframes.createLottie({
+var view = TiAnimation.createLottie({
     width: 200,
     height: 200,
     file: '/LightBulb.json',
@@ -20,41 +20,41 @@ var view = TiKeyframes.createLottie({
     autoStart: false
 });
 
-var view2 = TiKeyframes.createKeyframes({
+var view2 = TiAnimation.createKeyframes({
     file: '/s2.json',
     width: 148,
     height: 54,
-    bottom: 50,
+    bottom: 70,
     loop: false,
     autoStart: false
 });
 win.add(view);
 win.add(view2);
+win.add(lbl);
 
 win.add(createButtonWithAction('Start animation', startAnimation));
 win.add(createButtonWithAction('Pause animation', pauseAnimation));
 win.add(createButtonWithAction('Resume animation', resumeAnimation));
 
-// var slider = Ti.UI.createSlider({
-//     value: 0,
-//     min: 0,
-//     max: 1,
-//     bottom: 10,
-//     width: 300
-// });
-// 
-// slider.addEventListener('change', function(e) {
-//     view.seekToProgress(e.value);
-//     view2.seekToProgress(e.value);
-// });
+var slider = Ti.UI.createSlider({
+    value: 0,
+    min: 0,
+    max: 1,
+    bottom: 10,
+    width: 300
+});
+
+slider.addEventListener('change', function(e) {
+    view.seekToProgress(e.value);
+    view2.seekToProgress(e.value);
+});
 
 function onOpen(e) {
-    //view.setFile('/LightBulb.json');
-    //lbl.text = "Framecount: " + view.getFrameCount() + "\nFrameRate: " + view.getFrameRate();
+    lbl.text = "Framecount: " + view2.getFrameCount() + " - FrameRate: " + view2.getFrameRate();
 }
 
 win.addEventListener("open", onOpen);
-//win.add(slider);
+win.add(slider);
 win.open();
 
 function createButtonWithAction(title, action) {
