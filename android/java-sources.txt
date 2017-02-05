@@ -1,0 +1,4 @@
+"/home/miga/dev/ti.keyframes/android/build/generated/java/ti/keyframes/TiKeyframesBootstrap.java"
+"/home/miga/dev/ti.keyframes/android/src/ti/keyframes/KeyframesProxy.java"
+"/home/miga/dev/ti.keyframes/android/src/ti/keyframes/LottieProxy.java"
+"/home/miga/dev/ti.keyframes/android/src/ti/keyframes/TiKeyframesModule.java"

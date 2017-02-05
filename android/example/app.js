@@ -12,13 +12,22 @@ var lbl = Ti.UI.createLabel({
 
 var offset = 0;
 
-var view = TiKeyframes.createKeyframes({
+var view = TiKeyframes.createLottie({
+    width: 200,
+    height: 200,
+    file: '/LightBulb.json',
+    loop: true,
+    autoStart: true
+});
+
+var view2 = TiKeyframes.createKeyframes({
     file: '/sample_logo.json',
     width: 200,
     height: 200
 });
 
 win.add(view);
+win.add(view2);
 
 win.add(createButtonWithAction('Start animation', startAnimation));
 win.add(createButtonWithAction('Play till end', playEndAnimation));
@@ -34,15 +43,15 @@ var slider = Ti.UI.createSlider({
 });
 
 slider.addEventListener('change', function(e) {
-    view.seekToProgress(e.value);
+    view2.seekToProgress(e.value);
 });
 
 win.addEventListener('open', function() {
-    view.initialize();
+    view2.initialize();
 })
 
 function onOpen(e) {
-    lbl.text = "Framecount: " + view.getFrameCount() + "\nFrameRate: " + view.getFrameRate();
+    lbl.text = "Framecount: " + view2.getFrameCount() + "\nFrameRate: " + view2.getFrameRate();
 }
 
 win.addEventListener("open", onOpen);
@@ -65,19 +74,20 @@ function createButtonWithAction(title, action) {
 
 function startAnimation() {
     view.startAnimation();
+    view2.startAnimation();
 }
 
 function pauseAnimation() {
-    view.pauseAnimation();
+    view2.pauseAnimation();
 }
 
 function resumeAnimation() {
-    view.resumeAnimation();
+    view2.resumeAnimation();
 }
 
 function playEndAnimation() {
-    view.startAnimation();
+    view2.startAnimation();
     setTimeout(function() {
-        view.stopAnimationAtLoopEnd();
+        view2.stopAnimationAtLoopEnd();
     }, 100);
 }
