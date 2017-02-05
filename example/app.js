@@ -16,47 +16,45 @@ var view = TiKeyframes.createLottie({
     width: 200,
     height: 200,
     file: '/LightBulb.json',
-    loop: true,
-    autoStart: true
+    loop: false,
+    autoStart: false
 });
 
 var view2 = TiKeyframes.createKeyframes({
-    file: '/sample_logo.json',
-    width: 200,
-    height: 200
+    file: '/s2.json',
+    width: 148,
+    height: 54,
+    bottom: 50,
+    loop: false,
+    autoStart: false
 });
-
 win.add(view);
 win.add(view2);
 
 win.add(createButtonWithAction('Start animation', startAnimation));
-win.add(createButtonWithAction('Play till end', playEndAnimation));
 win.add(createButtonWithAction('Pause animation', pauseAnimation));
 win.add(createButtonWithAction('Resume animation', resumeAnimation));
 
-var slider = Ti.UI.createSlider({
-    value: 0,
-    min: 0,
-    max: 1,
-    bottom: 10,
-    width: 300
-});
-
-slider.addEventListener('change', function(e) {
-    view2.seekToProgress(e.value);
-});
-
-win.addEventListener('open', function() {
-    view2.initialize();
-})
+// var slider = Ti.UI.createSlider({
+//     value: 0,
+//     min: 0,
+//     max: 1,
+//     bottom: 10,
+//     width: 300
+// });
+// 
+// slider.addEventListener('change', function(e) {
+//     view.seekToProgress(e.value);
+//     view2.seekToProgress(e.value);
+// });
 
 function onOpen(e) {
-    lbl.text = "Framecount: " + view2.getFrameCount() + "\nFrameRate: " + view2.getFrameRate();
+    //view.setFile('/LightBulb.json');
+    //lbl.text = "Framecount: " + view.getFrameCount() + "\nFrameRate: " + view.getFrameRate();
 }
 
 win.addEventListener("open", onOpen);
-win.add(lbl);
-win.add(slider);
+//win.add(slider);
 win.open();
 
 function createButtonWithAction(title, action) {
@@ -73,21 +71,16 @@ function createButtonWithAction(title, action) {
 }
 
 function startAnimation() {
-    view.startAnimation();
-    view2.startAnimation();
+    view.start();
+    view2.start();
 }
 
 function pauseAnimation() {
-    view2.pauseAnimation();
+    view.pause();
+    view2.pause();
 }
 
 function resumeAnimation() {
-    view2.resumeAnimation();
-}
-
-function playEndAnimation() {
-    view2.startAnimation();
-    setTimeout(function() {
-        view2.stopAnimationAtLoopEnd();
-    }, 100);
+    view.resume();
+    view2.resume();
 }

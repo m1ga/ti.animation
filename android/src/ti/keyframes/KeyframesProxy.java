@@ -44,6 +44,8 @@ public class KeyframesProxy extends TiViewProxy
 	private KFImage kfImage;
 	private ImageView imageView;
 	private KeyframesDrawable kfDrawable;
+	boolean isAutoStart = false;
+	boolean isLoop = false;
 
 	private class Keyframes extends TiUIView
 	{
@@ -87,34 +89,28 @@ public class KeyframesProxy extends TiViewProxy
     }
 	
 	@Kroll.method
-    public void stopAnimation() {
+    public void stop() {
         kfDrawable.stopAnimation();
     }
 
-	@Kroll.method
-    public void stopAnimationAtLoopEnd() {
-        kfDrawable.stopAnimationAtLoopEnd();
-    }
-
     @Kroll.method
-    public void startAnimation() {
+    public void start() {
         kfDrawable.startAnimation();
     }
 	
-    
     @Kroll.method
-    public void playOnce() {
-        kfDrawable.playOnce();
+    public void play() {
+        start();
     }
 	
     
 	@Kroll.method
-    public void pauseAnimation() {
+    public void pause() {
 		kfDrawable.pauseAnimation();
     }
 	
 	@Kroll.method
-    public void resumeAnimation() {
+    public void resume() {
 		kfDrawable.resumeAnimation();
     }
 	
@@ -165,18 +161,30 @@ public class KeyframesProxy extends TiViewProxy
 	{
 		super.handleCreationDict(options);
 
+		if (options.containsKey("loop")) {
+			isLoop = options.getBoolean("loop");
+		}
+		if (options.containsKey("autoStart")) {
+			isAutoStart = options.getBoolean("autoStart");
+		}
 		if (options.containsKey("file")) {
-			Log.i(LCAT, "file");
 			try {
 				String url = getPathToApplicationAsset(options.getString("file"));
 	            TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);      
 				stream = file.getInputStream();
-				Log.i(LCAT, stream+ "");
 				kfImage = KFImageDeserializer.deserialize(stream);
 				kfDrawable = new KeyframesDrawableBuilder().withImage(kfImage).build();
+				if (isAutoStart){
+					if (isLoop){
+						kfDrawable.startAnimation();
+					} else {
+						kfDrawable.playOnce();
+					}
+				}
 			} catch (IOException e){
 				Log.i(LCAT, "error " + e);
 			}
 		}
+		
 	}
 }

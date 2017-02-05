@@ -11,11 +11,11 @@ For an iOS version of Ti.Keyframes visit https://github.com/hansemannn/ti.keyfra
 - Android
 
 ## Features
-- startAnimation()
-- stopAnimation()
-- pauseAnimation()
-- resumeAnimation()
-- playOnce()
+- start()
+- play()
+- stop()
+- pause()
+- resume()
 - seekToProgress(percentage)
 - getFrameRate()
 - getFrameCount()

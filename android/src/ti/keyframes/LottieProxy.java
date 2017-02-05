@@ -134,21 +134,36 @@ public class LottieProxy extends TiViewProxy
 	}
 
 	@Kroll.method
-    public void startAnimation() {
+    public void start() {
 		boolean restart = lottieView.isAnimating();
 		lottieView.cancelAnimation();
 		lottieView.setProgress(0f);
 		lottieView.playAnimation();
     }
+	
+	@Kroll.method
+    public void play() {
+		start();
+    }
 
 	@Kroll.method
-    public void resumeAnimation() {
+    public void resume() {
 		lottieView.playAnimation();
     }
 	
 	@Kroll.method
-    public void pauseAnimation() {
+    public void pause() {
 		lottieView.cancelAnimation();
+    }
+	
+	@Kroll.method
+    public void stop() {
+		lottieView.cancelAnimation();
+    }
+	
+	@Kroll.method
+    public void seekToProgress(float pos) {
+		lottieView.setProgress(pos);
     }
 	
 	@Kroll.method
