@@ -147,7 +147,7 @@ public class LottieProxy extends TiViewProxy
     }
 	
 	@Kroll.method
-    public void stopAnimation() {
+    public void pauseAnimation() {
 		lottieView.cancelAnimation();
     }
 	

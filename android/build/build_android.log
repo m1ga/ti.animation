@@ -1,5 +1,5 @@
 
-2017-02-05 17:08:07
+2017-02-05 17:10:01
 
 Operating System
   Name                        = Fedora
@@ -51,4 +51,4 @@ Compiling all java source files genereated
 [INFO]   Generate module JAR: jar "cf" "/home/miga/dev/ti.keyframes/android/dist/ti.keyframes.jar" "-C" "/home/miga/dev/ti.keyframes/android/build/classes" "." "-C" "/home/miga/dev/ti.keyframes/android" "assets"
 [INFO]   Creating module zip
 [INFO]   Writing module zip: /home/miga/dev/ti.keyframes/android/dist/ti.keyframes-android-1.0.0.zip
-[INFO]   Project built successfully in 10s 19ms
+[INFO]   Project built successfully in 10s 693ms
