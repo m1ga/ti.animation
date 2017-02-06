@@ -35,7 +35,7 @@ import android.graphics.drawable.Drawable;
 
 
 @Kroll.proxy(creatableInModule=TiAnimationModule.class)
-public class KeyframesProxy extends TiViewProxy
+public class KeyframeViewProxy extends TiViewProxy
 {
 	// Standard Debugging variables
 	private static final String LCAT = "Keyframes";
@@ -128,9 +128,20 @@ public class KeyframesProxy extends TiViewProxy
     public int getFrameRate() {
 		return kfImage.getFrameRate();
     }
+	
+	@Kroll.method
+    public void addViewToLayer() {
+		// TODO empty for now
+    }
+	
+	@Kroll.method
+    public boolean isPlaying() {
+		// TODO 
+		return false;
+    }
 
 	// Constructor
-	public KeyframesProxy()
+	public KeyframeViewProxy()
 	{
 		super();
 	}

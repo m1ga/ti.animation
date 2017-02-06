@@ -38,10 +38,10 @@ import java.lang.Exception ;
 
 
 @Kroll.proxy(creatableInModule=TiAnimationModule.class)
-public class LottieProxy extends TiViewProxy
+public class LottieViewProxy extends TiViewProxy
 {
 	// Standard Debugging variables
-	private static final String LCAT = "LottieProxy";
+	private static final String LCAT = "LottieViewProxy";
 	private static final boolean DBG = TiConfig.LOGD;
 	private LottieAnimationView lottieView;
 	private TiApplication appContext;
@@ -88,7 +88,7 @@ public class LottieProxy extends TiViewProxy
 
 
 	// Constructor
-	public LottieProxy()
+	public LottieViewProxy()
 	{
 		super();
 	}
@@ -161,9 +161,58 @@ public class LottieProxy extends TiViewProxy
 		lottieView.cancelAnimation();
     }
 	
+	
 	@Kroll.method
-    public void seekToProgress(float pos) {
-		lottieView.setProgress(pos);
+    public void addViewToLayer() {
+		// TODO empty for now
+    }
+	
+	@Kroll.method
+    public boolean isPlaying() {
+		return lottieView.isAnimating();
+    }
+	
+	@Kroll.setProperty @Kroll.method
+    public void setProgress(float val) {
+        lottieView.setProgress(val);
+    }
+    
+    @Kroll.getProperty @Kroll.method
+    public float getProgress() {
+        return lottieView.getProgress();
+    }
+
+	@Kroll.setProperty @Kroll.method
+    public void setLoop(boolean val) {
+		isLoop = val;
+        lottieView.loop(isLoop);
+    }
+    
+    @Kroll.getProperty @Kroll.method
+    public boolean getLoop() {
+        return isLoop;
+    }
+	
+	@Kroll.setProperty @Kroll.method
+    public void setSpeed(float val) {
+        // TODO
+    }
+    
+    @Kroll.getProperty @Kroll.method
+    public float getSpeed() {
+		// TODO
+        return 1.0f;
+    }
+	
+	@Kroll.setProperty @Kroll.method
+    public void setDuration(float val) {
+        // TODO
+    }
+    
+    @Kroll.getProperty @Kroll.method
+    public float getDuration() {
+		// TODO
+        return 1.0f;
     }
 	
 	@Kroll.method
