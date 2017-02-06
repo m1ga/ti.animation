@@ -1,14 +1,21 @@
-# Ti.Animation (Android)
+# Ti.Animation
 
 ![gif](animation.gif)
 
-Appcelerator Titanium Android module for [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) libray and for [AirBnb Lottie](https://github.com/airbnb/lottie-android). 
-
-For an iOS version of Ti.Keyframes visit https://github.com/hansemannn/ti.keyframes and for Ti.Lottie visit https://github.com/hansemannn/ti.lottie by Hans Knoechel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de))
+Appcelerator Titanium Android module for [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) libray and for [Airbnb Lottie](https://github.com/airbnb/lottie-android). 
 
 ## Requirements
 - Titanium Mobile SDK 6.0.0.GA or later
-- Android
+
+## Choose your view
+### Lottie
+```js
+var animation = TiAnimation.createLottieView();
+```
+### Keyframes
+```js
+var animation = TiAnimation.createKeyframeView();
+```
 
 ## Features
 - start()
