@@ -118,6 +118,11 @@ public class KeyframeViewProxy extends TiViewProxy
     public void seekToProgress(float pos) {
 		kfDrawable.seekToProgress(pos);
     }
+	
+	@Kroll.method
+    public void setProgress(float pos) {
+		kfDrawable.seekToProgress(pos);
+    }
 
 	@Kroll.method
     public int getFrameCount() {
