@@ -8,33 +8,34 @@
  */
 package ti.animation;
 
-import org.appcelerator.kroll.KrollDict;
-import org.appcelerator.kroll.KrollProxy;
+import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.content.res.Resources;
+import android.content.res.Resources;
+import android.view.LayoutInflater;
+import android.view.View;
+import com.airbnb.lottie.*;
+import com.airbnb.lottie.LottieAnimationView;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.lang.Exception;
 import org.appcelerator.kroll.annotations.Kroll;
-import org.appcelerator.titanium.TiC;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
-import org.appcelerator.titanium.util.TiConvert;
+import org.appcelerator.kroll.KrollDict;
+import org.appcelerator.kroll.KrollProxy;
+import org.appcelerator.titanium.io.TiBaseFile;
+import org.appcelerator.titanium.io.TiFileFactory;
 import org.appcelerator.titanium.proxy.TiViewProxy;
+import org.appcelerator.titanium.TiApplication;
+import org.appcelerator.titanium.TiC;
+import org.appcelerator.titanium.util.TiConvert;
 import org.appcelerator.titanium.view.TiCompositeLayout;
 import org.appcelerator.titanium.view.TiCompositeLayout.LayoutArrangement;
 import org.appcelerator.titanium.view.TiUIView;
-import android.app.Activity;
-import android.view.LayoutInflater;
-import android.content.res.Resources;
-import android.view.View;
-import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.*;
-import org.appcelerator.titanium.io.TiBaseFile;
-import org.appcelerator.titanium.io.TiFileFactory;
-import java.io.InputStream;
-import java.io.IOException;
-import android.content.res.Resources;
-import org.appcelerator.titanium.TiApplication;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import org.json.JSONObject ;
-import java.lang.Exception ;
+import org.json.JSONObject;
 
 
 @Kroll.proxy(creatableInModule=TiAnimationModule.class)
@@ -50,6 +51,9 @@ public class LottieViewProxy extends TiViewProxy
 	boolean isReady = false;
 	boolean isAutoStart = false;
 	boolean isLoop = false;
+	long duration = 0;
+	long initialDuration = 0;
+	float speed = 1.0f;
 	
 	private class LottieView extends TiUIView
 	{
@@ -138,7 +142,19 @@ public class LottieViewProxy extends TiViewProxy
 		boolean restart = lottieView.isAnimating();
 		lottieView.cancelAnimation();
 		lottieView.setProgress(0f);
-		lottieView.playAnimation();
+		if (duration == 0) {
+			lottieView.playAnimation();
+		} else {
+			
+			ValueAnimator va = ValueAnimator.ofFloat(0f, 1f);
+		    va.setDuration(duration);
+		    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+		        public void onAnimationUpdate(ValueAnimator animation) {
+		            lottieView.setProgress( (Float)animation.getAnimatedValue() );
+		        }
+		    });
+		    va.start();
+		}
     }
 	
 	@Kroll.method
@@ -195,24 +211,24 @@ public class LottieViewProxy extends TiViewProxy
 	
 	@Kroll.setProperty @Kroll.method
     public void setSpeed(float val) {
-        // TODO
+        speed = val;
+		duration = (long)(initialDuration / speed);
+		Log.i(LCAT, "Duration " + duration);
     }
     
     @Kroll.getProperty @Kroll.method
     public float getSpeed() {
-		// TODO
-        return 1.0f;
+        return speed;
     }
 	
 	@Kroll.setProperty @Kroll.method
-    public void setDuration(float val) {
-        // TODO
+    public void setDuration(long val) {
+        duration = val;
     }
     
     @Kroll.getProperty @Kroll.method
-    public float getDuration() {
-		// TODO
-        return 1.0f;
+    public long getDuration() {
+        return duration;
     }
 	
 	@Kroll.method
@@ -240,6 +256,7 @@ public class LottieViewProxy extends TiViewProxy
 							@Override
 							public void onCompositionLoaded(LottieComposition composition) {
 								lottieView.setComposition(composition);
+								initialDuration = duration = lottieView.getDuration();
 								if (isLoop){
 									lottieView.loop(true);
 								}
