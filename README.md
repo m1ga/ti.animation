@@ -10,11 +10,19 @@ Appcelerator Titanium Android module for [Facebooks Keyframes](https://github.co
 ## Choose your view
 ### Lottie
 ```js
-var animation = TiAnimation.createLottieView();
+var animation = TiAnimation.createLottieView({
+    file: 'file.json',
+    loop: false,
+    autoStart: false
+});
 ```
 ### Keyframes
 ```js
-var animation = TiAnimation.createKeyframeView();
+var animation = TiAnimation.createKeyframeView({
+    file: 'file.json',
+    loop: false,
+    autoStart: false
+});
 ```
 
 ## Features
