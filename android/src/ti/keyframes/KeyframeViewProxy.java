@@ -95,7 +95,11 @@ public class KeyframeViewProxy extends TiViewProxy
 
     @Kroll.method
     public void start() {
-        kfDrawable.startAnimation();
+		if (!isLoop){
+			kfDrawable.playOnce();
+		} else {
+	        kfDrawable.startAnimation();
+		}
     }
 	
     @Kroll.method
