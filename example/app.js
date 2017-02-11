@@ -1,8 +1,9 @@
 var TiAnimation = require('ti.animation');
+var isAndroid = (Ti.Platform.osname == 'android');
 
 var win = Ti.UI.createWindow({
     backgroundColor: '#fff',
-    title: 'Ti.Keyframes Demo'
+    title: 'Ti.Animation Demo'
 });
 
 var lbl = Ti.UI.createLabel({
@@ -12,29 +13,24 @@ var lbl = Ti.UI.createLabel({
 
 var offset = 0;
 
-var view = TiAnimation.createLottie({
-    width: 200,
-    height: 200,
-    file: '/LightBulb.json',
+var view = TiAnimation.createLottieView({
+    file: 'sample_lottie.json',
     loop: false,
+    bottom: 300,
+    height: 120,
+    width: 120,
+    borderRadius: 60,
     autoStart: false
 });
 
-var view2 = TiAnimation.createKeyframes({
-    file: '/s2.json',
-    width: 148,
-    height: 54,
-    bottom: 70,
+var view2 = TiAnimation.createKeyframeView({
+    file: 'sample_keyframes.json',
+    bottom: 100,
+    width: 150,
+    height: 150,
     loop: false,
     autoStart: false
 });
-win.add(view);
-win.add(view2);
-win.add(lbl);
-
-win.add(createButtonWithAction('Start animation', startAnimation));
-win.add(createButtonWithAction('Pause animation', pauseAnimation));
-win.add(createButtonWithAction('Resume animation', resumeAnimation));
 
 var slider = Ti.UI.createSlider({
     value: 0,
@@ -44,21 +40,42 @@ var slider = Ti.UI.createSlider({
     width: 300
 });
 
-slider.addEventListener('change', function(e) {
-    view.seekToProgress(e.value);
-    view2.seekToProgress(e.value);
-});
+slider.addEventListener('change', seekToProgress);
+
+win.add(view);
+win.add(view2);
+win.add(lbl);
+
+win.add(createButtonWithAction('Start animation', startAnimation));
+win.add(createButtonWithAction('Pause animation', pauseAnimation));
+win.add(createButtonWithAction('Resume animation', resumeAnimation));
 
 function onOpen(e) {
-    lbl.text = "Framecount: " + view2.getFrameCount() + " - FrameRate: " + view2.getFrameRate();
+    if (!isAndroid) {
+        return;
+    }
+    
+    lbl.text = "Frame count: " + view2.getFrameCount() + " - Frame rate: " + view2.getFrameRate();
 }
 
 win.addEventListener("open", onOpen);
 win.add(slider);
-win.open();
+
+if (isAndroid) {
+    win.open();
+} else {
+    var nav = Ti.UI.iOS.createNavigationWindow({
+        window: win
+    });
+    nav.open();
+}
+
+function seekToProgress(e) {
+    // view.seekToProgress(e.value);
+    view2.seekToProgress(e.value);
+}
 
 function createButtonWithAction(title, action) {
-
     var btn = Ti.UI.createButton({
         title: title,
         top: offset
@@ -81,6 +98,6 @@ function pauseAnimation() {
 }
 
 function resumeAnimation() {
-    view.resume();
+    // view.resume();
     view2.resume();
 }
