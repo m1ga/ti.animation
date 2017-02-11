@@ -10,8 +10,8 @@ var win = Ti.UI.createWindow({
 var lbl = Ti.UI.createLabel({
     bottom: 50,
     color: "#000",
-    textAlign:Ti.UI.TEXT_ALIGNMENT_CENTER,
-    font:{
+    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+    font: {
         fontSize: 12
     }
 });
@@ -57,11 +57,12 @@ win.add(createButtonWithAction('Resume animation', resumeAnimation));
 win.add(createButtonWithAction('Double speed', doubleSpeed));
 
 function onOpen(e) {
-    if (!isAndroid) {
-        return;
+    var dur = (isAndroid) ? view.getDuration() : (Math.floor(view.getDuration() * 1000));
+    lbl.text = "Lottie: Duration: " + dur + "ms\n";
+
+    if (isAndroid) {
+        lbl.text += "Keyframe: Frame count: " + view2.getFrameCount() + " - Frame rate: " + view2.getFrameRate();
     }
-    lbl.text = "Lottie: Duration: " + view.getDuration() + "\n";
-    lbl.text += "Keyframe: Frame count: " + view2.getFrameCount() + " - Frame rate: " + view2.getFrameRate();
 }
 
 win.addEventListener("open", onOpen);
@@ -77,9 +78,7 @@ if (isAndroid) {
 }
 
 function doubleSpeed(e) {
-    if (isAndroid) {
-        view.setSpeed(2);
-    }
+    view.setSpeed(2);
 }
 
 function seekToProgress(e) {
