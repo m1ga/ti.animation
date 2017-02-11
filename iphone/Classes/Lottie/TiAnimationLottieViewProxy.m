@@ -12,21 +12,42 @@
 
 @implementation TiAnimationLottieViewProxy
 
-- (LAAnimationView *)animationView
+- (NSArray *)keySequence
+{
+    return @[@"file"];
+}
+
+- (LOTAnimationView *)animationView
 {
     if (animationView == nil) {
         id file = [self valueForKey:@"file"];
         id autoStart = [self valueForKey:@"autoStart"];
+        id contentMode = [self valueForKey:@"contentMode"];
 
         ENSURE_TYPE(file, NSString);
         ENSURE_TYPE_OR_NIL(autoStart, NSNumber);
+        ENSURE_TYPE_OR_NIL(contentMode, NSNumber);
         
         // Handle both "file.json" and "file"
         if ([file hasSuffix:@".json"]) {
             file = [file stringByDeletingPathExtension];
         }
         
-        animationView = [LAAnimationView animationNamed:file];
+        animationView = [LOTAnimationView animationNamed:file];
+        
+        // Handle content mode
+        NSArray *validContentModes = @[NUMINT(UIViewContentModeScaleAspectFit), NUMINT(UIViewContentModeScaleAspectFill), NUMINT(UIViewContentModeScaleToFill)];
+        
+        if (contentMode && [validContentModes containsObject:contentMode]) {
+            [animationView setContentMode:[TiUtils intValue:contentMode]];
+        } else {
+            [animationView setContentMode:UIViewContentModeScaleAspectFit];
+            
+            if (contentMode) {
+                NSLog(@"[ERROR] The \"contentMode\" property is not valid (CONTENT_MODE_ASPECT_FIT, CONTENT_MODE_ASPECT_FILL or CONTENT_MODE_SCALE_FILL), defaulting to CONTENT_MODE_ASPECT_FIT");
+            }
+        }
+
         [[self view] addSubview:animationView];
         
         // Handle auto-start
@@ -59,9 +80,9 @@
     }
 }
 
-- (void)stop:(id)unused
+- (void)pause:(id)unused
 {
-    ENSURE_UI_THREAD(stop, unused);
+    ENSURE_UI_THREAD(pause, unused);
     [[self animationView] pause];
 }
 

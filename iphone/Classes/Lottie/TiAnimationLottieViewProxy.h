@@ -5,19 +5,19 @@
  * Please see the LICENSE included with this distribution for details.
  */
 #import "TiViewProxy.h"
-#import "LAAnimationView.h"
+#import "Lottie.h"
 
 @interface TiAnimationLottieViewProxy : TiViewProxy {
-    LAAnimationView *animationView;
+    LOTAnimationView *animationView;
 }
 
-- (LAAnimationView *)animationView;
+- (LOTAnimationView *)animationView;
 
 #pragma mark Methods
 
 - (void)start:(id)args;
 
-- (void)stop:(id)unused;
+- (void)pause:(id)unused;
 
 - (void)addViewToLayer:(id)args;
 

@@ -33,4 +33,8 @@
 	NSLog(@"[DEBUG] %@ loaded",self);
 }
 
+MAKE_SYSTEM_PROP(CONTENT_MODE_ASPECT_FIT, UIViewContentModeScaleAspectFit);
+MAKE_SYSTEM_PROP(CONTENT_MODE_ASPECT_FILL, UIViewContentModeScaleAspectFill);
+MAKE_SYSTEM_PROP(CONTENT_MODE_SCALE_FILL, UIViewContentModeScaleToFill);
+
 @end

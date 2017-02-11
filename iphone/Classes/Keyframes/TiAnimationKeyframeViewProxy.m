@@ -10,7 +10,7 @@
 
 @implementation TiAnimationKeyframeViewProxy
 
-- (KFVector *)loadSampleVectorFromDisk
+- (KFVector *)loadVector
 {
     static KFVector *_sampleVector;
     static dispatch_once_t onceToken;
@@ -22,7 +22,7 @@
     }
     
     dispatch_once(&onceToken, ^{
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:[self valueForKey:@"file"] ofType:@"json" inDirectory:nil];
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:[self valueForKey:@"file"] ofType:nil inDirectory:nil];
         NSData *data = [NSData dataWithContentsOfFile:filePath];
         
         if (!data) {
@@ -39,9 +39,9 @@
 - (KFVectorLayer *)vectorLayer
 {
     if (vectorLayer == nil) {
-        KFVector *sampleVector = [self loadSampleVectorFromDisk];
+        KFVector *sampleVector = [self loadVector];
         
-        vectorLayer = [KFVectorLayer new];
+        vectorLayer = [[KFVectorLayer alloc] init];
         
         const CGFloat shortSide = MIN(CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
         const CGFloat longSide = MAX(CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
@@ -57,6 +57,8 @@
             [self start:nil];
         }
     }
+    
+    return vectorLayer;
 }
 
 - (void)start:(id)unused
@@ -65,9 +67,9 @@
     [[self vectorLayer] startAnimation];
 }
 
-- (void)stop:(id)unused
+- (void)pause:(id)unused
 {
-    ENSURE_UI_THREAD(stop, unused);
+    ENSURE_UI_THREAD(pause, unused);
     [[self vectorLayer] pauseAnimation];
 }
 

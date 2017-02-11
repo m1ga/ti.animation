@@ -14,18 +14,20 @@ var lbl = Ti.UI.createLabel({
 var offset = 0;
 
 var view = TiAnimation.createLottieView({
-    width: 200,
-    height: 200,
-    file: '/LightBulb.json',
+    file: 'sample_lottie.json',
     loop: false,
+    bottom: 300,
+    height: 120,
+    width: 120,
+    borderRadius: 60,
     autoStart: false
 });
 
 var view2 = TiAnimation.createKeyframeView({
-    file: '/s2.json',
-    width: 148,
-    height: 54,
-    bottom: 70,
+    file: 'sample_keyframes.json',
+    bottom: 100,
+    width: 150,
+    height: 150,
     loop: false,
     autoStart: false
 });
@@ -49,6 +51,10 @@ win.add(createButtonWithAction('Pause animation', pauseAnimation));
 win.add(createButtonWithAction('Resume animation', resumeAnimation));
 
 function onOpen(e) {
+    if (!isAndroid) {
+        return;
+    }
+    
     lbl.text = "Frame count: " + view2.getFrameCount() + " - Frame rate: " + view2.getFrameRate();
 }
 
@@ -65,7 +71,7 @@ if (isAndroid) {
 }
 
 function seekToProgress(e) {
-    view.seekToProgress(e.value);
+    // view.seekToProgress(e.value);
     view2.seekToProgress(e.value);
 }
 
@@ -92,6 +98,6 @@ function pauseAnimation() {
 }
 
 function resumeAnimation() {
-    view.resume();
+    // view.resume();
     view2.resume();
 }

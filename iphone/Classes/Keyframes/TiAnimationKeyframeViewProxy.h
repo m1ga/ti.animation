@@ -29,7 +29,7 @@
  @param unused An unused parameter for the API-generation.
  @since 1.0.0
  */
-- (void)stop:(id)unused;
+- (void)pause:(id)unused;
 
 /**
  @discussion Resumes the animation of the current vector object.
