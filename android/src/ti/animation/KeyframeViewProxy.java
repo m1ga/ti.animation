@@ -102,12 +102,6 @@ public class KeyframeViewProxy extends TiViewProxy
 		}
     }
 	
-    @Kroll.method
-    public void play() {
-        start();
-    }
-	
-    
 	@Kroll.method
     public void pause() {
 		kfDrawable.pauseAnimation();

@@ -175,7 +175,7 @@ public class LottieViewProxy extends TiViewProxy
 	}
 
 	@Kroll.method
-    public void start() {
+	public void start() {
 		boolean restart = lottieView.isAnimating();
 		lottieView.cancelAnimation();
 		lottieView.setProgress(0f);
@@ -193,17 +193,7 @@ public class LottieViewProxy extends TiViewProxy
 			va.start();
 		}
 	}
-	
-	@Kroll.method
-    public void play() {
-		start();
-    }
 
-	@Kroll.method
-    public void resume() {
-		lottieView.playAnimation();
-    }
-	
 	@Kroll.method
     public void pause() {
 		lottieView.cancelAnimation();
@@ -238,20 +228,19 @@ public class LottieViewProxy extends TiViewProxy
 	@Kroll.setProperty @Kroll.method
     public void setLoop(boolean val) {
 		isLoop = val;
-        lottieView.loop(isLoop);
-    }
-    
-    @Kroll.getProperty @Kroll.method
-    public boolean getLoop() {
-        return isLoop;
-    }
+		lottieView.loop(isLoop);
+	}
+
+	@Kroll.getProperty @Kroll.method
+	public boolean getLoop() {
+		return isLoop;
+	}
 	
 	@Kroll.setProperty @Kroll.method
 	public void setSpeed(float val) {
 		speed = val;
 		duration = (long)(initialDuration / speed);
-		Log.i(LCAT, "Duration " + duration);
-    }
+	}
 
 	@Kroll.getProperty @Kroll.method
 	public float getSpeed() {
@@ -262,7 +251,7 @@ public class LottieViewProxy extends TiViewProxy
     public void setDuration(long val) {
 		duration = val;
 	}
-    
+
 	@Kroll.getProperty @Kroll.method
 	public long getDuration() {
 		return duration;
