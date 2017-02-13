@@ -65,7 +65,7 @@ public class LottieViewProxy extends TiViewProxy
 			super(proxy);
 			
 			String packageName = proxy.getActivity().getPackageName();
-            resources = proxy.getActivity().getResources();
+			resources = proxy.getActivity().getResources();
 			View videoWrapper;
 			
 			int resId_videoHolder = -1;
@@ -86,7 +86,7 @@ public class LottieViewProxy extends TiViewProxy
 			lottieView.addAnimatorUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 				@Override
 				public void onAnimationUpdate(ValueAnimator animation) {
-					Log.i(LCAT, "PER " + animation.getAnimatedFraction());
+					Log.d(LCAT, "PER " + animation.getAnimatedFraction());
 					if (callbackUpdate != null) {
 						HashMap<String,Object> event = new HashMap<String, Object>();
 						event.put("percentage",animation.getAnimatedFraction());
@@ -184,15 +184,15 @@ public class LottieViewProxy extends TiViewProxy
 		} else {
 			
 			ValueAnimator va = ValueAnimator.ofFloat(0f, 1f);
-		    va.setDuration(duration);
-		    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-		        public void onAnimationUpdate(ValueAnimator animation) {
-		            lottieView.setProgress( (Float)animation.getAnimatedValue() );
-		        }
-		    });
-		    va.start();
+			va.setDuration(duration);
+			va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+				public void onAnimationUpdate(ValueAnimator animation) {
+					lottieView.setProgress( (Float)animation.getAnimatedValue() );
+				}
+			});
+			va.start();
 		}
-    }
+	}
 	
 	@Kroll.method
     public void play() {
@@ -247,29 +247,29 @@ public class LottieViewProxy extends TiViewProxy
     }
 	
 	@Kroll.setProperty @Kroll.method
-    public void setSpeed(float val) {
-        speed = val;
+	public void setSpeed(float val) {
+		speed = val;
 		duration = (long)(initialDuration / speed);
 		Log.i(LCAT, "Duration " + duration);
     }
-    
-    @Kroll.getProperty @Kroll.method
-    public float getSpeed() {
-        return speed;
-    }
+
+	@Kroll.getProperty @Kroll.method
+	public float getSpeed() {
+		return speed;
+	}
 	
 	@Kroll.setProperty @Kroll.method
     public void setDuration(long val) {
-        duration = val;
-    }
+		duration = val;
+	}
     
-    @Kroll.getProperty @Kroll.method
-    public long getDuration() {
-        return duration;
-    }
+	@Kroll.getProperty @Kroll.method
+	public long getDuration() {
+		return duration;
+	}
 	
 	@Kroll.method
-    public void setFile(String f) {
+	public void setFile(String f) {
 		try {
 			String url = getPathToApplicationAsset(f);
 			TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);      
