@@ -8,6 +8,7 @@
  */
 package ti.animation;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.res.Resources;
@@ -21,10 +22,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.lang.Exception;
+import java.util.HashMap;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
 import org.appcelerator.kroll.KrollDict;
+import org.appcelerator.kroll.KrollFunction;
 import org.appcelerator.kroll.KrollProxy;
 import org.appcelerator.titanium.io.TiBaseFile;
 import org.appcelerator.titanium.io.TiFileFactory;
@@ -46,6 +49,7 @@ public class LottieViewProxy extends TiViewProxy
 	private static final boolean DBG = TiConfig.LOGD;
 	private LottieAnimationView lottieView;
 	private TiApplication appContext;
+	KrollFunction callbackUpdate = null;
 	Resources resources;
 	String loadFile = "";
 	boolean isReady = false;
@@ -78,6 +82,36 @@ public class LottieViewProxy extends TiViewProxy
 			setNativeView(videoWrapper);
 			appContext = TiApplication.getInstance();
 			isReady = true;
+			
+			lottieView.addAnimatorUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator animation) {
+					Log.i(LCAT, "PER " + animation.getAnimatedFraction());
+					if (callbackUpdate != null) {
+						HashMap<String,Object> event = new HashMap<String, Object>();
+						event.put("percentage",animation.getAnimatedFraction());
+						callbackUpdate.call(getKrollObject(), event);
+					}
+				}
+			});
+			
+			lottieView.addAnimatorListener(new Animator.AnimatorListener() {
+				 @Override public void onAnimationStart(Animator animation) {
+					 Log.i(LCAT, "Animation start");
+				 }
+
+				 @Override public void onAnimationEnd(Animator animation) {
+					 Log.i(LCAT, "Animation end");
+				 }
+
+				 @Override public void onAnimationCancel(Animator animation) {
+					 Log.i(LCAT, "Animation cancel");
+				 }
+
+				 @Override public void onAnimationRepeat(Animator animation) {
+					 Log.i(LCAT, "Animation repeat");
+				 }
+			});
 			if (loadFile != ""){
 				setFile(loadFile);
 			}
@@ -134,6 +168,9 @@ public class LottieViewProxy extends TiViewProxy
 		}
 		if (options.containsKey("autoStart")) {
 			isAutoStart = options.getBoolean("autoStart");
+		}
+		if (options.containsKey("update")) {
+			callbackUpdate =(KrollFunction) options.get("update");
 		}
 	}
 
