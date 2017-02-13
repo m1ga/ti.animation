@@ -37,14 +37,16 @@ var animation = TiAnimation.createKeyframeView({
 ```
 
 ## Features
+
+### Lottie/Keyframes:
+_work in progress_
 - start()
-- play()
 - stop()
 - pause()
-- resume()
-- seekToProgress(percentage)
-- getFrameRate()
-- getFrameCount()
+- getProgress()/setProgress(percentage)
+- getDuration()/setDuration(ms)
+- getSpeed()/setSpeed(float)
+- isPlaying()
 
 ## Example
 Please see the full-featured example in `example/app.js`.
