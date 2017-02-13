@@ -1,4 +1,0 @@
-"/home/miga/dev/ti.animation/android/build/generated/java/ti/animation/TiAnimationBootstrap.java"
-"/home/miga/dev/ti.animation/android/src/ti/animation/KeyframeViewProxy.java"
-"/home/miga/dev/ti.animation/android/src/ti/animation/LottieViewProxy.java"
-"/home/miga/dev/ti.animation/android/src/ti/animation/TiAnimationModule.java"
