@@ -12,10 +12,10 @@ The Titanium modules use external libraries
 
 |Library|Build date|
 |---|---|
-| [Facebooks Keyframes Android](https://github.com/facebookincubator/Keyframes) | 11.02.2017 |
-| [Airbnb Lottie Android](https://github.com/airbnb/lottie-android) | 11.02.2017 |
-| [Facebooks Keyframes iOS](https://github.com/facebookincubator/Keyframes) | -  |
-| [Airbnb Lottie iOS](https://github.com/airbnb/lottie-ios) |  - |
+| [Facebooks Keyframes Android](https://github.com/facebookincubator/Keyframes) | 2017/02/11 |
+| [Airbnb Lottie Android](https://github.com/airbnb/lottie-android) | 2017/02/11 |
+| [Facebooks Keyframes iOS](https://github.com/facebookincubator/Keyframes) | 2017/02/11 |
+| [Airbnb Lottie iOS](https://github.com/airbnb/lottie-ios) | 2017/02/11 |
 
 
 ## Choose your view
