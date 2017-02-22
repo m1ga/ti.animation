@@ -259,26 +259,26 @@ public class LottieViewProxy extends TiViewProxy
 	
 	@Kroll.method
 	public void setFile(String f) {
-		try {
-			String url = getPathToApplicationAsset(f);
-			TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);      
-			final InputStream stream = file.getInputStream();
+		// try {
+			final String url = getPathToApplicationAsset(f);
+			final TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);      
+			//final InputStream stream = file.getInputStream();
 			
 			Thread thread = new Thread(new Runnable(){
 			@Override
 			public void run() {
-					BufferedReader input = null;
-					try {
-						input = new BufferedReader(new InputStreamReader(stream));
-						String line;
-						StringBuffer content = new StringBuffer();
-						char[] buffer = new char[1024];
-						int num;
-						while ((num = input.read(buffer)) > 0) {
-							content.append(buffer, 0, num);
-						}
-						JSONObject jsonObject = new JSONObject(content.toString());
-						LottieComposition.fromJson(resources, jsonObject, new LottieComposition.OnCompositionLoadedListener(){
+					// BufferedReader input = null;
+					// try {
+						// input = new BufferedReader(new InputStreamReader(stream));
+						// String line;
+						// StringBuffer content = new StringBuffer();
+						// char[] buffer = new char[1024];
+						// int num;
+						// while ((num = input.read(buffer)) > 0) {
+						// 	content.append(buffer, 0, num);
+						// }
+						//JSONObject jsonObject = new JSONObject(content.toString());
+						LottieComposition.Factory.fromAssetFileName(appContext, url.replaceAll("file:///android_asset/", ""), new OnCompositionLoadedListener(){
 							@Override
 							public void onCompositionLoaded(LottieComposition composition) {
 								lottieView.setComposition(composition);
@@ -291,16 +291,16 @@ public class LottieViewProxy extends TiViewProxy
 								}
 							}
 						});
-					} catch (Exception e) {
+					// } catch (Exception e) {
 						//
-					}
+					// }
 				}
 			});
 			thread.start();  
 			
-		} catch (IOException e){
-			Log.i(LCAT, "error " + e);
-		}
+		// } catch (IOException e){
+		// 	Log.i(LCAT, "error " + e);
+		// }
     }
 	
 	@Kroll.method
