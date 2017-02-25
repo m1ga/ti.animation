@@ -25,6 +25,7 @@ var view = TiAnimation.createLottieView({
     height: 120,
     width: 120,
     borderRadius: 60,
+    update: onUpdate,   // android
     autoStart: false
 });
 
@@ -44,6 +45,10 @@ var slider = Ti.UI.createSlider({
     bottom: 10,
     width: 300
 });
+
+function onUpdate(e){
+    console.log("Percentage: " + e.percentage);
+}
 
 slider.addEventListener('change', seekToProgress);
 
