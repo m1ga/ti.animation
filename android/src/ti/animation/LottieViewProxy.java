@@ -46,9 +46,7 @@ import android.os.Message;
 @Kroll.proxy(creatableInModule=TiAnimationModule.class)
 public class LottieViewProxy extends TiViewProxy
 {
-	// Standard Debugging variables
 	private static final String LCAT = "LottieViewProxy";
-	private static final boolean DBG = TiConfig.LOGD;
 	private LottieAnimationView lottieView;
 	private TiApplication appContext;
 	KrollFunction callbackUpdate = null;
@@ -203,23 +201,16 @@ public class LottieViewProxy extends TiViewProxy
 		lottieView.cancelAnimation();
 		lottieView.setProgress(0f);
 
-		
 		if (duration == 0 || duration == initialDuration) {
 			lottieView.playAnimation();
 		} else {
-			
 			ValueAnimator va = ValueAnimator.ofFloat(0f, 1f);
 			va.setDuration(duration);
 			
 			va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 				public void onAnimationUpdate(ValueAnimator animation) {
 					lottieView.setProgress( (Float)animation.getAnimatedValue() );
-					
-					if (callbackUpdate != null) {
-						HashMap<String,Object> event = new HashMap<String, Object>();
-						event.put("percentage",animation.getAnimatedFraction());
-						callbackUpdate.call(getKrollObject(), event);
-					}
+					animationEvent(animation.getAnimatedFraction(), ANIMATION_RUNNING);
 				}
 			});
 			va.start();
@@ -236,38 +227,38 @@ public class LottieViewProxy extends TiViewProxy
 	}
 
 	@Kroll.method
-    public void pause() {
+	public void pause() {
 		lottieView.cancelAnimation();
-    }
+	}
 	
 	@Kroll.method
-    public void stop() {
+	public void stop() {
 		lottieView.cancelAnimation();
-    }
+	}
 	
 	
 	@Kroll.method
-    public void addViewToLayer() {
+	public void addViewToLayer() {
 		// TODO empty for now
-    }
+	}
 	
 	@Kroll.method
-    public boolean isPlaying() {
+	public boolean isPlaying() {
 		return lottieView.isAnimating();
-    }
+	}
 	
 	@Kroll.setProperty @Kroll.method
-    public void setProgress(float val) {
-        lottieView.setProgress(val);
-    }
-    
-    @Kroll.getProperty @Kroll.method
-    public float getProgress() {
-        return lottieView.getProgress();
-    }
+	public void setProgress(float val) {
+		lottieView.setProgress(val);
+	}
+
+	@Kroll.getProperty @Kroll.method
+	public float getProgress() {
+		return lottieView.getProgress();
+	}
 
 	@Kroll.setProperty @Kroll.method
-    public void setLoop(boolean val) {
+	public void setLoop(boolean val) {
 		isLoop = val;
 		lottieView.loop(isLoop);
 	}
@@ -289,7 +280,7 @@ public class LottieViewProxy extends TiViewProxy
 	}
 	
 	@Kroll.setProperty @Kroll.method
-    public void setDuration(long val) {
+	public void setDuration(long val) {
 		duration = val;
 	}
 
@@ -326,13 +317,13 @@ public class LottieViewProxy extends TiViewProxy
 				});
 			}
 		});
-		thread.start();  
-    }
+		thread.start();
+	}
 	
 	@Kroll.method
-    public void initialize() {
-        
-    }
+	public void initialize() {
+		
+	}
 	
 	public boolean handleMessage(Message message) {
 			switch (message.what) {
