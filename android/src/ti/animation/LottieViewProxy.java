@@ -26,6 +26,7 @@ import java.util.HashMap;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
+import org.appcelerator.kroll.common.TiMessenger;
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollFunction;
 import org.appcelerator.kroll.KrollProxy;
@@ -39,6 +40,7 @@ import org.appcelerator.titanium.view.TiCompositeLayout;
 import org.appcelerator.titanium.view.TiCompositeLayout.LayoutArrangement;
 import org.appcelerator.titanium.view.TiUIView;
 import org.json.JSONObject;
+import android.os.Message;
 
 
 @Kroll.proxy(creatableInModule=TiAnimationModule.class)
@@ -52,12 +54,46 @@ public class LottieViewProxy extends TiViewProxy
 	KrollFunction callbackUpdate = null;
 	Resources resources;
 	String loadFile = "";
+	String assetFolder = "";
 	boolean isReady = false;
 	boolean isAutoStart = false;
 	boolean isLoop = false;
 	long duration = 0;
 	long initialDuration = 0;
 	float speed = 1.0f;
+	
+	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
+	
+	protected class AnimatorUpdateListener implements ValueAnimator.AnimatorUpdateListener
+	{
+		public void onAnimationUpdate(ValueAnimator animation)
+		{
+			if (callbackUpdate != null) {
+				HashMap<String,Object> event = new HashMap<String, Object>();
+				event.put("percentage",animation.getAnimatedFraction());
+				callbackUpdate.call(getKrollObject(), event);
+			}
+		}
+	}
+	
+	protected class AnimatorListener implements Animator.AnimatorListener
+	{
+		 public void onAnimationStart(Animator animation) {
+			 Log.i(LCAT, "Animation start");
+		 }
+
+		 public void onAnimationEnd(Animator animation) {
+			 Log.i(LCAT, "Animation end");
+		 }
+
+		 public void onAnimationCancel(Animator animation) {
+			 Log.i(LCAT, "Animation cancel");
+		 }
+
+		 public void onAnimationRepeat(Animator animation) {
+			 Log.i(LCAT, "Animation repeat");
+		 }
+	}
 	
 	private class LottieView extends TiUIView
 	{
@@ -83,35 +119,9 @@ public class LottieViewProxy extends TiViewProxy
 			appContext = TiApplication.getInstance();
 			isReady = true;
 			
-			lottieView.addAnimatorUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator animation) {
-					Log.d(LCAT, "PER " + animation.getAnimatedFraction());
-					if (callbackUpdate != null) {
-						HashMap<String,Object> event = new HashMap<String, Object>();
-						event.put("percentage",animation.getAnimatedFraction());
-						callbackUpdate.call(getKrollObject(), event);
-					}
-				}
-			});
+			lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
+			lottieView.addAnimatorListener(new AnimatorListener());
 			
-			lottieView.addAnimatorListener(new Animator.AnimatorListener() {
-				 @Override public void onAnimationStart(Animator animation) {
-					 Log.i(LCAT, "Animation start");
-				 }
-
-				 @Override public void onAnimationEnd(Animator animation) {
-					 Log.i(LCAT, "Animation end");
-				 }
-
-				 @Override public void onAnimationCancel(Animator animation) {
-					 Log.i(LCAT, "Animation cancel");
-				 }
-
-				 @Override public void onAnimationRepeat(Animator animation) {
-					 Log.i(LCAT, "Animation repeat");
-				 }
-			});
 			if (loadFile != ""){
 				setFile(loadFile);
 			}
@@ -163,6 +173,9 @@ public class LottieViewProxy extends TiViewProxy
 				loadFile = options.getString("file");
 			}
 		}
+		if (options.containsKey("assetFolder")) {
+			assetFolder = options.getString("assetFolder");
+		}
 		if (options.containsKey("loop")) {
 			isLoop = options.getBoolean("loop");
 		}
@@ -174,23 +187,40 @@ public class LottieViewProxy extends TiViewProxy
 		}
 	}
 
-	@Kroll.method
-	public void start() {
+	public void startAnimation(){
 		boolean restart = lottieView.isAnimating();
 		lottieView.cancelAnimation();
 		lottieView.setProgress(0f);
-		if (duration == 0) {
+
+		
+		if (duration == 0 || duration == initialDuration) {
 			lottieView.playAnimation();
 		} else {
 			
 			ValueAnimator va = ValueAnimator.ofFloat(0f, 1f);
 			va.setDuration(duration);
+			
 			va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 				public void onAnimationUpdate(ValueAnimator animation) {
 					lottieView.setProgress( (Float)animation.getAnimatedValue() );
+					
+					if (callbackUpdate != null) {
+						HashMap<String,Object> event = new HashMap<String, Object>();
+						event.put("percentage",animation.getAnimatedFraction());
+						callbackUpdate.call(getKrollObject(), event);
+					}
 				}
 			});
 			va.start();
+		}
+	}
+
+	@Kroll.method
+	public void start() {
+		if (TiApplication.isUIThread()) {
+			startAnimation();
+		} else {
+			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STARTANIMATION));
 		}
 	}
 
@@ -259,52 +289,48 @@ public class LottieViewProxy extends TiViewProxy
 	
 	@Kroll.method
 	public void setFile(String f) {
-		// try {
-			final String url = getPathToApplicationAsset(f);
-			final TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);      
-			//final InputStream stream = file.getInputStream();
-			
-			Thread thread = new Thread(new Runnable(){
+		final String url = getPathToApplicationAsset(f);
+		final TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);      
+		
+		Thread thread = new Thread(new Runnable(){
 			@Override
 			public void run() {
-					// BufferedReader input = null;
-					// try {
-						// input = new BufferedReader(new InputStreamReader(stream));
-						// String line;
-						// StringBuffer content = new StringBuffer();
-						// char[] buffer = new char[1024];
-						// int num;
-						// while ((num = input.read(buffer)) > 0) {
-						// 	content.append(buffer, 0, num);
-						// }
-						//JSONObject jsonObject = new JSONObject(content.toString());
-						LottieComposition.Factory.fromAssetFileName(appContext, url.replaceAll("file:///android_asset/", ""), new OnCompositionLoadedListener(){
-							@Override
-							public void onCompositionLoaded(LottieComposition composition) {
-								lottieView.setComposition(composition);
-								initialDuration = duration = lottieView.getDuration();
-								if (isLoop){
-									lottieView.loop(true);
-								}
-								if (isAutoStart){
-									lottieView.playAnimation();
-								}
-							}
-						});
-					// } catch (Exception e) {
-						//
-					// }
-				}
-			});
-			thread.start();  
-			
-		// } catch (IOException e){
-		// 	Log.i(LCAT, "error " + e);
-		// }
+				LottieComposition.Factory.fromAssetFileName(appContext, url.replaceAll("file:///android_asset/", ""), new OnCompositionLoadedListener(){
+					@Override
+					public void onCompositionLoaded(LottieComposition composition) {
+						lottieView.setComposition(composition);
+						lottieView.setImageAssetsFolder(assetFolder);
+
+						lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
+						lottieView.addAnimatorListener(new AnimatorListener());
+
+						initialDuration = duration = lottieView.getDuration();
+						if (isLoop){
+							lottieView.loop(true);
+						}
+						if (isAutoStart){
+							lottieView.playAnimation();
+						}
+					}
+				});
+			}
+		});
+		thread.start();  
     }
 	
 	@Kroll.method
     public void initialize() {
         
     }
+	
+	public boolean handleMessage(Message message) {
+			switch (message.what) {
+				case MSG_STARTANIMATION: {
+					startAnimation();
+					return true;
+				}
+			}
+			
+			return super.handleMessage(message);
+	}
 }
