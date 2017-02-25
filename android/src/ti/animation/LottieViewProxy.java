@@ -64,35 +64,46 @@ public class LottieViewProxy extends TiViewProxy
 	
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
 	
+	@Kroll.constant public static final int ANIMATION_START = 1;
+	@Kroll.constant public static final int ANIMATION_END = 2;
+	@Kroll.constant public static final int ANIMATION_CANCEL = 3;
+	@Kroll.constant public static final int ANIMATION_REPEAT = 4;
+	@Kroll.constant public static final int ANIMATION_RUNNING = 5;
+	
 	protected class AnimatorUpdateListener implements ValueAnimator.AnimatorUpdateListener
 	{
 		public void onAnimationUpdate(ValueAnimator animation)
 		{
-			if (callbackUpdate != null) {
-				HashMap<String,Object> event = new HashMap<String, Object>();
-				event.put("percentage",animation.getAnimatedFraction());
-				callbackUpdate.call(getKrollObject(), event);
-			}
+			animationEvent(animation.getAnimatedFraction(), ANIMATION_RUNNING);
 		}
 	}
 	
 	protected class AnimatorListener implements Animator.AnimatorListener
 	{
 		 public void onAnimationStart(Animator animation) {
-			 Log.i(LCAT, "Animation start");
+			 animationEvent(getProgress(), ANIMATION_START);
 		 }
 
 		 public void onAnimationEnd(Animator animation) {
-			 Log.i(LCAT, "Animation end");
+			 animationEvent(getProgress(), ANIMATION_END);
 		 }
 
 		 public void onAnimationCancel(Animator animation) {
-			 Log.i(LCAT, "Animation cancel");
+			 animationEvent(getProgress(), ANIMATION_CANCEL);
 		 }
 
 		 public void onAnimationRepeat(Animator animation) {
-			 Log.i(LCAT, "Animation repeat");
+			 animationEvent(getProgress(), ANIMATION_REPEAT);
 		 }
+	}
+	
+	private void animationEvent(float percentage, int status){
+		if (callbackUpdate != null) {
+			HashMap<String,Object> event = new HashMap<String, Object>();
+			event.put("percentage", percentage);
+			event.put("status", status);
+			callbackUpdate.call(getKrollObject(), event);
+		}
 	}
 	
 	private class LottieView extends TiUIView
