@@ -38,7 +38,7 @@ var animation = TiAnimation.createKeyframeView({
 
 ## Features
 
-### Lottie/Keyframes:
+#### Lottie/Keyframes:
 _work in progress_
 - start()
 - stop()
@@ -50,3 +50,11 @@ _work in progress_
 
 ## Example
 Please see the full-featured example in `example/app.js`.
+
+## Ressources
+At [LottieFiles](http://www.lottiefiles.com/) you will find a list of free Lottie animations.
+
+Authors
+---------------
+- Hans Knoechel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de))
+- Michael Gangolf ([@MichaelGangolf](https://twitter.com/MichaelGangolf) / [Web](http://migaweb.de))
