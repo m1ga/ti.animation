@@ -51,7 +51,7 @@ _work in progress_
 ## Example
 Please see the full-featured example in `example/app.js`.
 
-## Ressources
+## Resources
 At [LottieFiles](http://www.lottiefiles.com/) you will find a list of free Lottie animations.
 
 Authors
