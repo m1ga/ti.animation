@@ -36,20 +36,11 @@ var animation = TiAnimation.createKeyframeView({
 });
 ```
 
-## Features
-
-#### Lottie/Keyframes:
-_work in progress_
-- start()
-- stop()
-- pause()
-- getProgress()/setProgress(percentage)
-- getDuration()/setDuration(ms)
-- getSpeed()/setSpeed(float)
-- isPlaying()
+## Features/Documentation
+Visit the [wiki](https://github.com/m1ga/ti.animation/wiki) for the documentation.
 
 ## Example
-Please see the full-featured example in `example/app.js`.
+Please see the basic example in `example/app.js`. More examples can found in the [wiki](https://github.com/m1ga/ti.animation/wiki)
 
 ## Resources
 At [LottieFiles](http://www.lottiefiles.com/) you will find a list of free Lottie animations.
