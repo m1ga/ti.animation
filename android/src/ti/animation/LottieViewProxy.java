@@ -59,15 +59,15 @@ public class LottieViewProxy extends TiViewProxy
 	long duration = 0;
 	long initialDuration = 0;
 	float speed = 1.0f;
-	
+
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
-	
+
 	@Kroll.constant public static final int ANIMATION_START = 1;
 	@Kroll.constant public static final int ANIMATION_END = 2;
 	@Kroll.constant public static final int ANIMATION_CANCEL = 3;
 	@Kroll.constant public static final int ANIMATION_REPEAT = 4;
 	@Kroll.constant public static final int ANIMATION_RUNNING = 5;
-	
+
 	protected class AnimatorUpdateListener implements ValueAnimator.AnimatorUpdateListener
 	{
 		public void onAnimationUpdate(ValueAnimator animation)
@@ -75,7 +75,7 @@ public class LottieViewProxy extends TiViewProxy
 			animationEvent(animation.getAnimatedFraction(), ANIMATION_RUNNING);
 		}
 	}
-	
+
 	protected class AnimatorListener implements Animator.AnimatorListener
 	{
 		 public void onAnimationStart(Animator animation) {
@@ -94,7 +94,7 @@ public class LottieViewProxy extends TiViewProxy
 			 animationEvent(getProgress(), ANIMATION_REPEAT);
 		 }
 	}
-	
+
 	private void animationEvent(float percentage, int status){
 		if (callbackUpdate != null) {
 			HashMap<String,Object> event = new HashMap<String, Object>();
@@ -103,34 +103,35 @@ public class LottieViewProxy extends TiViewProxy
 			callbackUpdate.call(getKrollObject(), event);
 		}
 	}
-	
+
 	private class LottieView extends TiUIView
 	{
 		public LottieView(TiViewProxy proxy) {
 			super(proxy);
-			
+
 			String packageName = proxy.getActivity().getPackageName();
 			resources = proxy.getActivity().getResources();
 			View videoWrapper;
-			
+
 			int resId_videoHolder = -1;
 			int resId_video       = -1;
 			int resId_lotti       = -1;
 
 			resId_videoHolder = resources.getIdentifier("layout_lottie", "layout", packageName);
 			resId_lotti       = resources.getIdentifier("animation_view", "id", packageName);
-			
+
 			LayoutInflater inflater     = LayoutInflater.from(getActivity());
 			videoWrapper = inflater.inflate(resId_videoHolder, null);
-			
+
 			lottieView = (LottieAnimationView)videoWrapper.findViewById(resId_lotti);
 			setNativeView(videoWrapper);
 			appContext = TiApplication.getInstance();
 			isReady = true;
-			
+
 			lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
 			lottieView.addAnimatorListener(new AnimatorListener());
-			
+			lottieView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+
 			if (loadFile != ""){
 				setFile(loadFile);
 			}
@@ -149,13 +150,13 @@ public class LottieViewProxy extends TiViewProxy
 	{
 		super();
 	}
-	
+
 	private String getPathToApplicationAsset(String assetName)
 	{
 		// The url for an application asset can be created by resolving the specified
-		// path with the proxy context. This locates a resource relative to the 
+		// path with the proxy context. This locates a resource relative to the
 		// application resources folder
-		
+
 		String result = resolveUrl(null, assetName);
 		return result;
 	}
@@ -174,7 +175,7 @@ public class LottieViewProxy extends TiViewProxy
 	public void handleCreationDict(KrollDict options)
 	{
 		super.handleCreationDict(options);
-		
+
 		if (options.containsKey("file")) {
 			if (isReady){
 				setFile(options.getString("file"));
@@ -194,6 +195,11 @@ public class LottieViewProxy extends TiViewProxy
 		if (options.containsKey("update")) {
 			callbackUpdate =(KrollFunction) options.get("update");
 		}
+		if (options.containsKey("disableHardwareAcceleration")){
+			if (options.getBoolean("disableHardwareAcceleration")){
+				lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+			}
+		}
 	}
 
 	public void startAnimation(){
@@ -206,7 +212,7 @@ public class LottieViewProxy extends TiViewProxy
 		} else {
 			ValueAnimator va = ValueAnimator.ofFloat(0f, 1f);
 			va.setDuration(duration);
-			
+
 			va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 				public void onAnimationUpdate(ValueAnimator animation) {
 					lottieView.setProgress( (Float)animation.getAnimatedValue() );
@@ -230,23 +236,23 @@ public class LottieViewProxy extends TiViewProxy
 	public void pause() {
 		lottieView.cancelAnimation();
 	}
-	
+
 	@Kroll.method
 	public void stop() {
 		lottieView.cancelAnimation();
 	}
-	
-	
+
+
 	@Kroll.method
 	public void addViewToLayer() {
 		// TODO empty for now
 	}
-	
+
 	@Kroll.method
 	public boolean isPlaying() {
 		return lottieView.isAnimating();
 	}
-	
+
 	@Kroll.setProperty @Kroll.method
 	public void setProgress(float val) {
 		lottieView.setProgress(val);
@@ -267,7 +273,7 @@ public class LottieViewProxy extends TiViewProxy
 	public boolean getLoop() {
 		return isLoop;
 	}
-	
+
 	@Kroll.setProperty @Kroll.method
 	public void setSpeed(float val) {
 		speed = val;
@@ -278,7 +284,7 @@ public class LottieViewProxy extends TiViewProxy
 	public float getSpeed() {
 		return speed;
 	}
-	
+
 	@Kroll.setProperty @Kroll.method
 	public void setDuration(long val) {
 		duration = val;
@@ -288,12 +294,12 @@ public class LottieViewProxy extends TiViewProxy
 	public long getDuration() {
 		return duration;
 	}
-	
+
 	@Kroll.method
 	public void setFile(String f) {
 		final String url = getPathToApplicationAsset(f);
-		final TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);      
-		
+		final TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);
+
 		Thread thread = new Thread(new Runnable(){
 			@Override
 			public void run() {
@@ -319,12 +325,12 @@ public class LottieViewProxy extends TiViewProxy
 		});
 		thread.start();
 	}
-	
+
 	@Kroll.method
 	public void initialize() {
-		
+
 	}
-	
+
 	public boolean handleMessage(Message message) {
 			switch (message.what) {
 				case MSG_STARTANIMATION: {
@@ -332,7 +338,7 @@ public class LottieViewProxy extends TiViewProxy
 					return true;
 				}
 			}
-			
+
 			return super.handleMessage(message);
 	}
 }
