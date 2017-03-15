@@ -49,17 +49,18 @@ public class LottieViewProxy extends TiViewProxy
 	private static final String LCAT = "LottieViewProxy";
 	private LottieAnimationView lottieView;
 	private TiApplication appContext;
-	KrollFunction callbackUpdate = null;
-	Resources resources;
-	String loadFile = "";
-	String assetFolder = "";
-	boolean isReady = false;
-	boolean isAutoStart = false;
-	boolean isLoop = false;
-	long duration = 0;
-	long initialDuration = 0;
-	float speed = 1.0f;
-	boolean isPaused = false;
+	private KrollFunction callbackUpdate = null;
+	private KrollFunction callbackComplete = null;
+	private Resources resources;
+	private String loadFile = "";
+	private String assetFolder = "";
+	private boolean isReady = false;
+	private boolean isAutoStart = false;
+	private boolean isLoop = false;
+	private long duration = 0;
+	private long initialDuration = 0;
+	private float speed = 1.0f;
+	private boolean isPaused = false;
 
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
 
@@ -84,7 +85,14 @@ public class LottieViewProxy extends TiViewProxy
 		 }
 
 		 public void onAnimationEnd(Animator animation) {
-			 animationEvent(getProgress(), ANIMATION_END);
+			if (getProgress()>=1) {
+				animationEvent(getProgress(), ANIMATION_END);
+				if (callbackComplete != null) {
+					HashMap<String,Object> event = new HashMap<String, Object>();
+					event.put("status", ANIMATION_END);
+		 			callbackComplete.call(getKrollObject(), event);
+				}
+			}
 		 }
 
 		 public void onAnimationCancel(Animator animation) {
@@ -227,6 +235,7 @@ public class LottieViewProxy extends TiViewProxy
 
 	@Kroll.method
 	public void start() {
+		isPaused = false;
 		if (TiApplication.isUIThread()) {
 			startAnimation();
 		} else {
@@ -257,7 +266,7 @@ public class LottieViewProxy extends TiViewProxy
 		// TODO empty for now
 	}
 
-	@Kroll.method
+	@Kroll.getProperty @Kroll.method
 	public boolean isPlaying() {
 		return lottieView.isAnimating();
 	}
@@ -303,6 +312,8 @@ public class LottieViewProxy extends TiViewProxy
 	public void addEventListener(String evt, KrollFunction kf) {
 		if (evt.equals("update")) {
 			callbackUpdate =(KrollFunction) kf;
+		} else if (evt.equals("complete")) {
+			callbackComplete =(KrollFunction) kf;
 		}
 	}
 
