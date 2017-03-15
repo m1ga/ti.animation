@@ -59,6 +59,7 @@ public class LottieViewProxy extends TiViewProxy
 	long duration = 0;
 	long initialDuration = 0;
 	float speed = 1.0f;
+	boolean isPaused = false;
 
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
 
@@ -96,7 +97,7 @@ public class LottieViewProxy extends TiViewProxy
 	}
 
 	private void animationEvent(float percentage, int status){
-		if (callbackUpdate != null) {
+		if (callbackUpdate != null && !isPaused) {
 			HashMap<String,Object> event = new HashMap<String, Object>();
 			event.put("time", duration*percentage);
 			event.put("percentage", percentage);
@@ -235,15 +236,18 @@ public class LottieViewProxy extends TiViewProxy
 
 	@Kroll.method
 	public void pause() {
+		isPaused = true;
 		lottieView.pauseAnimation();
 	}
 	@Kroll.method
 	public void resume() {
+		isPaused = false;
 		lottieView.resumeAnimation();
 	}
 
 	@Kroll.method
 	public void stop() {
+		isPaused = false;
 		lottieView.cancelAnimation();
 	}
 
