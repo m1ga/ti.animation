@@ -98,6 +98,7 @@ public class LottieViewProxy extends TiViewProxy
 	private void animationEvent(float percentage, int status){
 		if (callbackUpdate != null) {
 			HashMap<String,Object> event = new HashMap<String, Object>();
+			event.put("time", duration*percentage);
 			event.put("percentage", percentage);
 			event.put("status", status);
 			callbackUpdate.call(getKrollObject(), event);
@@ -234,7 +235,11 @@ public class LottieViewProxy extends TiViewProxy
 
 	@Kroll.method
 	public void pause() {
-		lottieView.cancelAnimation();
+		lottieView.pauseAnimation();
+	}
+	@Kroll.method
+	public void resume() {
+		lottieView.resumeAnimation();
 	}
 
 	@Kroll.method
@@ -288,6 +293,13 @@ public class LottieViewProxy extends TiViewProxy
 	@Kroll.setProperty @Kroll.method
 	public void setDuration(long val) {
 		duration = val;
+	}
+
+	@Kroll.method
+	public void addEventListener(String evt, KrollFunction kf) {
+		if (evt.equals("update")) {
+			callbackUpdate =(KrollFunction) kf;
+		}
 	}
 
 	@Kroll.getProperty @Kroll.method
