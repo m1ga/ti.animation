@@ -354,27 +354,32 @@ public class LottieViewProxy extends TiViewProxy
 			@Override
 			public void run() {
 
+				// TODO remove try and check for file
+				try  {
+					LottieComposition.Factory.fromAssetFileName(appContext, url.replaceAll("file:///android_asset/", ""), new OnCompositionLoadedListener(){
+						@Override
+						public void onCompositionLoaded(LottieComposition composition) {
+							lottieView.setComposition(composition);
+							lottieView.setImageAssetsFolder(assetFolder);
 
-				LottieComposition.Factory.fromAssetFileName(appContext, url.replaceAll("file:///android_asset/", ""), new OnCompositionLoadedListener(){
-					@Override
-					public void onCompositionLoaded(LottieComposition composition) {
-						lottieView.setComposition(composition);
-						lottieView.setImageAssetsFolder(assetFolder);
-
-						lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
-						lottieView.addAnimatorListener(new AnimatorListener());
+							lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
+							lottieView.addAnimatorListener(new AnimatorListener());
 
 
 
-						initialDuration = duration = lottieView.getDuration();
-						if (isLoop){
-							lottieView.loop(true);
+							initialDuration = duration = lottieView.getDuration();
+							if (isLoop){
+								lottieView.loop(true);
+							}
+							if (isAutoStart){
+								lottieView.playAnimation();
+							}
 						}
-						if (isAutoStart){
-							lottieView.playAnimation();
-						}
-					}
-				});
+					});
+				} catch (Exception e){
+					// file not found
+					Log.e(LCAT, "File not found");
+				}
 			}
 		});
 		thread.start();
