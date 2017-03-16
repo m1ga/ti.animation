@@ -42,7 +42,6 @@ import org.appcelerator.titanium.view.TiUIView;
 import org.json.JSONObject;
 import android.os.Message;
 
-
 @Kroll.proxy(creatableInModule=TiAnimationModule.class)
 public class LottieViewProxy extends TiViewProxy
 {
@@ -61,7 +60,9 @@ public class LottieViewProxy extends TiViewProxy
 	private long initialDuration = 0;
 	private float speed = 1.0f;
 	private boolean isPaused = false;
-
+	private JSONObject jsonObject;
+	private int width = 0;
+	private int height = 0;
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
 
 	@Kroll.constant public static final int ANIMATION_START = 1;
@@ -194,7 +195,7 @@ public class LottieViewProxy extends TiViewProxy
 			}
 		}
 		if (options.containsKey("assetFolder")) {
-			assetFolder = options.getString("assetFolder");
+			assetFolder = "Resources/"+options.getString("assetFolder");
 		}
 		if (options.containsKey("loop")) {
 			isLoop = options.getBoolean("loop");
@@ -322,14 +323,38 @@ public class LottieViewProxy extends TiViewProxy
 		return duration;
 	}
 
+	@Kroll.getProperty @Kroll.method
+	public int getAnimationWidth() {
+		return width;
+	}
+	@Kroll.getProperty @Kroll.method
+	public int getAnimationHeight() {
+		return height;
+	}
+
 	@Kroll.method
 	public void setFile(String f) {
 		final String url = getPathToApplicationAsset(f);
 		final TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);
 
+		try {
+			final InputStream stream = file.getInputStream();
+			int size = stream.available();
+			byte[] buffer = new byte[size];
+			stream.read(buffer);
+			String json = new String(buffer, "UTF-8");
+			jsonObject = new JSONObject(json);
+			width = jsonObject.optInt("w", -1);
+			height = jsonObject.optInt("h", -1);
+		} catch (Exception e){
+
+		}
+
 		Thread thread = new Thread(new Runnable(){
 			@Override
 			public void run() {
+
+
 				LottieComposition.Factory.fromAssetFileName(appContext, url.replaceAll("file:///android_asset/", ""), new OnCompositionLoadedListener(){
 					@Override
 					public void onCompositionLoaded(LottieComposition composition) {
@@ -338,6 +363,8 @@ public class LottieViewProxy extends TiViewProxy
 
 						lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
 						lottieView.addAnimatorListener(new AnimatorListener());
+
+
 
 						initialDuration = duration = lottieView.getDuration();
 						if (isLoop){
