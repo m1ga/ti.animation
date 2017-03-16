@@ -337,25 +337,23 @@ public class LottieViewProxy extends TiViewProxy
 		final String url = getPathToApplicationAsset(f);
 		final TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);
 
-		try {
-			final InputStream stream = file.getInputStream();
-			int size = stream.available();
-			byte[] buffer = new byte[size];
-			stream.read(buffer);
-			String json = new String(buffer, "UTF-8");
-			jsonObject = new JSONObject(json);
-			width = jsonObject.optInt("w", -1);
-			height = jsonObject.optInt("h", -1);
-		} catch (Exception e){
+		if (file.exists()) {
+			try {
+				final InputStream stream = file.getInputStream();
+				int size = stream.available();
+				byte[] buffer = new byte[size];
+				stream.read(buffer);
+				String json = new String(buffer, "UTF-8");
+				jsonObject = new JSONObject(json);
+				width = jsonObject.optInt("w", -1);
+				height = jsonObject.optInt("h", -1);
+			} catch (Exception e){
+				Log.e(LCAT, "Couldn't read width/height");
+			}
 
-		}
-
-		Thread thread = new Thread(new Runnable(){
-			@Override
-			public void run() {
-
-				// TODO remove try and check for file
-				try  {
+			Thread thread = new Thread(new Runnable(){
+				@Override
+				public void run() {
 					LottieComposition.Factory.fromAssetFileName(appContext, url.replaceAll("file:///android_asset/", ""), new OnCompositionLoadedListener(){
 						@Override
 						public void onCompositionLoaded(LottieComposition composition) {
@@ -364,8 +362,6 @@ public class LottieViewProxy extends TiViewProxy
 
 							lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
 							lottieView.addAnimatorListener(new AnimatorListener());
-
-
 
 							initialDuration = duration = lottieView.getDuration();
 							if (isLoop){
@@ -376,13 +372,12 @@ public class LottieViewProxy extends TiViewProxy
 							}
 						}
 					});
-				} catch (Exception e){
-					// file not found
-					Log.e(LCAT, "File not found");
 				}
-			}
-		});
-		thread.start();
+			});
+			thread.start();
+		} else {
+			Log.e(LCAT, "File "+file.name()+" not found!");
+		}
 	}
 
 	@Kroll.method
