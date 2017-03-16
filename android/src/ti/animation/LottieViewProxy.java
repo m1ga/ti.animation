@@ -50,6 +50,7 @@ public class LottieViewProxy extends TiViewProxy
 	private TiApplication appContext;
 	private KrollFunction callbackUpdate = null;
 	private KrollFunction callbackComplete = null;
+	private KrollFunction callbackReady = null;
 	private Resources resources;
 	private String loadFile = "";
 	private String assetFolder = "";
@@ -63,6 +64,8 @@ public class LottieViewProxy extends TiViewProxy
 	private JSONObject jsonObject;
 	private int width = 0;
 	private int height = 0;
+	private boolean useSoftwareRendering = false;
+
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
 
 	@Kroll.constant public static final int ANIMATION_START = 1;
@@ -141,7 +144,12 @@ public class LottieViewProxy extends TiViewProxy
 
 			lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
 			lottieView.addAnimatorListener(new AnimatorListener());
-			lottieView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+			if (useSoftwareRendering){
+				lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+			} else {
+				lottieView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+			}
+
 
 			if (loadFile != ""){
 				setFile(loadFile);
@@ -208,7 +216,11 @@ public class LottieViewProxy extends TiViewProxy
 		}
 		if (options.containsKey("disableHardwareAcceleration")){
 			if (options.getBoolean("disableHardwareAcceleration")){
-				lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+				if (isReady){
+					lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+				} else {
+					useSoftwareRendering = true;
+				}
 			}
 		}
 	}
@@ -315,6 +327,8 @@ public class LottieViewProxy extends TiViewProxy
 			callbackUpdate =(KrollFunction) kf;
 		} else if (evt.equals("complete")) {
 			callbackComplete =(KrollFunction) kf;
+		} else if (evt.equals("ready")) {
+			callbackReady =(KrollFunction) kf;
 		}
 	}
 
@@ -369,6 +383,11 @@ public class LottieViewProxy extends TiViewProxy
 							}
 							if (isAutoStart){
 								lottieView.playAnimation();
+							}
+
+							if (callbackReady != null) {
+								HashMap<String,Object> event = new HashMap<String, Object>();
+								callbackReady.call(getKrollObject(), event);
 							}
 						}
 					});
