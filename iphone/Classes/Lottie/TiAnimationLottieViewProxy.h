@@ -5,7 +5,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 #import "TiViewProxy.h"
-#import "Lottie.h"
+
+@class LOTAnimationView;
 
 @interface TiAnimationLottieViewProxy : TiViewProxy {
     LOTAnimationView *animationView;
