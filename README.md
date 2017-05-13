@@ -1,4 +1,4 @@
-# Ti.Animation
+# Ti.Animation [![Build Status](https://travis-ci.org/m1ga/ti.animation.svg?branch=master)](https://travis-ci.org/m1ga/ti.animation)
 
 ![gif](animation.gif)
 
