@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="LottieAnimationView">
-        <attr name="lottie_fileName" format="string"/>
-        <attr name="lottie_autoPlay" format="boolean" />
-        <attr name="lottie_loop" format="boolean" />
+	<declare-styleable name="LottieAnimationView">
+		<attr format="string" name="lottie_fileName"/>
+		<attr format="boolean" name="lottie_autoPlay"/>
+		<attr format="boolean" name="lottie_loop"/>
+		<attr format="string" name="lottie_imageAssetsFolder"/>
+		<attr format="float" name="lottie_progress"/>
+		<attr format="boolean" name="lottie_enableMergePathsForKitKatAndAbove"/>
+		<attr format="enum" name="lottie_cacheStrategy">
+			<enum name="none" value="0"/>
+			<enum name="weak" value="1"/>
+			<enum name="strong" value="2"/>
+		</attr>
+        <attr format="color" name="lottie_colorFilter"/><attr format="float" name="lottie_scale"/>
     </declare-styleable>
-    <item name="lottie_layer_name" type="id" />
+	<item name="lottie_layer_name" type="id"/>
 </resources>
