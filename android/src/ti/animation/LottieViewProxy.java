@@ -41,6 +41,7 @@ import org.appcelerator.titanium.view.TiCompositeLayout.LayoutArrangement;
 import org.appcelerator.titanium.view.TiUIView;
 import org.json.JSONObject;
 import android.os.Message;
+import android.widget.ImageView.ScaleType;
 
 @Kroll.proxy(creatableInModule=TiAnimationModule.class)
 public class LottieViewProxy extends TiViewProxy
@@ -145,9 +146,9 @@ public class LottieViewProxy extends TiViewProxy
 			lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
 			lottieView.addAnimatorListener(new AnimatorListener());
 			if (useSoftwareRendering){
-				lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+				lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 			} else {
-				lottieView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+				lottieView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
 
 
@@ -222,6 +223,19 @@ public class LottieViewProxy extends TiViewProxy
 					useSoftwareRendering = true;
 				}
 			}
+		}
+		if (options.containsKey("scaleMode")) {
+			String scaleMode = options.getString("scaleMode");
+			if (scaleMode == "center") {
+				lottieView.setScaleType(ScaleType.CENTER);
+			} else if (scaleMode == "centerCrop") {
+				lottieView.setScaleType(ScaleType.CENTER_CROP);
+			} else if (scaleMode == "centerInside") {
+				lottieView.setScaleType(ScaleType.CENTER_INSIDE);
+			} else if (scaleMode == "fitXY") {
+				lottieView.setScaleType(ScaleType.FIT_XY);
+			}
+			 
 		}
 	}
 

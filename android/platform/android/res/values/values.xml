@@ -12,7 +12,7 @@
 			<enum name="weak" value="1"/>
 			<enum name="strong" value="2"/>
 		</attr>
-        <attr format="color" name="lottie_colorFilter"/><attr format="float" name="lottie_scale"/>
-    </declare-styleable>
+		<attr format="color" name="lottie_colorFilter"/><attr format="float" name="lottie_scale"/>
+	</declare-styleable>
 	<item name="lottie_layer_name" type="id"/>
 </resources>
