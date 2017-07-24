@@ -66,6 +66,8 @@ public class LottieViewProxy extends TiViewProxy
 	private int width = 0;
 	private int height = 0;
 	private boolean useSoftwareRendering = false;
+	private boolean mergePath = false;
+	private ScaleType viewScaleMode = ScaleType.CENTER_INSIDE;
 
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
 
@@ -119,8 +121,7 @@ public class LottieViewProxy extends TiViewProxy
 		}
 	}
 
-	private class LottieView extends TiUIView
-	{
+	private class LottieView extends TiUIView {
 		public LottieView(TiViewProxy proxy) {
 			super(proxy);
 
@@ -143,6 +144,7 @@ public class LottieViewProxy extends TiViewProxy
 			appContext = TiApplication.getInstance();
 			isReady = true;
 
+			lottieView.setScaleType(viewScaleMode);
 			lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
 			lottieView.addAnimatorListener(new AnimatorListener());
 			if (useSoftwareRendering){
@@ -150,7 +152,7 @@ public class LottieViewProxy extends TiViewProxy
 			} else {
 				lottieView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
-
+			lottieView.enableMergePathsForKitKatAndAbove(mergePath);
 
 			if (loadFile != ""){
 				setFile(loadFile);
@@ -158,9 +160,23 @@ public class LottieViewProxy extends TiViewProxy
 		}
 
 		@Override
-		public void processProperties(KrollDict d)
-		{
+		public void processProperties(KrollDict d) {
 			super.processProperties(d);
+			if (d.containsKey("scaleMode")) {
+				String scaleMode = d.getString("scaleMode");
+				if (scaleMode.equals("center")) {
+					viewScaleMode = ScaleType.CENTER;
+				} else if (scaleMode.equals("centerCrop")) {
+					viewScaleMode = ScaleType.CENTER_CROP;
+				} else if (scaleMode.equals("centerInside")) {
+					viewScaleMode = ScaleType.CENTER_INSIDE;
+				} else {
+					viewScaleMode = ScaleType.CENTER_INSIDE;
+				}
+				if (isReady){
+					lottieView.setScaleType(viewScaleMode);
+				}
+			}
 		}
 	}
 
@@ -215,6 +231,12 @@ public class LottieViewProxy extends TiViewProxy
 		if (options.containsKey("update")) {
 			callbackUpdate =(KrollFunction) options.get("update");
 		}
+		if (options.containsKey("mergePath")) {
+			mergePath = options.getBoolean("mergePath");
+			if (isReady){
+				lottieView.enableMergePathsForKitKatAndAbove(mergePath);
+			}
+		}
 		if (options.containsKey("disableHardwareAcceleration")){
 			if (options.getBoolean("disableHardwareAcceleration")){
 				if (isReady){
@@ -226,16 +248,18 @@ public class LottieViewProxy extends TiViewProxy
 		}
 		if (options.containsKey("scaleMode")) {
 			String scaleMode = options.getString("scaleMode");
-			if (scaleMode == "center") {
-				lottieView.setScaleType(ScaleType.CENTER);
-			} else if (scaleMode == "centerCrop") {
-				lottieView.setScaleType(ScaleType.CENTER_CROP);
-			} else if (scaleMode == "centerInside") {
-				lottieView.setScaleType(ScaleType.CENTER_INSIDE);
-			} else if (scaleMode == "fitXY") {
-				lottieView.setScaleType(ScaleType.FIT_XY);
+			if (scaleMode.equals("center")) {
+				viewScaleMode = ScaleType.CENTER;
+			} else if (scaleMode.equals("centerCrop")) {
+				viewScaleMode = ScaleType.CENTER_CROP;
+			} else if (scaleMode.equals("centerInside")) {
+				viewScaleMode = ScaleType.CENTER_INSIDE;
+			} else {
+				viewScaleMode = ScaleType.CENTER_INSIDE;
 			}
-			 
+			if (isReady){
+				lottieView.setScaleType(viewScaleMode);
+			}
 		}
 	}
 
