@@ -5,39 +5,30 @@
  * Please see the LICENSE included with this distribution for details.
  */
 #import "TiViewProxy.h"
-
-@class LOTAnimationView;
+#import "TiAnimationLottieView.h"
 
 @interface TiAnimationLottieViewProxy : TiViewProxy {
-    LOTAnimationView *animationView;
+    
 }
-
-- (LOTAnimationView *)animationView;
 
 #pragma mark Methods
 
+- (TiAnimationLottieView*)animationView;
+
 - (void)start:(id)args;
-
 - (void)pause:(id)unused;
-
+- (void)resume:(id)unused;
 - (void)addViewToLayer:(id)args;
-
-- (id)isPlaying:(id)unused;
 
 #pragma mark Properties
 
-- (void)setProgress:(id)progress;
-
 - (id)progress;
-
-- (void)setSpeed:(id)speed;
-
 - (id)speed;
-
-- (void)setLoop:(id)animation;
-
 - (id)loop;
-
 - (id)duration;
+- (id)isPlaying:(id)unused;
+- (void)setProgress:(id)progress;
+- (void)setSpeed:(id)speed;
+- (void)setLoop:(id)animation;
 
 @end
