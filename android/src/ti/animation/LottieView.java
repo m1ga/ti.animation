@@ -130,11 +130,6 @@ public class LottieView extends TiUIView {
 		KrollDict d = new KrollDict();
 		d.put(key, newValue);
 		processProperties(d);
-		// if (key.equals("hintText")) {
-		// 	searchView.setQueryHint((String) newValue);
-		// } else if (key.equals("value")) {
-		// 	searchView.setQuery((String) newValue, false);
-		// }
 	}
 
 
@@ -189,7 +184,7 @@ public class LottieView extends TiUIView {
 						lottieView.loop(true);
 					}
 					if (TiConvert.toBoolean(proxy.getProperty("autoStart"))) {
-						startAnimation();
+						startAnimation(TiConvert.toInt(proxy.getProperty("startFrame")), TiConvert.toInt(proxy.getProperty("endFrame")));
 					}
 					if (callbackReady != null) {
 						HashMap<String,Object> event = new HashMap<String, Object>();
@@ -246,14 +241,18 @@ public class LottieView extends TiUIView {
 		}
 	}
 
-	public void startAnimation() {
+	public void startAnimation(int startFrame, int endFrame) {
 		boolean restart = lottieView.isAnimating();
 		lottieView.cancelAnimation();
 		lottieView.setProgress(0f);
 		proxy.setProperty("paused", false);
 
 		if (TiConvert.toFloat(proxy.getProperty("speed")) == 1.0f) {
-			lottieView.playAnimation();
+			if (startFrame != -1 && endFrame != 1) {
+				lottieView.playAnimation(startFrame, endFrame);
+			} else {
+				lottieView.playAnimation();
+			}
 			va = null;
 		} else {
 			va = ValueAnimator.ofFloat(0f, 1f);
