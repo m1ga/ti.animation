@@ -8,193 +8,71 @@
  */
 package ti.animation;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
-import android.app.Activity;
-import android.content.res.Resources;
-import android.content.res.Resources;
+import org.appcelerator.kroll.KrollDict;
+import org.appcelerator.kroll.KrollProxy;
+import org.appcelerator.kroll.annotations.Kroll;
+import org.appcelerator.titanium.TiC;
+import org.appcelerator.kroll.common.Log;
+import org.appcelerator.kroll.common.TiConfig;
+import org.appcelerator.titanium.util.TiConvert;
+import org.appcelerator.titanium.proxy.TiViewProxy;
+import org.appcelerator.titanium.view.TiCompositeLayout;
+import org.appcelerator.titanium.view.TiCompositeLayout.LayoutArrangement;
+import org.appcelerator.titanium.view.TiUIView;
+import android.widget.ImageView.ScaleType;
 import android.view.LayoutInflater;
 import android.view.View;
-import com.airbnb.lottie.*;
+import android.content.res.Resources;
 import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.*;
+import android.app.Activity;
+import android.animation.Animator;
+import android.animation.ValueAnimator;
+import org.appcelerator.titanium.TiApplication;
+import org.appcelerator.titanium.io.TiBaseFile;
+import org.appcelerator.titanium.io.TiFileFactory;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.lang.Exception;
-import java.util.HashMap;
-import org.appcelerator.kroll.annotations.Kroll;
-import org.appcelerator.kroll.common.Log;
-import org.appcelerator.kroll.common.TiConfig;
-import org.appcelerator.kroll.common.TiMessenger;
-import org.appcelerator.kroll.KrollDict;
-import org.appcelerator.kroll.KrollFunction;
-import org.appcelerator.kroll.KrollProxy;
-import org.appcelerator.titanium.io.TiBaseFile;
-import org.appcelerator.titanium.io.TiFileFactory;
-import org.appcelerator.titanium.proxy.TiViewProxy;
-import org.appcelerator.titanium.TiApplication;
-import org.appcelerator.titanium.TiC;
-import org.appcelerator.titanium.util.TiConvert;
-import org.appcelerator.titanium.view.TiCompositeLayout;
-import org.appcelerator.titanium.view.TiCompositeLayout.LayoutArrangement;
-import org.appcelerator.titanium.view.TiUIView;
-import org.json.JSONObject;
 import android.os.Message;
-import android.widget.ImageView.ScaleType;
+import org.appcelerator.kroll.common.TiMessenger;
+import org.appcelerator.kroll.common.AsyncResult;
 
-@Kroll.proxy(creatableInModule=TiAnimationModule.class)
+@Kroll.proxy(creatableInModule=TiAnimationModule.class, propertyAccessors = 
+	{ "file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update", "autoStart", 
+	"loop", "assetFolder", "width", "height", "duration", "pause"})
+	
 public class LottieViewProxy extends TiViewProxy
 {
+	// Standard Debugging variables
 	private static final String LCAT = "LottieViewProxy";
-	private LottieAnimationView lottieView;
-	private TiApplication appContext;
-	private KrollFunction callbackUpdate = null;
-	private KrollFunction callbackComplete = null;
-	private KrollFunction callbackReady = null;
-	private Resources resources;
-	private String loadFile = "";
-	private String assetFolder = "";
-	private boolean isReady = false;
-	private boolean isAutoStart = false;
-	private boolean isLoop = false;
-	private long duration = 0;
-	private long initialDuration = 0;
-	private float speed = 1.0f;
-	private boolean isPaused = false;
-	private JSONObject jsonObject;
-	private int width = 0;
-	private int height = 0;
-	private boolean useSoftwareRendering = false;
-	private boolean mergePath = false;
-	private ScaleType viewScaleMode = ScaleType.CENTER_INSIDE;
-
+	private static final boolean DBG = TiConfig.LOGD;
+	
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
-
+	protected static final int MSG_LOADFILE = KrollProxy.MSG_LAST_ID + 102;
+		
 	@Kroll.constant public static final int ANIMATION_START = 1;
 	@Kroll.constant public static final int ANIMATION_END = 2;
 	@Kroll.constant public static final int ANIMATION_CANCEL = 3;
 	@Kroll.constant public static final int ANIMATION_REPEAT = 4;
 	@Kroll.constant public static final int ANIMATION_RUNNING = 5;
 
-	protected class AnimatorUpdateListener implements ValueAnimator.AnimatorUpdateListener
-	{
-		public void onAnimationUpdate(ValueAnimator animation)
-		{
-			animationEvent(animation.getAnimatedFraction(), ANIMATION_RUNNING);
-		}
-	}
-
-	protected class AnimatorListener implements Animator.AnimatorListener
-	{
-		 public void onAnimationStart(Animator animation) {
-			 animationEvent(getProgress(), ANIMATION_START);
-		 }
-
-		 public void onAnimationEnd(Animator animation) {
-			if (getProgress()>=1) {
-				animationEvent(getProgress(), ANIMATION_END);
-				if (callbackComplete != null) {
-					HashMap<String,Object> event = new HashMap<String, Object>();
-					event.put("status", ANIMATION_END);
-		 			callbackComplete.call(getKrollObject(), event);
-				}
-			}
-		 }
-
-		 public void onAnimationCancel(Animator animation) {
-			 animationEvent(getProgress(), ANIMATION_CANCEL);
-		 }
-
-		 public void onAnimationRepeat(Animator animation) {
-			 animationEvent(getProgress(), ANIMATION_REPEAT);
-		 }
-	}
-
-	private void animationEvent(float percentage, int status){
-		if (callbackUpdate != null && !isPaused) {
-			HashMap<String,Object> event = new HashMap<String, Object>();
-			event.put("time", duration*percentage);
-			event.put("percentage", percentage);
-			event.put("status", status);
-			callbackUpdate.call(getKrollObject(), event);
-		}
-	}
-
-	private class LottieView extends TiUIView {
-		public LottieView(TiViewProxy proxy) {
-			super(proxy);
-
-			String packageName = proxy.getActivity().getPackageName();
-			resources = proxy.getActivity().getResources();
-			View videoWrapper;
-
-			int resId_videoHolder = -1;
-			int resId_video       = -1;
-			int resId_lotti       = -1;
-
-			resId_videoHolder = resources.getIdentifier("layout_lottie", "layout", packageName);
-			resId_lotti       = resources.getIdentifier("animation_view", "id", packageName);
-
-			LayoutInflater inflater     = LayoutInflater.from(getActivity());
-			videoWrapper = inflater.inflate(resId_videoHolder, null);
-
-			lottieView = (LottieAnimationView)videoWrapper.findViewById(resId_lotti);
-			setNativeView(videoWrapper);
-			appContext = TiApplication.getInstance();
-			isReady = true;
-
-			lottieView.setScaleType(viewScaleMode);
-			lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
-			lottieView.addAnimatorListener(new AnimatorListener());
-			if (useSoftwareRendering){
-				lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-			} else {
-				lottieView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			}
-			lottieView.enableMergePathsForKitKatAndAbove(mergePath);
-
-			if (loadFile != ""){
-				setFile(loadFile);
-			}
-		}
-
-		@Override
-		public void processProperties(KrollDict d) {
-			super.processProperties(d);
-			if (d.containsKey("scaleMode")) {
-				String scaleMode = d.getString("scaleMode");
-				if (scaleMode.equals("center")) {
-					viewScaleMode = ScaleType.CENTER;
-				} else if (scaleMode.equals("centerCrop")) {
-					viewScaleMode = ScaleType.CENTER_CROP;
-				} else if (scaleMode.equals("centerInside")) {
-					viewScaleMode = ScaleType.CENTER_INSIDE;
-				} else {
-					viewScaleMode = ScaleType.CENTER_INSIDE;
-				}
-				if (isReady){
-					lottieView.setScaleType(viewScaleMode);
-				}
-			}
-		}
-	}
-
-
 	// Constructor
 	public LottieViewProxy()
 	{
 		super();
-	}
-
-	private String getPathToApplicationAsset(String assetName)
-	{
-		// The url for an application asset can be created by resolving the specified
-		// path with the proxy context. This locates a resource relative to the
-		// application resources folder
-
-		String result = resolveUrl(null, assetName);
-		return result;
+		
+		defaultValues.put("scaleMode", "center_inside");
+		defaultValues.put("disableHardwareAcceleration", false);
+		defaultValues.put("mergePath", false);
+		defaultValues.put("autoStart", false);
+		defaultValues.put("loop", false);
+		defaultValues.put("assetFolder", "");
+		defaultValues.put("duration", 0);
+		defaultValues.put("file", "");
+		defaultValues.put("pause", false);
 	}
 
 	@Override
@@ -205,251 +83,26 @@ public class LottieViewProxy extends TiViewProxy
 		view.getLayoutParams().autoFillsWidth = true;
 		return view;
 	}
-
-	// Handle creation options
-	@Override
-	public void handleCreationDict(KrollDict options)
-	{
-		super.handleCreationDict(options);
-
-		if (options.containsKey("file")) {
-			if (isReady){
-				setFile(options.getString("file"));
-			} else {
-				loadFile = options.getString("file");
-			}
-		}
-		if (options.containsKey("assetFolder")) {
-			assetFolder = "Resources/"+options.getString("assetFolder");
-		}
-		if (options.containsKey("loop")) {
-			isLoop = options.getBoolean("loop");
-		}
-		if (options.containsKey("autoStart")) {
-			isAutoStart = options.getBoolean("autoStart");
-		}
-		if (options.containsKey("update")) {
-			callbackUpdate =(KrollFunction) options.get("update");
-		}
-		if (options.containsKey("mergePath")) {
-			mergePath = options.getBoolean("mergePath");
-			if (isReady){
-				lottieView.enableMergePathsForKitKatAndAbove(mergePath);
-			}
-		}
-		if (options.containsKey("disableHardwareAcceleration")){
-			if (options.getBoolean("disableHardwareAcceleration")){
-				if (isReady){
-					lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
-				} else {
-					useSoftwareRendering = true;
-				}
-			}
-		}
-		if (options.containsKey("scaleMode")) {
-			String scaleMode = options.getString("scaleMode");
-			if (scaleMode.equals("center")) {
-				viewScaleMode = ScaleType.CENTER;
-			} else if (scaleMode.equals("centerCrop")) {
-				viewScaleMode = ScaleType.CENTER_CROP;
-			} else if (scaleMode.equals("centerInside")) {
-				viewScaleMode = ScaleType.CENTER_INSIDE;
-			} else {
-				viewScaleMode = ScaleType.CENTER_INSIDE;
-			}
-			if (isReady){
-				lottieView.setScaleType(viewScaleMode);
-			}
-		}
+	protected LottieView getView() {
+		return (LottieView)getOrCreateView();
 	}
-
-	public void startAnimation(){
-		boolean restart = lottieView.isAnimating();
-		lottieView.cancelAnimation();
-		lottieView.setProgress(0f);
-
-		if (duration == 0 || duration == initialDuration) {
-			lottieView.playAnimation();
-		} else {
-			ValueAnimator va = ValueAnimator.ofFloat(0f, 1f);
-			va.setDuration(duration);
-
-			va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-				public void onAnimationUpdate(ValueAnimator animation) {
-					lottieView.setProgress( (Float)animation.getAnimatedValue() );
-					animationEvent(animation.getAnimatedFraction(), ANIMATION_RUNNING);
-				}
-			});
-			va.start();
-		}
-	}
-
-	@Kroll.method
-	public void start() {
-		isPaused = false;
-		if (TiApplication.isUIThread()) {
-			startAnimation();
-		} else {
-			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STARTANIMATION));
-		}
-	}
-
-	@Kroll.method
-	public void pause() {
-		isPaused = true;
-		lottieView.pauseAnimation();
-	}
-	@Kroll.method
-	public void resume() {
-		isPaused = false;
-		lottieView.resumeAnimation();
-	}
-
-	@Kroll.method
-	public void stop() {
-		isPaused = false;
-		lottieView.cancelAnimation();
-	}
-
-
-	@Kroll.method
-	public void addViewToLayer() {
-		// TODO empty for now
-	}
-
-	@Kroll.getProperty @Kroll.method
-	public boolean isPlaying() {
-		return lottieView.isAnimating();
-	}
-
-	@Kroll.setProperty @Kroll.method
-	public void setProgress(float val) {
-		lottieView.setProgress(val);
-	}
-
-	@Kroll.getProperty @Kroll.method
-	public float getProgress() {
-		return lottieView.getProgress();
-	}
-
-	@Kroll.setProperty @Kroll.method
-	public void setLoop(boolean val) {
-		isLoop = val;
-		lottieView.loop(isLoop);
-	}
-
-	@Kroll.getProperty @Kroll.method
-	public boolean getLoop() {
-		return isLoop;
-	}
-
-	@Kroll.setProperty @Kroll.method
-	public void setSpeed(float val) {
-		speed = val;
-		duration = (long)(initialDuration / speed);
-	}
-
-	@Kroll.getProperty @Kroll.method
-	public float getSpeed() {
-		return speed;
-	}
-
-	@Kroll.setProperty @Kroll.method
-	public void setDuration(long val) {
-		duration = val;
-	}
-
-	@Kroll.method
-	public void addEventListener(String evt, KrollFunction kf) {
-		if (evt.equals("update")) {
-			callbackUpdate =(KrollFunction) kf;
-		} else if (evt.equals("complete")) {
-			callbackComplete =(KrollFunction) kf;
-		} else if (evt.equals("ready")) {
-			callbackReady =(KrollFunction) kf;
-		}
-	}
-
-	@Kroll.getProperty @Kroll.method
-	public long getDuration() {
-		return duration;
-	}
-
-	@Kroll.getProperty @Kroll.method
-	public int getAnimationWidth() {
-		return width;
-	}
-	@Kroll.getProperty @Kroll.method
-	public int getAnimationHeight() {
-		return height;
-	}
-
-	@Kroll.method
-	public void setFile(String f) {
-		final String url = getPathToApplicationAsset(f);
-		final TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);
-
-		if (file.exists()) {
-			try {
-				final InputStream stream = file.getInputStream();
-				int size = stream.available();
-				byte[] buffer = new byte[size];
-				stream.read(buffer);
-				String json = new String(buffer, "UTF-8");
-				jsonObject = new JSONObject(json);
-				width = jsonObject.optInt("w", -1);
-				height = jsonObject.optInt("h", -1);
-			} catch (Exception e){
-				Log.e(LCAT, "Couldn't read width/height");
-			}
-
-			Thread thread = new Thread(new Runnable(){
-				@Override
-				public void run() {
-					LottieComposition.Factory.fromAssetFileName(appContext, url.replaceAll("file:///android_asset/", ""), new OnCompositionLoadedListener(){
-						@Override
-						public void onCompositionLoaded(LottieComposition composition) {
-							lottieView.setComposition(composition);
-							lottieView.setImageAssetsFolder(assetFolder);
-
-							lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
-							lottieView.addAnimatorListener(new AnimatorListener());
-
-							initialDuration = duration = lottieView.getDuration();
-							if (isLoop){
-								lottieView.loop(true);
-							}
-							if (isAutoStart){
-								lottieView.playAnimation();
-							}
-
-							if (callbackReady != null) {
-								HashMap<String,Object> event = new HashMap<String, Object>();
-								callbackReady.call(getKrollObject(), event);
-							}
-						}
-					});
-				}
-			});
-			thread.start();
-		} else {
-			Log.e(LCAT, "File "+file.name()+" not found!");
-		}
-	}
-
-	@Kroll.method
-	public void initialize() {
-
-	}
-
+	
 	public boolean handleMessage(Message message) {
-			switch (message.what) {
-				case MSG_STARTANIMATION: {
-					startAnimation();
-					return true;
-				}
+		AsyncResult result = null;
+		switch (message.what) {
+			case MSG_LOADFILE: {
+				result = (AsyncResult)message.obj;
+				getView().loadFile((String)result.getArg());
+				result.setResult(null);
+				return true;
 			}
+			case MSG_STARTANIMATION: {
+				getView().startAnimation();
+				result.setResult(null);
+				return true;
+			}
+		}
 
-			return super.handleMessage(message);
+		return super.handleMessage(message);
 	}
 }
