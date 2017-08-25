@@ -8,51 +8,33 @@
  */
 package ti.animation;
 
-import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollProxy;
 import org.appcelerator.kroll.annotations.Kroll;
-import org.appcelerator.titanium.TiC;
-import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
-import org.appcelerator.titanium.util.TiConvert;
 import org.appcelerator.titanium.proxy.TiViewProxy;
-import org.appcelerator.titanium.view.TiCompositeLayout;
-import org.appcelerator.titanium.view.TiCompositeLayout.LayoutArrangement;
 import org.appcelerator.titanium.view.TiUIView;
-import android.widget.ImageView.ScaleType;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.content.res.Resources;
-import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.*;
 import android.app.Activity;
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import org.appcelerator.titanium.TiApplication;
-import org.appcelerator.titanium.io.TiBaseFile;
-import org.appcelerator.titanium.io.TiFileFactory;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.lang.Exception;
 import android.os.Message;
 import org.appcelerator.kroll.common.TiMessenger;
 import org.appcelerator.kroll.common.AsyncResult;
 
 @Kroll.proxy(creatableInModule=TiAnimationModule.class, propertyAccessors = 
 	{ "file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update", "autoStart", 
-	"loop", "assetFolder", "width", "height", "duration", "pause"})
-	
+	"loop", "assetFolder", "width", "height", "duration", "paused", "speed"})
+
 public class LottieViewProxy extends TiViewProxy
 {
 	// Standard Debugging variables
 	private static final String LCAT = "LottieViewProxy";
 	private static final boolean DBG = TiConfig.LOGD;
-	
+
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
 	protected static final int MSG_LOADFILE = KrollProxy.MSG_LAST_ID + 102;
-		
+	protected static final int MSG_PAUSEANIMATION = KrollProxy.MSG_LAST_ID + 103;
+	protected static final int MSG_RESUMEANIMATION = KrollProxy.MSG_LAST_ID + 104;
+	protected static final int MSG_STOPANIMATION = KrollProxy.MSG_LAST_ID + 105;
+
 	@Kroll.constant public static final int ANIMATION_START = 1;
 	@Kroll.constant public static final int ANIMATION_END = 2;
 	@Kroll.constant public static final int ANIMATION_CANCEL = 3;
@@ -63,16 +45,16 @@ public class LottieViewProxy extends TiViewProxy
 	public LottieViewProxy()
 	{
 		super();
-		
 		defaultValues.put("scaleMode", "center_inside");
 		defaultValues.put("disableHardwareAcceleration", false);
 		defaultValues.put("mergePath", false);
 		defaultValues.put("autoStart", false);
 		defaultValues.put("loop", false);
 		defaultValues.put("assetFolder", "");
+		defaultValues.put("speed", 1);
 		defaultValues.put("duration", 0);
 		defaultValues.put("file", "");
-		defaultValues.put("pause", false);
+		defaultValues.put("paused", false);
 	}
 
 	@Override
@@ -86,7 +68,7 @@ public class LottieViewProxy extends TiViewProxy
 	protected LottieView getView() {
 		return (LottieView)getOrCreateView();
 	}
-	
+
 	public boolean handleMessage(Message message) {
 		AsyncResult result = null;
 		switch (message.what) {
@@ -101,8 +83,69 @@ public class LottieViewProxy extends TiViewProxy
 				result.setResult(null);
 				return true;
 			}
+			case MSG_PAUSEANIMATION: {
+				getView().pauseAnimation();
+				result.setResult(null);
+				return true;
+			}
+			case MSG_RESUMEANIMATION: {
+				getView().resumeAnimation();
+				result.setResult(null);
+				return true;
+			}
+			case MSG_STOPANIMATION: {
+				getView().stopAnimation();
+				result.setResult(null);
+				return true;
+			}
 		}
 
 		return super.handleMessage(message);
+	}
+
+	@Kroll.method
+	public void start() {
+		if (TiApplication.isUIThread()) {
+			getView().startAnimation();
+		} else {
+			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STARTANIMATION));
+		}
+	}
+
+	@Kroll.method
+	public void resume() {
+		if (TiApplication.isUIThread()) {
+			getView().resumeAnimation();
+		} else {
+			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_RESUMEANIMATION));
+		}
+	}
+
+	@Kroll.method
+	public void stop() {
+		if (TiApplication.isUIThread()) {
+			getView().stopAnimation();
+		} else {
+			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STOPANIMATION));
+		}
+	}
+
+	@Kroll.method
+	public void pause() {
+		if (TiApplication.isUIThread()) {
+			getView().pauseAnimation();
+		} else {
+			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_PAUSEANIMATION));
+		}
+	}
+
+	@Kroll.setProperty @Kroll.method
+	public void setProgress(float val) {
+		getView().setProgress(val);
+	}
+
+	@Kroll.getProperty @Kroll.method
+	public float getProgress() {
+		return getView().getProgress();
 	}
 }
