@@ -100,7 +100,7 @@
     [self rememberProxy:viewProxy];
     
     [[self animationView] addSubview:[viewProxy view]
-                        toLayerNamed:layerName];
+                        toLayerNamed:layerName applyTransform:NO];
 }
 
 - (void)setProgress:(id)progress
