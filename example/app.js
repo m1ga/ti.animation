@@ -18,7 +18,7 @@ var lbl = Ti.UI.createLabel({
 
 var offset = 0;
 
-var view = TiAnimation.createLottieView({
+var lottieView = TiAnimation.createLottieView({
     file: 'sample_lottie.json',
     loop: false,
     bottom: 300,
@@ -29,7 +29,7 @@ var view = TiAnimation.createLottieView({
     autoStart: false
 });
 
-var view2 = TiAnimation.createKeyframeView({
+var keyframeView = TiAnimation.createKeyframeView({
     file: 'sample_keyframes.json',
     bottom: 100,
     width: 150,
@@ -52,8 +52,8 @@ function onUpdate(e){
 
 slider.addEventListener('change', seekToProgress);
 
-win.add(view);
-win.add(view2);
+win.add(lottieView);
+win.add(keyframeView);
 win.add(lbl);
 
 win.add(createButtonWithAction('Start animation', startAnimation));
@@ -62,11 +62,11 @@ win.add(createButtonWithAction('Resume animation', resumeAnimation));
 win.add(createButtonWithAction('Double speed', doubleSpeed));
 
 function onOpen(e) {
-    var dur = (isAndroid) ? view.getDuration() : (Math.floor(view.getDuration() * 1000));
+    var dur = (isAndroid) ? lottieView.getDuration() : (Math.floor(lottieView.getDuration() * 1000));
     lbl.text = "Lottie: Duration: " + dur + "ms\n";
 
     if (isAndroid) {
-        lbl.text += "Keyframe: Frame count: " + view2.getFrameCount() + " - Frame rate: " + view2.getFrameRate();
+        lbl.text += "Keyframe: Frame count: " + keyframeView.getFrameCount() + " - Frame rate: " + keyframeView.getFrameRate();
     }
 }
 
@@ -83,12 +83,12 @@ if (isAndroid) {
 }
 
 function doubleSpeed(e) {
-    view.setSpeed(2);
+    lottieView.setSpeed(2);
 }
 
 function seekToProgress(e) {
-    view.setProgress(e.value);
-    view2.seekToProgress(e.value);
+    lottieView.setProgress(e.value);
+    keyframeView.seekToProgress(e.value);
 }
 
 function createButtonWithAction(title, action) {
@@ -111,16 +111,16 @@ function createButtonWithAction(title, action) {
 }
 
 function startAnimation() {
-    view.start();
-    view2.start();
+    lottieView.start();
+    keyframeView.start();
 }
 
 function pauseAnimation() {
-    view.pause();
-    view2.pause();
+    lottieView.pause();
+    keyframeView.pause();
 }
 
 function resumeAnimation() {
-    // view.resume();
-    view2.resume();
+    // lottieView.resume();
+    keyframeView.resume();
 }
