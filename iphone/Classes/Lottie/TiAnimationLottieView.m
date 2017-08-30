@@ -47,11 +47,8 @@
         [_animationView setFrame:[self bounds]];
         
         [self addSubview:_animationView];
-        [self log:@"AnimationView initialized." forLevel:@"trace"];
         
         if ([TiUtils boolValue:autoStart def:NO]) {
-            [self log:@"Autoplaying animation.." forLevel:@"trace"];
-            
             [[self animationView] play];
         }
     }
