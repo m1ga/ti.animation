@@ -145,6 +145,11 @@ public class LottieViewProxy extends TiViewProxy
 	}
 
 	@Kroll.setProperty @Kroll.method
+	public void setText(String layer, String text) {
+		getView().setText(layer, text);
+	}
+
+	@Kroll.setProperty @Kroll.method
 	public void setProgress(float val) {
 		getView().setProgress(val);
 	}

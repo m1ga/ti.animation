@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.content.res.Resources;
 import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.TextDelegate;
 import com.airbnb.lottie.*;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -47,6 +48,7 @@ public class LottieView extends TiUIView {
 	private KrollFunction callbackReady = null;
 	private float initialDuration = 0;
 	private ValueAnimator va = null;
+	private TextDelegate delegate = new TextDelegate(lottieView);
 
 	public LottieView(TiViewProxy proxy) {
 		super(proxy);
@@ -169,8 +171,8 @@ public class LottieView extends TiUIView {
 				@Override
 				public void onCompositionLoaded(LottieComposition composition) {
 					lottieView.setComposition(composition);
-					lottieView.setImageAssetsFolder(TiConvert.toString(proxy.getProperty("assetFolder")));
-
+					lottieView.setImageAssetsFolder("Resources/" + TiConvert.toString(proxy.getProperty("assetFolder")));
+					lottieView.setTextDelegate(delegate);
 					lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
 					lottieView.addAnimatorListener(new AnimatorListener());
 
@@ -324,9 +326,12 @@ public class LottieView extends TiUIView {
 		}
 	}
 
-	
 	public void setProgress(float val) {
 		lottieView.setProgress(val);
+	}
+
+	public void setText(String layer, String text) {
+		delegate.setText(layer, text);
 	}
 
 	public float getProgress() {
