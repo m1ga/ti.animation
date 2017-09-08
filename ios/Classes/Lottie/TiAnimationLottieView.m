@@ -97,10 +97,11 @@
   [[self animationView] pause];
 }
 
-- (void)addView:(TiUIView *)view toLayer:(NSString *)layer
+- (void)addView:(UIView *)view toLayer:(NSString *)layer applyTransform:(BOOL)applyTransform
 {
   [[self animationView] addSubview:view
-                      toLayerNamed:layer];
+                      toLayerNamed:layer
+                    applyTransform:applyTransform];
 }
 
 - (BOOL)isPlaying

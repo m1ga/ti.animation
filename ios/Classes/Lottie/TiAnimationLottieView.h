@@ -16,7 +16,7 @@
 - (void)play;
 - (void)playWithCompletionHandler:(KrollCallback *)callback;
 - (void)pause;
-- (void)addView:(UIView *)view toLayer:(NSString *)layer;
+- (void)addView:(UIView *)view toLayer:(NSString *)layer applyTransform:(BOOL)applyTransform;
 
 - (void)setProgress:(CGFloat)progress;
 - (void)setSpeed:(CGFloat)speed;

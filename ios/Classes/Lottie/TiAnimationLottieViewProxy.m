@@ -109,13 +109,15 @@
 
   id viewProxy = [args objectForKey:@"view"];
   id layerName = [args objectForKey:@"layer"];
+  id applyTransform = [args objectForKey:@"applyTransform"];
 
   ENSURE_TYPE(viewProxy, TiViewProxy);
   ENSURE_TYPE(layerName, NSString);
+  ENSURE_TYPE_OR_NIL(applyTransform, NSNumber);
 
   [self rememberProxy:viewProxy];
 
-  [[self animationView] addView:[viewProxy view] toLayer:layerName];
+  [[self animationView] addView:[viewProxy view] toLayer:layerName applyTransform:[TiUtils boolValue:applyTransform def:NO]];
 }
 
 @end
