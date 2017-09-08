@@ -6,9 +6,9 @@ version: 1.1.1
 apiversion: 2
 architectures: armv7 arm64 i386 x86_64
 description: ti.animation
-author: Hans Knoechel
+author: Hans Knöchel
 license: Apache 2
-copyright: Copyright (c) 2017 by Hans Knoechel
+copyright: Copyright (c) 2017-present by Hans Knöchel, Michael Gangolf
 
 # these should not be edited
 name: ti.animation
