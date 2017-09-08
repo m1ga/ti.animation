@@ -7,3 +7,4 @@ android/example
 android/dist
 android/java-sources.txt
 android/build.properties
+ios/ti.animation.xcodeproj/project.xcworkspace/xcuserdata/*
