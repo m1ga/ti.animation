@@ -21,7 +21,7 @@ import org.appcelerator.kroll.common.AsyncResult;
 
 @Kroll.proxy(creatableInModule=TiAnimationModule.class, propertyAccessors = 
 	{ "file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update", "autoStart", 
-	"loop", "assetFolder", "width", "height", "duration", "paused", "speed"})
+	"loop", "assetFolder", "width", "height", "duration", "paused", "speed", "startFrame", "endFrame"})
 
 public class LottieViewProxy extends TiViewProxy
 {
@@ -52,6 +52,8 @@ public class LottieViewProxy extends TiViewProxy
 		defaultValues.put("loop", false);
 		defaultValues.put("assetFolder", "");
 		defaultValues.put("speed", 1);
+		defaultValues.put("startFrame", -1);
+		defaultValues.put("endFrame", -1);
 		defaultValues.put("duration", 0);
 		defaultValues.put("file", "");
 		defaultValues.put("paused", false);
@@ -79,7 +81,9 @@ public class LottieViewProxy extends TiViewProxy
 				return true;
 			}
 			case MSG_STARTANIMATION: {
-				getView().startAnimation();
+				result = (AsyncResult)message.obj;
+				int[] frames = (int[]) result.getArg();
+				getView().startAnimation(frames[0], frames[1]);
 				result.setResult(null);
 				return true;
 			}
@@ -104,11 +108,11 @@ public class LottieViewProxy extends TiViewProxy
 	}
 
 	@Kroll.method
-	public void start() {
+	public void start(@Kroll.argument(optional=true) int fromFrame, @Kroll.argument(optional=true) int endFrame) {
 		if (TiApplication.isUIThread()) {
-			getView().startAnimation();
+			getView().startAnimation(fromFrame, endFrame);
 		} else {
-			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STARTANIMATION));
+			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STARTANIMATION), new int[]{fromFrame, endFrame});
 		}
 	}
 
@@ -137,6 +141,11 @@ public class LottieViewProxy extends TiViewProxy
 		} else {
 			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_PAUSEANIMATION));
 		}
+	}
+
+	@Kroll.setProperty @Kroll.method
+	public void setText(String layer, String text) {
+		getView().setText(layer, text);
 	}
 
 	@Kroll.setProperty @Kroll.method
