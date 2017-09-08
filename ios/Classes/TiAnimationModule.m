@@ -14,23 +14,23 @@
 
 #pragma mark Internal
 
--(id)moduleGUID
+- (id)moduleGUID
 {
-	return @"1fcfea69-bbbf-42f8-b738-9545b5dda74d";
+  return @"1fcfea69-bbbf-42f8-b738-9545b5dda74d";
 }
 
--(NSString*)moduleId
+- (NSString *)moduleId
 {
-	return @"ti.animation";
+  return @"ti.animation";
 }
 
 #pragma mark Lifecycle
 
--(void)startup
+- (void)startup
 {
-	[super startup];
+  [super startup];
 
-	NSLog(@"[DEBUG] %@ loaded",self);
+  NSLog(@"[DEBUG] %@ loaded", self);
 }
 
 MAKE_SYSTEM_PROP(CONTENT_MODE_ASPECT_FIT, UIViewContentModeScaleAspectFit);

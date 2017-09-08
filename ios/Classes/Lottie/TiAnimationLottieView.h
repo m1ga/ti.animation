@@ -8,17 +8,15 @@
 
 @class LOTAnimationView;
 
-
 @interface TiAnimationLottieView : TiUIView {
-
 }
 
-@property(nonatomic, retain) LOTAnimationView* animationView;
+@property (nonatomic, retain) LOTAnimationView *animationView;
 
 - (void)play;
-- (void)playWithCompletionHandler:(KrollCallback*)callback;
+- (void)playWithCompletionHandler:(KrollCallback *)callback;
 - (void)pause;
-- (void)addView:(UIView*)view toLayer:(NSString*)layer;
+- (void)addView:(UIView *)view toLayer:(NSString *)layer;
 
 - (void)setProgress:(CGFloat)progress;
 - (void)setSpeed:(CGFloat)speed;

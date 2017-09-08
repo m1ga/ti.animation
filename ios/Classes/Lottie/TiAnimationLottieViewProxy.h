@@ -4,16 +4,15 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-#import "TiViewProxy.h"
 #import "TiAnimationLottieView.h"
+#import "TiViewProxy.h"
 
 @interface TiAnimationLottieViewProxy : TiViewProxy {
-    
 }
 
 #pragma mark Methods
 
-- (TiAnimationLottieView*)animationView;
+- (TiAnimationLottieView *)animationView;
 
 - (void)start:(id)args;
 - (void)pause:(id)unused;

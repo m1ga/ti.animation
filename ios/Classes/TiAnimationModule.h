@@ -7,8 +7,7 @@
 
 #import "TiModule.h"
 
-@interface TiAnimationModule : TiModule
-{
+@interface TiAnimationModule : TiModule {
 }
 
 @end

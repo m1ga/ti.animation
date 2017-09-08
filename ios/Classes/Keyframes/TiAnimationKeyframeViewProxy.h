@@ -4,15 +4,15 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-#import "TiViewProxy.h"
 #import "KFVector.h"
 #import "KFVectorLayer.h"
+#import "TiViewProxy.h"
 
 /**
  @discussion The main class to execute operation on the vector layer.
  */
 @interface TiAnimationKeyframeViewProxy : TiViewProxy {
-    KFVectorLayer *vectorLayer;
+  KFVectorLayer *vectorLayer;
 }
 
 /**
