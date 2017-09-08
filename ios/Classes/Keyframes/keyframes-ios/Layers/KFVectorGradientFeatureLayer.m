@@ -60,7 +60,7 @@ static void setupGradientLayerWithEffect(CAGradientLayer *gradientLayer, KFVecto
     [self addSublayer:_gradientLayer];
     [self _addAnimations];
   } else {
-    NSAssert(@"Unknown gradient type passed in: %@", feature.gradientEffect.gradientTypeString);
+    NSLog(@"Unknown gradient type passed in: %@", feature.gradientEffect.gradientTypeString);
   }
 }
 
