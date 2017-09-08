@@ -7,18 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#import <TargetConditionals.h>
-
-#if TARGET_OS_OSX
-
-#import <Foundation/Foundation.h>
-
-@interface NSValue (NSValue_PlatformCompatibility)
-
-@property (readonly) CGPoint CGPointValue;
-
-+ (instancetype)valueWithCGPoint:(NSPoint)point;
-
-@end
-
-#endif
+#import <Keyframes/KFVector.h>
+#import <Keyframes/KFVectorParsingHelper.h>
+#import <Keyframes/KFVectorLayer.h>
+#import <Keyframes/KFUtilities.h>

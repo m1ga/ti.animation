@@ -5,12 +5,10 @@
 # LICENSE file in the root directory of this source tree. An additional grant
 # of patent rights can be found in the PATENTS file in the same directory.
 
-KFVector includes(RMCoding) { CGSize canvasSize;
-   NSString *name;
-   NSString *formatVersion;
-   NSInteger key;
-   NSUInteger frameRate;
-   NSUInteger animationFrameCount;
-   NSArray *features;
-   NSArray *animationGroups;
+KFVectorAnimation includes(RMCoding) {
+   NSString *property;
+   # @deprecated since 1.0
+   CGPoint anchor;
+   NSArray *keyValues;
+   NSArray *timingCurves;
 }

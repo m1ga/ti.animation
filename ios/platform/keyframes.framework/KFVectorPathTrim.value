@@ -5,9 +5,11 @@
 # LICENSE file in the root directory of this source tree. An additional grant
 # of patent rights can be found in the PATENTS file in the same directory.
 
-KFVectorGradientEffect includes(RMCoding) {
-  NSString *gradientTypeString;
+KFVectorPathTrim includes(RMCoding) {
   %import library=keyframes name=KFVectorAnimation
-  KFVectorAnimation *colorStart;
-  KFVectorAnimation *colorEnd;
+  KFVectorAnimation *pathTrimStart;
+  %import library=keyframes name=KFVectorAnimation
+  KFVectorAnimation *pathTrimEnd;
+  %import library=keyframes name=KFVectorAnimation
+  KFVectorAnimation *pathTrimOffset;
 }

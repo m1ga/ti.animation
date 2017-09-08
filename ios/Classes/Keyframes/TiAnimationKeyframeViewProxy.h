@@ -1,18 +1,15 @@
 /**
  * Ti.Keyframes
- * Copyright (c) 2016 by Hans Knöchel, Inc. All Rights Reserved.
+ * Copyright (c) 2017-present by Hans Knöchel. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-#import "KFVector.h"
-#import "KFVectorLayer.h"
 #import "TiViewProxy.h"
 
 /**
  @discussion The main class to execute operation on the vector layer.
  */
 @interface TiAnimationKeyframeViewProxy : TiViewProxy {
-  KFVectorLayer *vectorLayer;
 }
 
 /**

@@ -7,22 +7,13 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#import "NSValue+PlatformCompatibility.h"
+#import <keyframes/KFUtilities.h>
 
-#if TARGET_OS_OSX
+@class KFVector;
 
-@implementation NSValue (NSValue_PlatformCompatibility)
+KF_EXTERN_C_BEGIN
 
-+ (instancetype)valueWithCGPoint:(NSPoint)point
-{
-  return [self valueWithPoint:point];
-}
+KFVector *KFVectorFromDictionary(NSDictionary *faceDictionary);
+KFVector *KFVectorFromDictionaryInRange(NSDictionary *faceDictionary, NSUInteger fromFrame, NSUInteger toFrame);
 
-- (CGPoint)CGPointValue
-{
-  return [self pointValue];
-}
-
-@end
-
-#endif
+KF_EXTERN_C_END
