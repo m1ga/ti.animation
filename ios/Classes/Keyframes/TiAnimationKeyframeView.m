@@ -6,6 +6,7 @@
  */
 #import "TiAnimationKeyframeView.h"
 #import "TiAnimationKeyframeViewProxy.h"
+#import "KFVectorParsingHelper.h"
 
 @implementation TiAnimationKeyframeView
 

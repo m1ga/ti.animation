@@ -1,5 +1,0 @@
-framework module Keyframes {
-    umbrella header "Keyframes.h"
-    export *
-    module * { export * }
-}

@@ -7,7 +7,11 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-#import <Keyframes/KFVector.h>
-#import <Keyframes/KFVectorParsingHelper.h>
-#import <Keyframes/KFVectorLayer.h>
-#import <Keyframes/KFUtilities.h>
+#import "Compatibility.h"
+
+@interface UIBezierPath (KFVectorLayer)
+
+/// Returns the trimmed path, start should be from 0..1 and end should be from 0..1
+- (UIBezierPath *)pathTrimFrom:(CGFloat)start to:(CGFloat)end;
+
+@end

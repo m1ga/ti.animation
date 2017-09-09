@@ -5,7 +5,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 #import "TiUIView.h"
-#import <Keyframes/Keyframes.h>
+#import "KFVectorLayer.h"
 
 @interface TiAnimationKeyframeView : TiUIView
 

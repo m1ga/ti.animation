@@ -7,8 +7,7 @@
 #import "TiAnimationKeyframeViewProxy.h"
 #import "TiAnimationKeyframeView.h"
 #import "TiUtils.h"
-
-#import <Keyframes/Keyframes.h>
+#import "KFVectorLayer.h"
 
 @implementation TiAnimationKeyframeViewProxy
 
