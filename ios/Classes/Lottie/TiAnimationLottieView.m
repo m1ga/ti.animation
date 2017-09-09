@@ -1,5 +1,5 @@
 /**
- * Appcelerator Titanium Mobile
+ * Ti.Lottie
  * Copyright (c) 2017-present by Hans Knöchel. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
@@ -88,14 +88,17 @@
 
 #pragma mark Public APIs
 
-- (void)play
-{
-  [[self animationView] play];
-}
-
 - (void)playWithCompletionHandler:(KrollCallback *)callback
 {
   [[self animationView] playWithCompletion:^(BOOL animationFinished) {
+    if ([[self proxy] _hasListeners:@"complete"]) {
+      [[self proxy] fireEvent:@"complete" withObject:@{@"animationFinished": NUMBOOL(TRUE)}];
+    }
+    
+    if (callback == nil) {
+      return;
+    }
+
     NSDictionary *propertiesDict = @{ @"finished" : NUMBOOL(animationFinished) };
     NSArray *invocationArray = [[NSArray alloc] initWithObjects:&propertiesDict count:1];
 
@@ -106,6 +109,11 @@
 - (void)pause
 {
   [[self animationView] pause];
+}
+
+- (void)stop
+{
+  [[self animationView] stop];
 }
 
 - (void)addView:(UIView *)view toLayer:(NSString *)layer applyTransform:(BOOL)applyTransform
@@ -120,22 +128,22 @@
   return [[self animationView] isAnimationPlaying];
 }
 
-- (CGFloat)getDuration
+- (CGFloat)duration
 {
   return [[self animationView] animationDuration];
 }
 
-- (CGFloat)getProgress
+- (CGFloat)progress
 {
   return [[self animationView] animationProgress];
 }
 
-- (CGFloat)getSpeed
+- (CGFloat)speed
 {
   return [[self animationView] animationSpeed];
 }
 
-- (BOOL)getLoop
+- (BOOL)loop
 {
   return [[self animationView] loopAnimation];
 }

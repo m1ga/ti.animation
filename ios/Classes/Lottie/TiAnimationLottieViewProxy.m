@@ -1,5 +1,5 @@
 /**
- * Appcelerator Titanium Mobile
+ * Ti.Lottie
  * Copyright (c) 2017-present by Hans Knöchel. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
@@ -30,18 +30,23 @@
 
   if ([args count] == 1) {
     KrollCallback *callback = nil;
-
     ENSURE_ARG_AT_INDEX(callback, args, 0, KrollCallback);
 
     [[self animationView] playWithCompletionHandler:callback];
   } else {
-    [[self animationView] play];
+    [[self animationView] playWithCompletionHandler:nil];
   }
 }
 
 - (void)resume:(id)unused
 {
   [self start:nil];
+}
+
+- (void)stop:(id)unused
+{
+  ENSURE_UI_THREAD(stop, unused);
+  [[self animationView] stop];
 }
 
 - (void)pause:(id)unused
@@ -61,7 +66,7 @@
 
 - (id)progress
 {
-  return NUMFLOAT([[self animationView] getProgress]);
+  return NUMFLOAT([[self animationView] progress]);
 }
 
 - (void)setSpeed:(id)speed
@@ -75,7 +80,7 @@
 
 - (id)speed
 {
-  return NUMFLOAT([[self animationView] getSpeed]);
+  return NUMFLOAT([[self animationView] speed]);
 }
 
 - (void)setLoop:(id)loop
@@ -89,7 +94,7 @@
 
 - (id)loop
 {
-  return NUMBOOL([[self animationView] getLoop]);
+  return NUMBOOL([[self animationView] loop]);
 }
 
 - (id)isPlaying:(id)unused
@@ -99,7 +104,7 @@
 
 - (id)duration
 {
-  return NUMFLOAT([[self animationView] getDuration]);
+  return NUMFLOAT([[self animationView] duration]);
 }
 
 - (void)addViewToLayer:(id)args
