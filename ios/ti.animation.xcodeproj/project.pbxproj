@@ -451,8 +451,8 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				DB9C57911E48BA450010BF6F /* Keyframes */,
 				DB9C56FE1E48B77D0010BF6F /* Lottie */,
+				DB9C57911E48BA450010BF6F /* Keyframes */,
 				24DE9E0F11C5FE74003F90F6 /* TiAnimationModuleAssets.h */,
 				24DE9E1011C5FE74003F90F6 /* TiAnimationModuleAssets.m */,
 				24DD6CF71134B3F500162E58 /* TiAnimationModule.h */,

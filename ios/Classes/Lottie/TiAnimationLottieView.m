@@ -30,6 +30,10 @@
     }
 
     _animationView = [LOTAnimationView animationFromJSON:[self loadAnimationFromJSON:file]];
+    
+    // Enable click-events
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickView:)];
+    [_animationView addGestureRecognizer:tapGestureRecognizer];
 
     // Handle content mode
     NSArray *validContentModes = @[ NUMINT(UIViewContentModeScaleAspectFit), NUMINT(UIViewContentModeScaleAspectFill), NUMINT(UIViewContentModeScaleToFill) ];
@@ -54,6 +58,13 @@
   }
 
   return _animationView;
+}
+
+- (void)didClickView:(UIGestureRecognizer *)sender
+{
+  if ([[self proxy] _hasListeners:@"click"]) {
+    [[self proxy] fireEvent:@"click"];
+  }
 }
 
 - (NSDictionary *)loadAnimationFromJSON:(NSString *)file
