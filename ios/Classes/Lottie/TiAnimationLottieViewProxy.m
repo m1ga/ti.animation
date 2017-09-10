@@ -33,6 +33,16 @@
     ENSURE_ARG_AT_INDEX(callback, args, 0, KrollCallback);
 
     [[self animationView] playWithCompletionHandler:callback];
+  } else if ([args count] >= 2) {
+    NSNumber *startFrame;
+    NSNumber *endFrame;
+    KrollCallback *callback;
+    
+    ENSURE_ARG_AT_INDEX(startFrame, args, 0, NSNumber);
+    ENSURE_ARG_AT_INDEX(endFrame, args, 1, NSNumber);
+    ENSURE_ARG_OR_NIL_AT_INDEX(callback, args, 2, KrollCallback);
+    
+    [[self animationView] playFromFrame:startFrame toFrame:endFrame completion:callback];
   } else {
     [[self animationView] playWithCompletionHandler:nil];
   }

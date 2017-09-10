@@ -91,18 +91,14 @@
 - (void)playWithCompletionHandler:(KrollCallback *)callback
 {
   [[self animationView] playWithCompletion:^(BOOL animationFinished) {
-    if ([[self proxy] _hasListeners:@"complete"]) {
-      [[self proxy] fireEvent:@"complete" withObject:@{@"animationFinished": NUMBOOL(TRUE)}];
-    }
-    
-    if (callback == nil) {
-      return;
-    }
+    [self processCompleteEventWith:callback animationFinished:animationFinished];
+  }];
+}
 
-    NSDictionary *propertiesDict = @{ @"finished" : NUMBOOL(animationFinished) };
-    NSArray *invocationArray = [[NSArray alloc] initWithObjects:&propertiesDict count:1];
-
-    [callback call:invocationArray thisObject:[self proxy]];
+- (void)playFromFrame:(NSNumber *)fromFrame toFrame:(NSNumber *)toFrame completion:(KrollCallback *)callback
+{
+  [[self animationView] playFromFrame:fromFrame toFrame:toFrame withCompletion:^(BOOL animationFinished) {
+    [self processCompleteEventWith:callback animationFinished:animationFinished];
   }];
 }
 
@@ -161,6 +157,22 @@
 - (void)setLoop:(BOOL)loop
 {
   [[self animationView] setLoopAnimation:loop];
+}
+
+- (void)processCompleteEventWith:(KrollCallback *)callback animationFinished:(BOOL)animationFinished
+{
+  if ([[self proxy] _hasListeners:@"complete"]) {
+    [[self proxy] fireEvent:@"complete" withObject:@{@"animationFinished": NUMBOOL(TRUE)}];
+  }
+  
+  if (callback == nil) {
+    return;
+  }
+  
+  NSDictionary *propertiesDict = @{ @"finished" : NUMBOOL(animationFinished) };
+  NSArray *invocationArray = [[NSArray alloc] initWithObjects:&propertiesDict count:1];
+  
+  [callback call:invocationArray thisObject:[self proxy]];
 }
 
 #pragma mark Layout utilities
