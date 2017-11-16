@@ -35,7 +35,7 @@ import java.util.HashMap;
 import org.appcelerator.kroll.KrollFunction;
 import java.lang.Float;
 
-public class LottieView extends TiUIView {
+public class LottieView extends TiUIView implements OnCompositionLoadedListener {
 	
 	private static final String LCAT = "LottieViewProxy";
 	private static final boolean DBG = TiConfig.LOGD;
@@ -117,12 +117,14 @@ public class LottieView extends TiUIView {
 			proxy.setProperty("duration", (initialDuration / TiConvert.toFloat(d.get("speed"))));
 		}
 
-		if (d.containsKey("file")) {
+		if (d.containsKey("file") && d.getString("file") != "") {
 			if (TiApplication.isUIThread()) {
 				loadFile(d.getString("file"));
 			} else {
 				TiMessenger.sendBlockingMainMessage(proxy.getMainHandler().obtainMessage(LottieViewProxy.MSG_LOADFILE, d.getString("file")));
 			}
+		} else if (d.containsKey("json")) {
+			loadJson(d.getString("json"));
 		}
 	}
 
@@ -149,6 +151,53 @@ public class LottieView extends TiUIView {
 		}
 	}
 
+	private void parseJson(String json) {
+		try {
+			JSONObject jsonObject = new JSONObject(json);
+			proxy.setProperty("width", jsonObject.optInt("w", 0));
+			proxy.setProperty("height", jsonObject.optInt("h", 0));
+		} catch (Exception e) {
+			Log.e(LCAT, "Couldn't read width/height");
+		}
+	}
+
+	private void loadJson(String jsonString) {
+		try {
+			parseJson(jsonString);
+			JSONObject jsonObject = new JSONObject(jsonString);
+			LottieComposition.Factory.fromJson(resources, jsonObject, this);
+		} catch (Exception e) {
+			Log.e(LCAT, "Could not parse JSON string");
+		}
+	}
+
+
+	@Override
+	public void onCompositionLoaded(LottieComposition composition) {
+		lottieView.setComposition(composition);
+		lottieView.setImageAssetsFolder("Resources/" + TiConvert.toString(proxy.getProperty("assetFolder")));
+		lottieView.setTextDelegate(delegate);
+		lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
+		lottieView.addAnimatorListener(new AnimatorListener());
+
+		initialDuration = lottieView.getDuration();
+		if (TiConvert.toFloat(proxy.getProperty("speed")) == 1.0f) {
+			proxy.setProperty("duration", initialDuration);
+		} else {
+			proxy.setProperty("duration", (initialDuration / TiConvert.toFloat(proxy.getProperty("speed"))));
+		}
+		if (TiConvert.toBoolean(proxy.getProperty("loop"))) {
+			lottieView.loop(true);
+		}
+		if (TiConvert.toBoolean(proxy.getProperty("autoStart"))) {
+			startAnimation(TiConvert.toInt(proxy.getProperty("startFrame")), TiConvert.toInt(proxy.getProperty("endFrame")));
+		}
+		if (callbackReady != null) {
+			HashMap<String,Object> event = new HashMap<String, Object>();
+			callbackReady.call(proxy.getKrollObject(), event);
+		}
+	}
+
 	public void loadFile(String f) {
 		String url = proxy.resolveUrl(null, f);
 		TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);
@@ -160,42 +209,13 @@ public class LottieView extends TiUIView {
 				byte[] buffer = new byte[size];
 				stream.read(buffer);
 				String json = new String(buffer, "UTF-8");
-				JSONObject jsonObject = new JSONObject(json);
-				proxy.setProperty("width", jsonObject.optInt("w", 0));
-				proxy.setProperty("height", jsonObject.optInt("h", 0));
-			} catch (Exception e) {
-				Log.e(LCAT, "Couldn't read width/height");
+				parseJson(json);
+				LottieComposition.Factory.fromAssetFileName(TiApplication.getInstance(), url.replaceAll("file:///android_asset/", ""), this);
+			} catch (Exception e){
+				Log.e(LCAT, "Error opening file " + file.name());
 			}
-
-			LottieComposition.Factory.fromAssetFileName(TiApplication.getInstance(), url.replaceAll("file:///android_asset/", ""), new OnCompositionLoadedListener() {
-				@Override
-				public void onCompositionLoaded(LottieComposition composition) {
-					lottieView.setComposition(composition);
-					lottieView.setImageAssetsFolder("Resources/" + TiConvert.toString(proxy.getProperty("assetFolder")));
-					lottieView.setTextDelegate(delegate);
-					lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
-					lottieView.addAnimatorListener(new AnimatorListener());
-
-					initialDuration = lottieView.getDuration();
-					if (TiConvert.toFloat(proxy.getProperty("speed")) == 1.0f) {
-						proxy.setProperty("duration", initialDuration);
-					} else {
-						proxy.setProperty("duration", (initialDuration / TiConvert.toFloat(proxy.getProperty("speed"))));
-					}
-					if (TiConvert.toBoolean(proxy.getProperty("loop"))) {
-						lottieView.loop(true);
-					}
-					if (TiConvert.toBoolean(proxy.getProperty("autoStart"))) {
-						startAnimation(TiConvert.toInt(proxy.getProperty("startFrame")), TiConvert.toInt(proxy.getProperty("endFrame")));
-					}
-					if (callbackReady != null) {
-						HashMap<String,Object> event = new HashMap<String, Object>();
-						callbackReady.call(proxy.getKrollObject(), event);
-					}
-				}
-			});
 		} else {
-			Log.e(LCAT, "File "+file.name()+" not found!");
+			Log.e(LCAT, "File " + file.name() + " not found!");
 		}
 	}
 
@@ -251,10 +271,10 @@ public class LottieView extends TiUIView {
 
 		if (TiConvert.toFloat(proxy.getProperty("speed")) == 1.0f) {
 			if (startFrame != -1 && endFrame != 1) {
-				lottieView.playAnimation(startFrame, endFrame);
-			} else {
-				lottieView.playAnimation();
+				lottieView.setMinFrame(startFrame);
+				lottieView.setMaxFrame(endFrame);
 			}
+			lottieView.playAnimation();
 			va = null;
 		} else {
 			va = ValueAnimator.ofFloat(0f, 1f);

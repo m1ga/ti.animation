@@ -21,7 +21,8 @@ import org.appcelerator.kroll.common.AsyncResult;
 
 @Kroll.proxy(creatableInModule=TiAnimationModule.class, propertyAccessors = 
 	{ "file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update", "autoStart", 
-	"loop", "assetFolder", "width", "height", "duration", "paused", "speed", "startFrame", "endFrame"})
+	"loop", "assetFolder", "width", "height", "duration", "paused", "speed", "startFrame", "endFrame",
+	"json"})
 
 public class LottieViewProxy extends TiViewProxy
 {
@@ -56,6 +57,7 @@ public class LottieViewProxy extends TiViewProxy
 		defaultValues.put("endFrame", -1);
 		defaultValues.put("duration", 0);
 		defaultValues.put("file", "");
+		defaultValues.put("json", "");
 		defaultValues.put("paused", false);
 	}
 
