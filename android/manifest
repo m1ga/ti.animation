@@ -2,17 +2,17 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.3.0
-apiversion: 3
-architectures: armeabi-v7a x86
+version: 2.0.0
+apiversion: 4
+architectures: arm64-v8a armeabi-v7a x86
 description: ti.animation
-author: Your Name
-license: Specify your license
-copyright: Copyright (c) 2016 by Your Company
+author: Michael Gangolf
+license: Apache 2.0
+copyright: Copyright (c) 2016-present by Michael Gangolf
 
 # these should not be edited
 name: ti.animation
 moduleid: ti.animation
 guid: 0af214dd-5fa0-4cc7-b8c3-268fb78a03d5
 platform: android
-minsdk: 6.0.0.GA
+minsdk: 7.0.0
