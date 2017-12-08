@@ -25,9 +25,8 @@
   return self;
 }
 
-
 - (void)_mapFromJSON:(NSDictionary *)jsonDictionary
-      withAssetGroup:(LOTAssetGroup * _Nullable)assetGroup{
+      withAssetGroup:(LOTAssetGroup * _Nullable)assetGroup {
   _referenceID = [jsonDictionary[@"id"] copy];
   
   if (jsonDictionary[@"w"]) {
@@ -51,7 +50,6 @@
     _layerGroup = [[LOTLayerGroup alloc] initWithLayerJSON:layersJSON
                                             withAssetGroup:assetGroup];
   }
-
 }
 
 @end

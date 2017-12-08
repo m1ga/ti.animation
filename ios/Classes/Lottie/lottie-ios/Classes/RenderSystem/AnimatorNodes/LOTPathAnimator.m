@@ -14,7 +14,7 @@
   LOTPathInterpolator *_interpolator;
 }
 
-- (instancetype _Nonnull )initWithInputNode:(LOTAnimatorNode *_Nullable)inputNode
+- (instancetype _Nonnull)initWithInputNode:(LOTAnimatorNode *_Nullable)inputNode
                                   shapePath:(LOTShapePath *_Nonnull)shapePath {
   self = [super initWithInputNode:inputNode keyName:shapePath.keyname];
   if (self) {
@@ -30,7 +30,6 @@
 
 - (BOOL)needsUpdateForFrame:(NSNumber *)frame {
   return [_interpolator hasUpdateForFrame:frame];
-
 }
 
 - (void)performLocalUpdate {

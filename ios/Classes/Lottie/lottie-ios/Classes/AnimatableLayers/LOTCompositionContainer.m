@@ -36,12 +36,12 @@
     } else {
       _frameOffset = @0;
     }
-    [self intializeWithChildGroup:childLayerGroup withAssetGroup:assetGroup];
+    [self initializeWithChildGroup:childLayerGroup withAssetGroup:assetGroup];
   }
   return self;
 }
 
-- (void)intializeWithChildGroup:(LOTLayerGroup *)childGroup
+- (void)initializeWithChildGroup:(LOTLayerGroup *)childGroup
                  withAssetGroup:(LOTAssetGroup *)assetGroup {
   NSMutableDictionary *childMap = [NSMutableDictionary dictionary];
   NSMutableArray *children = [NSMutableArray array];
@@ -90,7 +90,6 @@
   }
   if (ENABLE_DEBUG_LOGGING) NSLog(@"-------------------- ------------------------------- --------------------");
   if (ENABLE_DEBUG_LOGGING) NSLog(@"-------------------- ------------------------------- --------------------");
-
 }
 
 - (BOOL)setValue:(nonnull id)value
@@ -110,16 +109,16 @@
       childKey = [keypath stringByReplacingCharactersInRange:NSMakeRange(0, firstKey.length + 1) withString:@""];
     }
   }
-
+  BOOL childSet = NO;
   if (childKey) {
     for (LOTLayerContainer *child in _childLayers) {
       BOOL childHasKey = [child setValue:value forKeypath:childKey atFrame:frame];
       if (childHasKey) {
-        return childHasKey;
+        childSet = YES;
       }
     }
   }
-  return NO;
+  return childSet;
 }
 
 - (void)addSublayer:(nonnull CALayer *)subLayer
@@ -161,7 +160,9 @@
   NSString *keypath = parent;
   if (parent && self.layerName) {
     keypath = [NSString stringWithFormat:@"%@.%@", parent, self.layerName];
-  }  
+  } else if (self.layerName) {
+    keypath = self.layerName;
+  }
   for (LOTLayerContainer *layer in _childLayers) {
     [layer logHierarchyKeypathsWithParent:keypath];
   }
