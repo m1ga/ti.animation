@@ -23,6 +23,7 @@
 }
 
 #pragma mark Public APIs
+#pragma mark - Controlling
 
 - (void)start:(id)args
 {
@@ -65,11 +66,13 @@
   [[self animationView] pause];
 }
 
+#pragma mark - Properties
+
 - (void)setProgress:(id)progress
 {
   ENSURE_UI_THREAD(setProgress, progress);
   ENSURE_TYPE(progress, NSNumber);
-
+  
   [[self animationView] setProgress:[TiUtils floatValue:progress]];
   [self replaceValue:progress forKey:@"progress" notification:NO];
 }
@@ -97,7 +100,7 @@
 {
   ENSURE_UI_THREAD(setLoop, loop);
   ENSURE_TYPE(loop, NSNumber);
-
+  
   [[self animationView] setLoop:[TiUtils boolValue:loop]];
   [self replaceValue:loop forKey:@"loop" notification:NO];
 }
@@ -105,6 +108,20 @@
 - (id)loop
 {
   return NUMBOOL([[self animationView] loop]);
+}
+
+- (void)setCache:(id)cache
+{
+  ENSURE_UI_THREAD(setCache, cache);
+  ENSURE_TYPE(cache, NSNumber);
+  
+  [[self animationView] setCacheEnabled:[TiUtils boolValue:cache]];
+  [self replaceValue:cache forKey:@"cache" notification:NO];
+}
+
+- (id)cache
+{
+  return NUMBOOL([[self animationView] cacheEnabled]);
 }
 
 - (id)isPlaying:(id)unused
@@ -117,22 +134,86 @@
   return NUMFLOAT([[self animationView] duration]);
 }
 
+#pragma mark - Layers
+
 - (void)addViewToLayer:(id)args
 {
   ENSURE_UI_THREAD(addViewToLayer, args);
   ENSURE_SINGLE_ARG(args, NSDictionary);
-
+  
   id viewProxy = [args objectForKey:@"view"];
   id layerName = [args objectForKey:@"layer"];
   id applyTransform = [args objectForKey:@"applyTransform"];
-
+  
   ENSURE_TYPE(viewProxy, TiViewProxy);
   ENSURE_TYPE(layerName, NSString);
   ENSURE_TYPE_OR_NIL(applyTransform, NSNumber);
-
+  
   [self rememberProxy:viewProxy];
-
+  
   [[self animationView] addView:[viewProxy view] toLayer:layerName applyTransform:[TiUtils boolValue:applyTransform def:NO]];
+}
+
+- (void)addViewToKeypathLayer:(id)args
+{
+  ENSURE_UI_THREAD(addViewToLayer, args);
+  ENSURE_SINGLE_ARG(args, NSDictionary);
+  
+  id viewProxy = [args objectForKey:@"view"];
+  id keypathLayer = [args objectForKey:@"layer"];
+  
+  ENSURE_TYPE(viewProxy, TiViewProxy);
+  ENSURE_TYPE(keypathLayer, NSString);
+  
+  [self rememberProxy:viewProxy];
+  
+  [[self animationView] addView:[viewProxy view] toKeypathLayer:keypathLayer];
+}
+
+#pragma mark - Convert
+
+- (void)convertRectToKeyPathLayer:(id)args
+{
+  ENSURE_UI_THREAD(convertRectToKeyPathLayer, args);
+  ENSURE_SINGLE_ARG(args, NSArray);
+  
+  CGRect rect = [TiUtils rectValue:[args objectAtIndex:0]];
+  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:0]];
+  
+  [[[self animationView] animationView] convertRect:rect toKeypathLayer:keypathLayer];
+}
+
+- (void)convertPointToKeyPathLayer:(id)args
+{
+  ENSURE_UI_THREAD(convertRectToKeyPathLayer, args);
+  ENSURE_SINGLE_ARG(args, NSArray);
+  
+  CGPoint point = [TiUtils pointValue:[args objectAtIndex:0]];
+  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:0]];
+  
+  [[[self animationView] animationView] convertPoint:point toKeypathLayer:keypathLayer];
+}
+
+- (void)convertRectFromKeyPathLayer:(id)args
+{
+  ENSURE_UI_THREAD(convertRectToKeyPathLayer, args);
+  ENSURE_SINGLE_ARG(args, NSArray);
+  
+  CGRect rect = [TiUtils rectValue:[args objectAtIndex:0]];
+  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:0]];
+  
+  [[[self animationView] animationView] convertRect:rect fromKeypathLayer:keypathLayer];
+}
+
+- (void)convertPointFromKeyPathLayer:(id)args
+{
+  ENSURE_UI_THREAD(convertRectToKeyPathLayer, args);
+  ENSURE_SINGLE_ARG(args, NSArray);
+  
+  CGPoint point = [TiUtils pointValue:[args objectAtIndex:0]];
+  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:0]];
+  
+  [[[self animationView] animationView] convertPoint:point fromKeypathLayer:keypathLayer];
 }
 
 @end

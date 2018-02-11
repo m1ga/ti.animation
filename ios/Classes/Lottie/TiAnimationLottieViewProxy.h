@@ -11,26 +11,43 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TiAnimationLottieViewProxy : TiViewProxy
 
-#pragma mark Methods
+#pragma mark Module Utilities
 
 - (TiAnimationLottieView *)animationView;
+
+#pragma mark Public API's
+
+#pragma mark - Controlling
 
 - (void)start:(id __nullable)args;
 - (void)pause:(id __nullable)unused;
 - (void)resume:(id __nullable)unused;
 - (void)stop:(id __nullable)unused;
-- (void)addViewToLayer:(id)args;
 
-#pragma mark Properties
+#pragma mark - Properties
 
 - (id)progress;
 - (id)speed;
 - (id)loop;
+- (void)setCache:(id)cache;
+- (id)cache;
 - (id)duration;
 - (id)isPlaying:(id)unused;
 - (void)setProgress:(id)progress;
 - (void)setSpeed:(id)speed;
 - (void)setLoop:(id)animation;
+
+#pragma mark - Layers
+
+- (void)addViewToLayer:(id)args;
+- (void)addViewToKeypathLayer:(id)args;
+
+#pragma mark - Convert
+
+- (void)convertRectToKeyPathLayer:(id)args;
+- (void)convertPointToKeyPathLayer:(id)args;
+- (void)convertRectFromKeyPathLayer:(id)args;
+- (void)convertPointFromKeyPathLayer:(id)args;
 
 @end
 
