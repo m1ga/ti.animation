@@ -172,9 +172,9 @@
 
 #pragma mark - Convert
 
-- (void)convertRectToKeyPathLayer:(id)args
+- (void)convertRectToKeypathLayer:(id)args
 {
-  ENSURE_UI_THREAD(convertRectToKeyPathLayer, args);
+  ENSURE_UI_THREAD(convertRectToKeypathLayer, args);
   ENSURE_SINGLE_ARG(args, NSArray);
   
   CGRect rect = [TiUtils rectValue:[args objectAtIndex:0]];
@@ -183,9 +183,9 @@
   [[[self animationView] animationView] convertRect:rect toKeypathLayer:keypathLayer];
 }
 
-- (void)convertPointToKeyPathLayer:(id)args
+- (void)convertPointToKeypathLayer:(id)args
 {
-  ENSURE_UI_THREAD(convertRectToKeyPathLayer, args);
+  ENSURE_UI_THREAD(convertRectToKeypathLayer, args);
   ENSURE_SINGLE_ARG(args, NSArray);
   
   CGPoint point = [TiUtils pointValue:[args objectAtIndex:0]];
@@ -194,9 +194,9 @@
   [[[self animationView] animationView] convertPoint:point toKeypathLayer:keypathLayer];
 }
 
-- (void)convertRectFromKeyPathLayer:(id)args
+- (void)convertRectFromKeypathLayer:(id)args
 {
-  ENSURE_UI_THREAD(convertRectToKeyPathLayer, args);
+  ENSURE_UI_THREAD(convertRectToKeypathLayer, args);
   ENSURE_SINGLE_ARG(args, NSArray);
   
   CGRect rect = [TiUtils rectValue:[args objectAtIndex:0]];
@@ -205,9 +205,9 @@
   [[[self animationView] animationView] convertRect:rect fromKeypathLayer:keypathLayer];
 }
 
-- (void)convertPointFromKeyPathLayer:(id)args
+- (void)convertPointFromKeypathLayer:(id)args
 {
-  ENSURE_UI_THREAD(convertRectToKeyPathLayer, args);
+  ENSURE_UI_THREAD(convertRectToKeypathLayer, args);
   ENSURE_SINGLE_ARG(args, NSArray);
   
   CGPoint point = [TiUtils pointValue:[args objectAtIndex:0]];

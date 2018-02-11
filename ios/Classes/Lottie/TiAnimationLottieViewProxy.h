@@ -44,10 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Convert
 
-- (void)convertRectToKeyPathLayer:(id)args;
-- (void)convertPointToKeyPathLayer:(id)args;
-- (void)convertRectFromKeyPathLayer:(id)args;
-- (void)convertPointFromKeyPathLayer:(id)args;
+- (void)convertRectToKeypathLayer:(id)args;
+- (void)convertPointToKeypathLayer:(id)args;
+- (void)convertRectFromKeypathLayer:(id)args;
+- (void)convertPointFromKeypathLayer:(id)args;
 
 @end
 
