@@ -178,7 +178,7 @@
   ENSURE_SINGLE_ARG(args, NSArray);
   
   CGRect rect = [TiUtils rectValue:[args objectAtIndex:0]];
-  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:0]];
+  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:1]];
   
   [[[self animationView] animationView] convertRect:rect toKeypathLayer:keypathLayer];
 }
@@ -189,7 +189,7 @@
   ENSURE_SINGLE_ARG(args, NSArray);
   
   CGPoint point = [TiUtils pointValue:[args objectAtIndex:0]];
-  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:0]];
+  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:1]];
   
   [[[self animationView] animationView] convertPoint:point toKeypathLayer:keypathLayer];
 }
@@ -200,7 +200,7 @@
   ENSURE_SINGLE_ARG(args, NSArray);
   
   CGRect rect = [TiUtils rectValue:[args objectAtIndex:0]];
-  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:0]];
+  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:1]];
   
   [[[self animationView] animationView] convertRect:rect fromKeypathLayer:keypathLayer];
 }
@@ -211,7 +211,7 @@
   ENSURE_SINGLE_ARG(args, NSArray);
   
   CGPoint point = [TiUtils pointValue:[args objectAtIndex:0]];
-  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:0]];
+  LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:1]];
   
   [[[self animationView] animationView] convertPoint:point fromKeypathLayer:keypathLayer];
 }
