@@ -49,6 +49,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)convertRectFromKeypathLayer:(id)args;
 - (void)convertPointFromKeypathLayer:(id)args;
 
+#pragma mark - Dynamic Properties
+
+- (void)setValueDelegateForKeyPath:(id)args;
+
 @end
 
 NS_ASSUME_NONNULL_END

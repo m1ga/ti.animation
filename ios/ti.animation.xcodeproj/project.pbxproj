@@ -157,6 +157,7 @@
 		DB79E6702030CFD8009CFB39 /* LOTAnimationView_Compat.h in Headers */ = {isa = PBXBuildFile; fileRef = DB79E5EF2030CFD8009CFB39 /* LOTAnimationView_Compat.h */; };
 		DB79E6712030CFD8009CFB39 /* LOTValueCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = DB79E5F02030CFD8009CFB39 /* LOTValueCallback.h */; };
 		DB79E6722030CFD8009CFB39 /* LOTBlockCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = DB79E5F12030CFD8009CFB39 /* LOTBlockCallback.h */; };
+		DB79E6742030D7A8009CFB39 /* TiLottieConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DB79E6732030D7A8009CFB39 /* TiLottieConstants.h */; };
 		DB9C578D1E48B77D0010BF6F /* TiAnimationLottieView.h in Headers */ = {isa = PBXBuildFile; fileRef = DB9C57471E48B77D0010BF6F /* TiAnimationLottieView.h */; };
 		DB9C578E1E48B77D0010BF6F /* TiAnimationLottieView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9C57481E48B77D0010BF6F /* TiAnimationLottieView.m */; };
 		DB9C578F1E48B77D0010BF6F /* TiAnimationLottieViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = DB9C57491E48B77D0010BF6F /* TiAnimationLottieViewProxy.h */; };
@@ -363,6 +364,7 @@
 		DB79E5EF2030CFD8009CFB39 /* LOTAnimationView_Compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOTAnimationView_Compat.h; sourceTree = "<group>"; };
 		DB79E5F02030CFD8009CFB39 /* LOTValueCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOTValueCallback.h; sourceTree = "<group>"; };
 		DB79E5F12030CFD8009CFB39 /* LOTBlockCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LOTBlockCallback.h; sourceTree = "<group>"; };
+		DB79E6732030D7A8009CFB39 /* TiLottieConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiLottieConstants.h; path = Classes/TiLottieConstants.h; sourceTree = "<group>"; };
 		DB9C57471E48B77D0010BF6F /* TiAnimationLottieView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiAnimationLottieView.h; sourceTree = "<group>"; };
 		DB9C57481E48B77D0010BF6F /* TiAnimationLottieView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiAnimationLottieView.m; sourceTree = "<group>"; };
 		DB9C57491E48B77D0010BF6F /* TiAnimationLottieViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiAnimationLottieViewProxy.h; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 				24DE9E1011C5FE74003F90F6 /* TiAnimationModuleAssets.m */,
 				24DD6CF71134B3F500162E58 /* TiAnimationModule.h */,
 				24DD6CF81134B3F500162E58 /* TiAnimationModule.m */,
+				DB79E6732030D7A8009CFB39 /* TiLottieConstants.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -984,6 +987,7 @@
 				DB9EB33A1F63FFB40044FCC2 /* KFVectorBezierPathsHelper.h in Headers */,
 				DB79E60F2030CFD8009CFB39 /* LOTCircleAnimator.h in Headers */,
 				DB79E66C2030CFD8009CFB39 /* Lottie.h in Headers */,
+				DB79E6742030D7A8009CFB39 /* TiLottieConstants.h in Headers */,
 				DB79E6282030CFD8009CFB39 /* LOTShapeStroke.h in Headers */,
 				DB9EB30E1F63FFB40044FCC2 /* Compatibility.h in Headers */,
 			);

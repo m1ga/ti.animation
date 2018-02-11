@@ -9,6 +9,7 @@
 #import "Lottie.h"
 #import "TiAnimationLottieView.h"
 #import "TiUtils.h"
+#import "TiLottieConstants.h"
 
 @implementation TiAnimationLottieViewProxy
 
@@ -214,6 +215,65 @@
   LOTKeypath *keypathLayer = [LOTKeypath keypathWithString:[args objectAtIndex:1]];
   
   [[[self animationView] animationView] convertPoint:point fromKeypathLayer:keypathLayer];
+}
+
+#pragma mark - Dynamic Properties
+
+- (void)setValueDelegateForKeyPath:(id)args
+{
+  ENSURE_UI_THREAD(setValueDelegateForKeyPath, args);
+  ENSURE_SINGLE_ARG(args, NSDictionary);
+
+  id<LOTValueDelegate> valueDelegate = nil;
+  
+  NSNumber *type = [args objectForKey:@"type"];
+  id value = [args objectForKey:@"value"];
+  id keypath = [args objectForKey:@"keypath"];
+  
+  ENSURE_TYPE(type, NSNumber);
+  ENSURE_TYPE(valueDelegate, NSObject);
+  ENSURE_TYPE(keypath, NSString);
+  
+  switch ([TiUtils intValue:@"type" properties:args]) {
+    case TiLottieCallbackPathValue:
+      valueDelegate = [LOTPathValueCallback withCGPath:CGPathCreateWithRect([TiUtils rectValue:value], NULL)];
+      break;
+    case TiLottieCallbackPathBlock:
+      NSLog(@"[WARN] Not implemented, yet");
+      break;
+    case TiLottieCallbackColorValue:
+      valueDelegate = [LOTColorValueCallback withCGColor:[TiUtils colorValue:value].color.CGColor];
+      break;
+    case TiLottieCallbackColorBlock:
+      NSLog(@"[WARN] Not implemented, yet");
+      break;
+    case TiLottieCallbackNumberValue:
+      valueDelegate = [LOTNumberValueCallback withFloatValue:[TiUtils floatValue:value]];
+      break;
+    case TiLottieCallbackNumberBlock:
+      NSLog(@"[WARN] Not implemented, yet");
+      break;
+    case TiLottieCallbackPointValue:
+      valueDelegate = [LOTPointValueCallback withPointValue:[TiUtils pointValue:value]];
+      break;
+    case TiLottieCallbackPointBlock:
+      NSLog(@"[WARN] Not implemented, yet");
+      break;
+    case TiLottieCallbackSizeValue:
+      valueDelegate = [LOTSizeValueCallback
+                       withPointValue:CGSizeMake([TiUtils floatValue:[value objectForKey:@"width"]], [TiUtils floatValue:[value objectForKey:@"height"]])];
+      break;
+    case TiLottieCallbackSizeBlock:
+      NSLog(@"[WARN] Not implemented, yet");
+      break;
+  }
+  
+  if (valueDelegate == nil) {
+    NSLog(@"[ERROR] Cannot set value delegate for given type!");
+    return;
+  }
+  
+  [[[self animationView] animationView] setValueDelegate:valueDelegate forKeypath:[LOTKeypath keypathWithString:[args objectForKey:@"keypath"]]];
 }
 
 @end
