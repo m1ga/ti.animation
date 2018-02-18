@@ -164,8 +164,7 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 	private void loadJson(String jsonString) {
 		try {
 			parseJson(jsonString);
-			JSONObject jsonObject = new JSONObject(jsonString);
-			LottieComposition.Factory.fromJson(resources, jsonObject, this);
+			LottieComposition.Factory.fromJsonString(jsonString, this);
 		} catch (Exception e) {
 			Log.e(LCAT, "Could not parse JSON string");
 		}
