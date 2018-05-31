@@ -185,6 +185,24 @@ public class LottieViewProxy extends TiViewProxy
 		return getView().getProgress();
 	}
 
+	// clang-format off
+	@Kroll.setProperty
+	@Kroll.method
+	public void setFrame(int val)
+	// clang-format on
+	{
+		getView().setFrame(val);
+	}
+
+	// clang-format off
+	@Kroll.getProperty
+	@Kroll.method
+	public int getFrame()
+	// clang-format on
+	{
+		return getView().getFrame();
+	}
+
 	public void updateEvent(KrollDict event)
 	{
 		if (hasListeners("update")) {

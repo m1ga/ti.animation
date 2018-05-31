@@ -263,8 +263,9 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 		public void onAnimationRepeat(Animator animation)
 		{
 			KrollDict event = new KrollDict();
-			event.put("status", LottieViewProxy.ANIMATION_REPEAT);
-			((LottieViewProxy) proxy).updateEvent(event);
+			event.put("status", LottieViewProxy.ANIMATION_END);
+			event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
+			((LottieViewProxy) proxy).completeEvent(event);
 		}
 	}
 
@@ -312,6 +313,10 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 				@Override
 				public void onAnimationRepeat(Animator animation)
 				{
+					KrollDict event = new KrollDict();
+					event.put("status", LottieViewProxy.ANIMATION_END);
+					event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
+					((LottieViewProxy) proxy).completeEvent(event);
 				}
 				@Override
 				public void onAnimationEnd(Animator animation)
@@ -362,6 +367,11 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 		lottieView.setProgress(val);
 	}
 
+	public void setFrame(int val)
+	{
+		lottieView.setFrame(val);
+	}
+
 	public void setText(String layer, String text)
 	{
 		delegate.setText(layer, text);
@@ -370,5 +380,10 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 	public float getProgress()
 	{
 		return lottieView.getProgress();
+	}
+
+	public int getFrame()
+	{
+		return lottieView.getFrame();
 	}
 }
