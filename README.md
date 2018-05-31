@@ -2,10 +2,10 @@
 
 ![gif](animation.gif)
 
-Appcelerator Titanium Android module for [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) libray and for [Airbnb Lottie](https://github.com/airbnb/lottie-android). 
+Appcelerator Titanium Android module for [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) libray and for [Airbnb Lottie](https://github.com/airbnb/lottie-android).
 
 ## Requirements
-- Titanium Mobile SDK 6.0.0 or later
+- Titanium Mobile SDK 7.0.0 or later
 
 ## Library versions:
 The Titanium modules use external libraries
@@ -14,7 +14,7 @@ The Titanium modules use external libraries
 |---|---|---|---|
 | [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) | Android | 1.0.0 | 2017/02/11 |
 | [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) | iOS | 1.0.0 | 2017/02/11 |
-| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 2.3.1 | 2017/12/09 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 2.5.5 | 2017/03/31 |
 | [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 2.5.0 | 2018/02/11 |
 
 
