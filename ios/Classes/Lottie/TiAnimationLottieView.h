@@ -16,13 +16,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)playWithCompletionHandler:(KrollCallback * __nullable)callback;
 - (void)playFromFrame:(NSNumber *)fromFrame toFrame:(NSNumber *)toFrame completion:(KrollCallback * __nullable)callback;
+- (void)playFromProgress:(NSNumber *)fromProgress toProgress:(NSNumber *)toProgress completion:(KrollCallback * __nullable)callback;
 - (void)pause;
 - (void)stop;
 - (void)addView:(UIView *)view toLayer:(NSString *)layer applyTransform:(BOOL)applyTransform;
+- (void)addView:(UIView *)view toKeypathLayer:(NSString *)layer;
 
 - (void)setProgress:(CGFloat)progress;
 - (void)setSpeed:(CGFloat)speed;
 - (void)setLoop:(BOOL)loop;
+- (void)setCacheEnabled:(BOOL)cacheEnabled;
+- (BOOL)cacheEnabled;
 - (CGFloat)progress;
 - (CGFloat)speed;
 - (CGFloat)duration;

@@ -102,6 +102,14 @@
   }];
 }
 
+// TODO: Expose to module in next major, because we need to break the 3 parameters into a dictionary to be more flexible
+- (void)playFromProgress:(NSNumber *)fromProgress toProgress:(NSNumber *)toProgress completion:(KrollCallback *)callback
+{
+  [[self animationView] playFromProgress:fromProgress.floatValue toProgress:toProgress.floatValue withCompletion:^(BOOL animationFinished) {
+    [self processCompleteEventWith:callback animationFinished:animationFinished];
+  }];
+}
+
 - (void)pause
 {
   [[self animationView] pause];
@@ -114,9 +122,16 @@
 
 - (void)addView:(UIView *)view toLayer:(NSString *)layer applyTransform:(BOOL)applyTransform
 {
+  DEPRECATED_REPLACED(@"Lottie.addViewToLayer(view, layer)", @"2.6.0", @"Lottie.addViewToKeypathLayer(view, keypathLayer)");
+
   [[self animationView] addSubview:view
                       toLayerNamed:layer
                     applyTransform:applyTransform];
+}
+
+- (void)addView:(UIView *)view toKeypathLayer:(NSString *)layer
+{
+  [[self animationView] addSubview:view toKeypathLayer:[LOTKeypath keypathWithString:layer]];
 }
 
 - (BOOL)isPlaying
@@ -157,6 +172,16 @@
 - (void)setLoop:(BOOL)loop
 {
   [[self animationView] setLoopAnimation:loop];
+}
+
+- (void)setCacheEnabled:(BOOL)cacheEnabled
+{
+  [[self animationView] setCacheEnable:cacheEnabled];
+}
+
+- (BOOL)cacheEnabled
+{
+  return [[self animationView] cacheEnable];
 }
 
 - (void)processCompleteEventWith:(KrollCallback *)callback animationFinished:(BOOL)animationFinished

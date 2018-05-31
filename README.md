@@ -5,7 +5,7 @@
 Appcelerator Titanium Android module for [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) libray and for [Airbnb Lottie](https://github.com/airbnb/lottie-android). 
 
 ## Requirements
-- Titanium Mobile SDK 6.0.0.GA or later
+- Titanium Mobile SDK 6.0.0 or later
 
 ## Library versions:
 The Titanium modules use external libraries
@@ -15,24 +15,24 @@ The Titanium modules use external libraries
 | [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) | Android | 1.0.0 | 2017/02/11 |
 | [Facebooks Keyframes](https://github.com/facebookincubator/Keyframes) | iOS | 1.0.0 | 2017/02/11 |
 | [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 2.3.1 | 2017/12/09 |
-| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 2.1.5 | 2017/12/09 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 2.5.0 | 2018/02/11 |
 
 
 ## Choose your view
 ### Lottie
 ```js
 var animation = TiAnimation.createLottieView({
-    file: 'file.json',
-    loop: false,
-    autoStart: false
+  file: 'file.json',
+  loop: false,
+  autoStart: false
 });
 ```
 ### Keyframes
 ```js
 var animation = TiAnimation.createKeyframeView({
-    file: 'file.json',
-    loop: false,
-    autoStart: false
+  file: 'file.json',
+  loop: false,
+  autoStart: false
 });
 ```
 
@@ -47,5 +47,5 @@ At [LottieFiles](http://www.lottiefiles.com/) you will find a list of free Lotti
 
 Authors
 ---------------
-- Hans Knoechel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de))
+- Hans Knöchel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de))
 - Michael Gangolf ([@MichaelGangolf](https://twitter.com/MichaelGangolf) / [Web](http://migaweb.de))

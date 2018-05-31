@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode8.3
+osx_image: xcode9.2
 env:
 global:
     - "MODULE_NAME=ti.animation"
@@ -8,16 +8,16 @@ before_install:
     - brew update
     - brew install nvm
     - source $(brew --prefix nvm)/nvm.sh
-    - nvm install 4
+    - nvm install 8
     - npm config delete prefix
-    - nvm use --delete-prefix v4.4.7 4
+    - nvm use --delete-prefix v8.9.1 8
 install:
     - cd $MODULE_ROOT
-    - curl -o install.sh https://raw.githubusercontent.com/sgtcoolguy/ci/v8/travis/install.sh #change this to appcelerator-modules once PR has been merged
+    - curl -o install.sh https://raw.githubusercontent.com/appcelerator-modules/ci/master/travis/install.sh
     - source install.sh -s "--branch master"
 script:
-    - curl -o script.sh https://raw.githubusercontent.com/sgtcoolguy/ci/v8/travis/script.sh
+    - curl -o script.sh https://raw.githubusercontent.com/appcelerator-modules/ci/master/travis/script.sh
     - source script.sh
-after_success: # and this only on success
+after_success:
     - curl -o deploy.sh https://raw.githubusercontent.com/appcelerator-modules/ci/master/travis/deploy.sh
     - source deploy.sh

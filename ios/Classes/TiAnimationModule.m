@@ -8,6 +8,7 @@
 #import "TiAnimationModule.h"
 #import "TiBase.h"
 #import "TiHost.h"
+#import "TiLottieConstants.h"
 #import "TiUtils.h"
 
 @implementation TiAnimationModule
@@ -36,5 +37,16 @@
 MAKE_SYSTEM_PROP(CONTENT_MODE_ASPECT_FIT, UIViewContentModeScaleAspectFit);
 MAKE_SYSTEM_PROP(CONTENT_MODE_ASPECT_FILL, UIViewContentModeScaleAspectFill);
 MAKE_SYSTEM_PROP(CONTENT_MODE_SCALE_FILL, UIViewContentModeScaleToFill);
+
+MAKE_SYSTEM_PROP(CALLBACK_COLOR_BLOCK, TiLottieCallbackColorBlock); // Unused
+MAKE_SYSTEM_PROP(CALLBACK_COLOR_VALUE, TiLottieCallbackColorValue);
+MAKE_SYSTEM_PROP(CALLBACK_NUMBER_BLOCK, TiLottieCallbackNumberBlock); // Unused
+MAKE_SYSTEM_PROP(CALLBACK_NUMBER_VALUE, TiLottieCallbackNumberValue);
+MAKE_SYSTEM_PROP(CALLBACK_POINT_BLOCK, TiLottieCallbackPointBlock); // Unused
+MAKE_SYSTEM_PROP(CALLBACK_POINT_VALUE, TiLottieCallbackPointValue);
+MAKE_SYSTEM_PROP(CALLBACK_SIZE_BLOCK, TiLottieCallbackSizeBlock); // Unused
+MAKE_SYSTEM_PROP(CALLBACK_SIZE_VALUE, TiLottieCallbackSizeValue);
+MAKE_SYSTEM_PROP(CALLBACK_PATH_BLOCK, TiLottieCallbackPathBlock); // Unused
+MAKE_SYSTEM_PROP(CALLBACK_PATH_VALUE, TiLottieCallbackPathValue);
 
 @end
