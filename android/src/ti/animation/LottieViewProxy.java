@@ -18,11 +18,12 @@ import org.appcelerator.titanium.TiApplication;
 import android.os.Message;
 import org.appcelerator.kroll.common.TiMessenger;
 import org.appcelerator.kroll.common.AsyncResult;
+import org.appcelerator.kroll.KrollDict;
 
-@Kroll.proxy(creatableInModule=TiAnimationModule.class, propertyAccessors = 
-	{ "file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update", "autoStart", 
-	"loop", "assetFolder", "width", "height", "duration", "paused", "speed", "startFrame", "endFrame",
-	"json"})
+@Kroll.proxy(creatableInModule = TiAnimationModule.class,
+			 propertyAccessors = { "file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update",
+								   "autoStart", "loop", "assetFolder", "width", "height", "duration", "paused", "speed",
+								   "startFrame", "endFrame", "json" })
 
 public class LottieViewProxy extends TiViewProxy
 {
@@ -36,11 +37,16 @@ public class LottieViewProxy extends TiViewProxy
 	protected static final int MSG_RESUMEANIMATION = KrollProxy.MSG_LAST_ID + 104;
 	protected static final int MSG_STOPANIMATION = KrollProxy.MSG_LAST_ID + 105;
 
-	@Kroll.constant public static final int ANIMATION_START = 1;
-	@Kroll.constant public static final int ANIMATION_END = 2;
-	@Kroll.constant public static final int ANIMATION_CANCEL = 3;
-	@Kroll.constant public static final int ANIMATION_REPEAT = 4;
-	@Kroll.constant public static final int ANIMATION_RUNNING = 5;
+	@Kroll.constant
+	public static final int ANIMATION_START = 1;
+	@Kroll.constant
+	public static final int ANIMATION_END = 2;
+	@Kroll.constant
+	public static final int ANIMATION_CANCEL = 3;
+	@Kroll.constant
+	public static final int ANIMATION_REPEAT = 4;
+	@Kroll.constant
+	public static final int ANIMATION_RUNNING = 5;
 
 	// Constructor
 	public LottieViewProxy()
@@ -69,21 +75,23 @@ public class LottieViewProxy extends TiViewProxy
 		view.getLayoutParams().autoFillsWidth = true;
 		return view;
 	}
-	protected LottieView getView() {
-		return (LottieView)getOrCreateView();
+	protected LottieView getView()
+	{
+		return (LottieView) getOrCreateView();
 	}
 
-	public boolean handleMessage(Message message) {
+	public boolean handleMessage(Message message)
+	{
 		AsyncResult result = null;
 		switch (message.what) {
 			case MSG_LOADFILE: {
-				result = (AsyncResult)message.obj;
-				getView().loadFile((String)result.getArg());
+				result = (AsyncResult) message.obj;
+				getView().loadFile((String) result.getArg());
 				result.setResult(null);
 				return true;
 			}
 			case MSG_STARTANIMATION: {
-				result = (AsyncResult)message.obj;
+				result = (AsyncResult) message.obj;
 				int[] frames = (int[]) result.getArg();
 				getView().startAnimation(frames[0], frames[1]);
 				result.setResult(null);
@@ -110,16 +118,19 @@ public class LottieViewProxy extends TiViewProxy
 	}
 
 	@Kroll.method
-	public void start(@Kroll.argument(optional=true) int fromFrame, @Kroll.argument(optional=true) int endFrame) {
+	public void start(@Kroll.argument(optional = true) int fromFrame, @Kroll.argument(optional = true) int endFrame)
+	{
 		if (TiApplication.isUIThread()) {
 			getView().startAnimation(fromFrame, endFrame);
 		} else {
-			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STARTANIMATION), new int[]{fromFrame, endFrame});
+			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STARTANIMATION),
+												new int[] { fromFrame, endFrame });
 		}
 	}
 
 	@Kroll.method
-	public void resume() {
+	public void resume()
+	{
 		if (TiApplication.isUIThread()) {
 			getView().resumeAnimation();
 		} else {
@@ -128,7 +139,8 @@ public class LottieViewProxy extends TiViewProxy
 	}
 
 	@Kroll.method
-	public void stop() {
+	public void stop()
+	{
 		if (TiApplication.isUIThread()) {
 			getView().stopAnimation();
 		} else {
@@ -137,7 +149,8 @@ public class LottieViewProxy extends TiViewProxy
 	}
 
 	@Kroll.method
-	public void pause() {
+	public void pause()
+	{
 		if (TiApplication.isUIThread()) {
 			getView().pauseAnimation();
 		} else {
@@ -145,18 +158,69 @@ public class LottieViewProxy extends TiViewProxy
 		}
 	}
 
-	@Kroll.setProperty @Kroll.method
-	public void setText(String layer, String text) {
+	// clang-format off
+	@Kroll.setProperty
+	@Kroll.method
+	public void setText(String layer, String text)
+	// clang-format on
+	{
 		getView().setText(layer, text);
 	}
 
-	@Kroll.setProperty @Kroll.method
-	public void setProgress(float val) {
+	// clang-format off
+	@Kroll.setProperty
+	@Kroll.method
+	public void setProgress(float val)
+	// clang-format on
+	{
 		getView().setProgress(val);
 	}
 
-	@Kroll.getProperty @Kroll.method
-	public float getProgress() {
+	// clang-format off
+	@Kroll.getProperty
+	@Kroll.method
+	public float getProgress()
+	// clang-format on
+	{
 		return getView().getProgress();
+	}
+
+	// clang-format off
+	@Kroll.setProperty
+	@Kroll.method
+	public void setFrame(int val)
+	// clang-format on
+	{
+		getView().setFrame(val);
+	}
+
+	// clang-format off
+	@Kroll.getProperty
+	@Kroll.method
+	public int getFrame()
+	// clang-format on
+	{
+		return getView().getFrame();
+	}
+
+	public void updateEvent(KrollDict event)
+	{
+		if (hasListeners("update")) {
+			fireEvent("update", event);
+		}
+	}
+
+	public void completeEvent(KrollDict event)
+	{
+		if (hasListeners("complete")) {
+			fireEvent("complete", event);
+		}
+	}
+
+	public void readyEvent(KrollDict event)
+	{
+		if (hasListeners("ready")) {
+			fireEvent("ready", event);
+		}
 	}
 }

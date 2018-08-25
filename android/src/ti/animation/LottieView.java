@@ -31,15 +31,15 @@ import java.io.InputStream;
 import java.lang.Exception;
 import org.json.JSONObject;
 import org.appcelerator.kroll.common.TiMessenger;
-import java.util.HashMap;
 import org.appcelerator.kroll.KrollFunction;
 import java.lang.Float;
 
-public class LottieView extends TiUIView implements OnCompositionLoadedListener {
-	
+public class LottieView extends TiUIView implements OnCompositionLoadedListener
+{
+
 	private static final String LCAT = "LottieViewProxy";
 	private static final boolean DBG = TiConfig.LOGD;
-	
+
 	private Resources resources;
 	private LottieAnimationView lottieView;
 	private TiViewProxy proxy;
@@ -50,9 +50,10 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 	private ValueAnimator va = null;
 	private TextDelegate delegate = new TextDelegate(lottieView);
 
-	public LottieView(TiViewProxy proxy) {
+	public LottieView(TiViewProxy proxy)
+	{
 		super(proxy);
-		
+
 		this.proxy = proxy;
 		String packageName = proxy.getActivity().getPackageName();
 		resources = proxy.getActivity().getResources();
@@ -67,12 +68,13 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 		LayoutInflater inflater = LayoutInflater.from(proxy.getActivity());
 		viewWrapper = inflater.inflate(resId_viewHolder, null);
 
-		lottieView = (LottieAnimationView)viewWrapper.findViewById(resId_lotti);
+		lottieView = (LottieAnimationView) viewWrapper.findViewById(resId_lotti);
 		setNativeView(viewWrapper);
 
 		setScaleMode(TiConvert.toString(proxy.getProperty("scaleMode")));
 		lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
 		lottieView.addAnimatorListener(new AnimatorListener());
+
 		if (TiConvert.toBoolean(proxy.getProperty("disableHardwareAcceleration"))) {
 			lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		} else {
@@ -82,7 +84,8 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 	}
 
 	@Override
-	public void processProperties(KrollDict d) {
+	public void processProperties(KrollDict d)
+	{
 		super.processProperties(d);
 
 		if (d.containsKey("scaleMode")) {
@@ -99,13 +102,13 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 			lottieView.loop(d.getBoolean("loop"));
 		}
 		if (d.containsKey("update")) {
-			callbackUpdate =(KrollFunction) d.get("update");
+			callbackUpdate = (KrollFunction) d.get("update");
 		}
 		if (d.containsKey("ready")) {
-			callbackReady =(KrollFunction) d.get("ready");
+			callbackReady = (KrollFunction) d.get("ready");
 		}
 		if (d.containsKey("complete")) {
-			callbackComplete =(KrollFunction) d.get("complete");
+			callbackComplete = (KrollFunction) d.get("complete");
 		}
 		if (d.containsKey("mergePath")) {
 			lottieView.enableMergePathsForKitKatAndAbove(d.getBoolean("mergePath"));
@@ -116,42 +119,53 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 		if (d.containsKey("speed")) {
 			proxy.setProperty("duration", (initialDuration / TiConvert.toFloat(d.get("speed"))));
 		}
+		if (d.containsKey("autoStart")) {
+			proxy.setProperty("autoStart", d.getBoolean("autoStart"));
+		}
+		if (d.containsKey("start")) {
+			if (d.getBoolean("start")) {
+				startAnimation(TiConvert.toInt(proxy.getProperty("startFrame")),
+							   TiConvert.toInt(proxy.getProperty("endFrame")));
+			}
+		}
 
 		if (d.containsKey("file") && d.getString("file") != "") {
 			if (TiApplication.isUIThread()) {
 				loadFile(d.getString("file"));
 			} else {
-				TiMessenger.sendBlockingMainMessage(proxy.getMainHandler().obtainMessage(LottieViewProxy.MSG_LOADFILE, d.getString("file")));
+				TiMessenger.sendBlockingMainMessage(
+					proxy.getMainHandler().obtainMessage(LottieViewProxy.MSG_LOADFILE, d.getString("file")));
 			}
 		} else if (d.containsKey("json")) {
 			loadJson(d.getString("json"));
 		}
 	}
 
-
 	@Override
-	public void propertyChanged(String key, Object oldValue, Object newValue, KrollProxy proxy) {
+	public void propertyChanged(String key, Object oldValue, Object newValue, KrollProxy proxy)
+	{
 		KrollDict d = new KrollDict();
 		d.put(key, newValue);
 		processProperties(d);
 	}
 
-
-	private void setScaleMode(String smode) {
+	private void setScaleMode(String smode)
+	{
 		// Set scale mode on view
 		//
 		if (smode.equals("center")) {
-			lottieView.setScaleType( ScaleType.CENTER);
+			lottieView.setScaleType(ScaleType.CENTER);
 		} else if (smode.equals("centerCrop")) {
-			lottieView.setScaleType( ScaleType.CENTER_CROP);
+			lottieView.setScaleType(ScaleType.CENTER_CROP);
 		} else if (smode.equals("centerInside")) {
-			lottieView.setScaleType( ScaleType.CENTER_INSIDE);
+			lottieView.setScaleType(ScaleType.CENTER_INSIDE);
 		} else {
-			lottieView.setScaleType( ScaleType.CENTER_INSIDE);
+			lottieView.setScaleType(ScaleType.CENTER_INSIDE);
 		}
 	}
 
-	private void parseJson(String json) {
+	private void parseJson(String json)
+	{
 		try {
 			JSONObject jsonObject = new JSONObject(json);
 			proxy.setProperty("width", jsonObject.optInt("w", 0));
@@ -161,7 +175,8 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 		}
 	}
 
-	private void loadJson(String jsonString) {
+	private void loadJson(String jsonString)
+	{
 		try {
 			parseJson(jsonString);
 			LottieComposition.Factory.fromJsonString(jsonString, this);
@@ -170,14 +185,12 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 		}
 	}
 
-
 	@Override
-	public void onCompositionLoaded(LottieComposition composition) {
+	public void onCompositionLoaded(LottieComposition composition)
+	{
 		lottieView.setComposition(composition);
 		lottieView.setImageAssetsFolder("Resources/" + TiConvert.toString(proxy.getProperty("assetFolder")));
 		lottieView.setTextDelegate(delegate);
-		lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
-		lottieView.addAnimatorListener(new AnimatorListener());
 
 		initialDuration = lottieView.getDuration();
 		if (TiConvert.toFloat(proxy.getProperty("speed")) == 1.0f) {
@@ -189,15 +202,17 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 			lottieView.loop(true);
 		}
 		if (TiConvert.toBoolean(proxy.getProperty("autoStart"))) {
-			startAnimation(TiConvert.toInt(proxy.getProperty("startFrame")), TiConvert.toInt(proxy.getProperty("endFrame")));
+			startAnimation(TiConvert.toInt(proxy.getProperty("startFrame")),
+						   TiConvert.toInt(proxy.getProperty("endFrame")));
 		}
 		if (callbackReady != null) {
-			HashMap<String,Object> event = new HashMap<String, Object>();
-			callbackReady.call(proxy.getKrollObject(), event);
+			callbackReady.call(proxy.getKrollObject(), new KrollDict());
 		}
+		((LottieViewProxy) proxy).readyEvent(new KrollDict());
 	}
 
-	public void loadFile(String f) {
+	public void loadFile(String f)
+	{
 		String url = proxy.resolveUrl(null, f);
 		TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);
 
@@ -209,8 +224,9 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 				stream.read(buffer);
 				String json = new String(buffer, "UTF-8");
 				parseJson(json);
-				LottieComposition.Factory.fromAssetFileName(TiApplication.getInstance(), url.replaceAll("file:///android_asset/", ""), this);
-			} catch (Exception e){
+				LottieComposition.Factory.fromAssetFileName(TiApplication.getInstance(),
+															url.replaceAll("file:///android_asset/", ""), this);
+			} catch (Exception e) {
 				Log.e(LCAT, "Error opening file " + file.name());
 			}
 		} else {
@@ -222,47 +238,48 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 	{
 		public void onAnimationUpdate(ValueAnimator animation)
 		{
-			animationEvent(animation.getAnimatedFraction(), LottieViewProxy.ANIMATION_RUNNING);
+			KrollDict event = new KrollDict();
+			event.put("frame", lottieView.getFrame());
+			event.put("status", LottieViewProxy.ANIMATION_RUNNING);
+			((LottieViewProxy) proxy).updateEvent(event);
 		}
 	}
 
-	protected class AnimatorListener implements Animator.AnimatorListener {
-		public void onAnimationStart(Animator animation) {
-			 animationEvent(getProgress(), LottieViewProxy.ANIMATION_START);
+	protected class AnimatorListener implements Animator.AnimatorListener
+	{
+		public void onAnimationStart(Animator animation)
+		{
+			KrollDict event = new KrollDict();
+			event.put("status", LottieViewProxy.ANIMATION_START);
+			((LottieViewProxy) proxy).updateEvent(event);
 		}
 
-		public void onAnimationEnd(Animator animation) {
-			if (getProgress()>=1) {
-				animationEvent(getProgress(), LottieViewProxy.ANIMATION_END);
-				if (callbackComplete != null) {
-					HashMap<String,Object> event = new HashMap<String, Object>();
-					event.put("status", LottieViewProxy.ANIMATION_END);
-					event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
-					callbackComplete.call(proxy.getKrollObject(), event);
-				}
-			}
+		public void onAnimationEnd(Animator animation)
+		{
+			KrollDict event = new KrollDict();
+			event.put("status", LottieViewProxy.ANIMATION_END);
+			event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
+			((LottieViewProxy) proxy).completeEvent(event);
 		}
 
-		public void onAnimationCancel(Animator animation) {
-			 animationEvent(getProgress(), LottieViewProxy.ANIMATION_CANCEL);
+		public void onAnimationCancel(Animator animation)
+		{
+			KrollDict event = new KrollDict();
+			event.put("status", LottieViewProxy.ANIMATION_CANCEL);
+			((LottieViewProxy) proxy).updateEvent(event);
 		}
 
-		public void onAnimationRepeat(Animator animation) {
-			 animationEvent(getProgress(), LottieViewProxy.ANIMATION_REPEAT);
-		}
-	}
-
-	private void animationEvent(float percentage, int status) {
-		if (callbackUpdate != null && !TiConvert.toBoolean(proxy.getProperty("paused"))) {
-			HashMap<String,Object> event = new HashMap<String, Object>();
-			event.put("time", TiConvert.toFloat(proxy.getProperty("duration"))*percentage);
-			event.put("percentage", percentage);
-			event.put("status", status);
-			callbackUpdate.call(proxy.getKrollObject(), event);
+		public void onAnimationRepeat(Animator animation)
+		{
+			KrollDict event = new KrollDict();
+			event.put("status", LottieViewProxy.ANIMATION_END);
+			event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
+			((LottieViewProxy) proxy).completeEvent(event);
 		}
 	}
 
-	public void startAnimation(int startFrame, int endFrame) {
+	public void startAnimation(int startFrame, int endFrame)
+	{
 		boolean restart = lottieView.isAnimating();
 		lottieView.cancelAnimation();
 		lottieView.setProgress(0f);
@@ -283,43 +300,50 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 				va.setRepeatCount(-1);
 			}
 			va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-				public void onAnimationUpdate(ValueAnimator animation) {
-					lottieView.setProgress( (Float)animation.getAnimatedValue() );
-					animationEvent(animation.getAnimatedFraction(), LottieViewProxy.ANIMATION_RUNNING);
+				public void onAnimationUpdate(ValueAnimator animation)
+				{
+					lottieView.setProgress((Float) animation.getAnimatedValue());
+					KrollDict event = new KrollDict();
+					event.put("frame", lottieView.getFrame());
+					event.put("status", LottieViewProxy.ANIMATION_RUNNING);
+					((LottieViewProxy) proxy).updateEvent(event);
 				}
 			});
 
 			va.addListener(new Animator.AnimatorListener() {
 				@Override
-				public void onAnimationStart(Animator animation) {
-
+				public void onAnimationStart(Animator animation)
+				{
 				}
 				@Override
-				public void onAnimationCancel(Animator animation) {
-
+				public void onAnimationCancel(Animator animation)
+				{
 				}
 				@Override
-				public void onAnimationRepeat(Animator animation) {
-
+				public void onAnimationRepeat(Animator animation)
+				{
+					KrollDict event = new KrollDict();
+					event.put("status", LottieViewProxy.ANIMATION_END);
+					event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
+					((LottieViewProxy) proxy).completeEvent(event);
 				}
 				@Override
-				public void onAnimationEnd(Animator animation) {
-					animationEvent(getProgress(), LottieViewProxy.ANIMATION_END);
-					if (callbackComplete != null) {
-						HashMap<String,Object> event = new HashMap<String, Object>();
-						event.put("status", LottieViewProxy.ANIMATION_END);
-						event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
-						callbackComplete.call(proxy.getKrollObject(), event);
-					}
+				public void onAnimationEnd(Animator animation)
+				{
+					KrollDict event = new KrollDict();
+					event.put("status", LottieViewProxy.ANIMATION_END);
+					event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
+					((LottieViewProxy) proxy).completeEvent(event);
 				}
 			});
 			va.start();
 		}
 	}
 
-	public void pauseAnimation() {
+	public void pauseAnimation()
+	{
 		proxy.setProperty("paused", true);
-		
+
 		if (va != null) {
 			va.pause();
 		} else {
@@ -327,7 +351,8 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 		}
 	}
 
-	public void resumeAnimation() {
+	public void resumeAnimation()
+	{
 		proxy.setProperty("paused", false);
 		if (va != null) {
 			va.resume();
@@ -336,7 +361,8 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 		}
 	}
 
-	public void stopAnimation() {
+	public void stopAnimation()
+	{
 		proxy.setProperty("paused", false);
 		if (va != null) {
 			va.cancel();
@@ -345,16 +371,28 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener 
 		}
 	}
 
-	public void setProgress(float val) {
+	public void setProgress(float val)
+	{
 		lottieView.setProgress(val);
 	}
 
-	public void setText(String layer, String text) {
+	public void setFrame(int val)
+	{
+		lottieView.setFrame(val);
+	}
+
+	public void setText(String layer, String text)
+	{
 		delegate.setText(layer, text);
 	}
 
-	public float getProgress() {
+	public float getProgress()
+	{
 		return lottieView.getProgress();
 	}
 
+	public int getFrame()
+	{
+		return lottieView.getFrame();
+	}
 }

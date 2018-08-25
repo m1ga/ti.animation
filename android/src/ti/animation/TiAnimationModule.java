@@ -15,8 +15,7 @@ import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
 
-
-@Kroll.module(name="TiAnimation", id="ti.animation")
+@Kroll.module(name = "TiAnimation", id = "ti.animation")
 public class TiAnimationModule extends KrollModule
 {
 

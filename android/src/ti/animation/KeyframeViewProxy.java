@@ -33,8 +33,7 @@ import org.appcelerator.titanium.view.TiUIView;
 import android.widget.ImageView;
 import android.graphics.drawable.Drawable;
 
-
-@Kroll.proxy(creatableInModule=TiAnimationModule.class)
+@Kroll.proxy(creatableInModule = TiAnimationModule.class)
 public class KeyframeViewProxy extends TiViewProxy
 {
 	// Standard Debugging variables
@@ -49,31 +48,30 @@ public class KeyframeViewProxy extends TiViewProxy
 
 	private class Keyframes extends TiUIView
 	{
-		public Keyframes(TiViewProxy proxy) {
+		public Keyframes(TiViewProxy proxy)
+		{
 			super(proxy);
-			
-			
-			String packageName = proxy.getActivity().getPackageName();
-            Resources resources = proxy.getActivity().getResources();
-            View videoWrapper;
-            int resId_videoHolder = -1;
-            int resId_video       = -1;
 
-            resId_videoHolder = resources.getIdentifier("layout", "layout", packageName);
-            resId_video       = resources.getIdentifier("ImageView", "id", packageName);
-            
-            LayoutInflater inflater     = LayoutInflater.from(getActivity());
-            videoWrapper = inflater.inflate(resId_videoHolder, null);
-            if (resId_video != 0){
-                imageView   = (ImageView)videoWrapper.findViewById(resId_video);            
+			String packageName = proxy.getActivity().getPackageName();
+			Resources resources = proxy.getActivity().getResources();
+			View videoWrapper;
+			int resId_videoHolder = -1;
+			int resId_video = -1;
+
+			resId_videoHolder = resources.getIdentifier("layout", "layout", packageName);
+			resId_video = resources.getIdentifier("ImageView", "id", packageName);
+
+			LayoutInflater inflater = LayoutInflater.from(getActivity());
+			videoWrapper = inflater.inflate(resId_videoHolder, null);
+			if (resId_video != 0) {
+				imageView = (ImageView) videoWrapper.findViewById(resId_video);
 				imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 				imageView.setImageDrawable(kfDrawable);
 				imageView.setImageAlpha(0);
-                setNativeView(videoWrapper);
-            } else {
-                Log.e(LCAT, "Layout not found");
-            }
-			
+				setNativeView(videoWrapper);
+			} else {
+				Log.e(LCAT, "Layout not found");
+			}
 		}
 
 		@Override
@@ -84,64 +82,74 @@ public class KeyframeViewProxy extends TiViewProxy
 	}
 
 	@Kroll.method
-    public void initialize() {
-        
-    }
-	
-	@Kroll.method
-    public void stop() {
-        kfDrawable.stopAnimation();
-    }
+	public void initialize()
+	{
+	}
 
-    @Kroll.method
-    public void start() {
-		if (!isLoop){
+	@Kroll.method
+	public void stop()
+	{
+		kfDrawable.stopAnimation();
+	}
+
+	@Kroll.method
+	public void start()
+	{
+		if (!isLoop) {
 			kfDrawable.playOnce();
 		} else {
-	        kfDrawable.startAnimation();
+			kfDrawable.startAnimation();
 		}
-    }
-	
-	@Kroll.method
-    public void pause() {
-		kfDrawable.pauseAnimation();
-    }
-	
-	@Kroll.method
-    public void resume() {
-		kfDrawable.resumeAnimation();
-    }
-	
-	@Kroll.method
-    public void seekToProgress(float pos) {
-		kfDrawable.seekToProgress(pos);
-    }
-	
-	@Kroll.method
-    public void setProgress(float pos) {
-		kfDrawable.seekToProgress(pos);
-    }
+	}
 
 	@Kroll.method
-    public int getFrameCount() {
+	public void pause()
+	{
+		kfDrawable.pauseAnimation();
+	}
+
+	@Kroll.method
+	public void resume()
+	{
+		kfDrawable.resumeAnimation();
+	}
+
+	@Kroll.method
+	public void seekToProgress(float pos)
+	{
+		kfDrawable.seekToProgress(pos);
+	}
+
+	@Kroll.method
+	public void setProgress(float pos)
+	{
+		kfDrawable.seekToProgress(pos);
+	}
+
+	@Kroll.method
+	public int getFrameCount()
+	{
 		return kfImage.getFrameCount();
-    }
-	
+	}
+
 	@Kroll.method
-    public int getFrameRate() {
+	public int getFrameRate()
+	{
 		return kfImage.getFrameRate();
-    }
-	
+	}
+
 	@Kroll.method
-    public void addViewToLayer() {
+	public void addViewToLayer()
+	{
 		// TODO empty for now
-    }
-	
+	}
+
 	@Kroll.method
-    public boolean isPlaying() {
-		// TODO 
+	public boolean isPlaying()
+	{
+		// TODO
 		return false;
-    }
+	}
 
 	// Constructor
 	public KeyframeViewProxy()
@@ -158,13 +166,13 @@ public class KeyframeViewProxy extends TiViewProxy
 		view.getLayoutParams().autoFillsWidth = true;
 		return view;
 	}
-	
+
 	private String getPathToApplicationAsset(String assetName)
 	{
 		// The url for an application asset can be created by resolving the specified
-		// path with the proxy context. This locates a resource relative to the 
+		// path with the proxy context. This locates a resource relative to the
 		// application resources folder
-		
+
 		String result = resolveUrl(null, assetName);
 		return result;
 	}
@@ -184,21 +192,20 @@ public class KeyframeViewProxy extends TiViewProxy
 		if (options.containsKey("file")) {
 			try {
 				String url = getPathToApplicationAsset(options.getString("file"));
-	            TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);      
+				TiBaseFile file = TiFileFactory.createTitaniumFile(new String[] { url }, false);
 				stream = file.getInputStream();
 				kfImage = KFImageDeserializer.deserialize(stream);
 				kfDrawable = new KeyframesDrawableBuilder().withImage(kfImage).build();
-				if (isAutoStart){
-					if (isLoop){
+				if (isAutoStart) {
+					if (isLoop) {
 						kfDrawable.startAnimation();
 					} else {
 						kfDrawable.playOnce();
 					}
 				}
-			} catch (IOException e){
+			} catch (IOException e) {
 				Log.i(LCAT, "error " + e);
 			}
 		}
-		
 	}
 }
