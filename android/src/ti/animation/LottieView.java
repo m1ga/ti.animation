@@ -119,6 +119,15 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 		if (d.containsKey("speed")) {
 			proxy.setProperty("duration", (initialDuration / TiConvert.toFloat(d.get("speed"))));
 		}
+		if (d.containsKey("autoStart")) {
+			proxy.setProperty("autoStart", d.getBoolean("autoStart"));
+		}
+		if (d.containsKey("start")) {
+			if (d.getBoolean("start")) {
+				startAnimation(TiConvert.toInt(proxy.getProperty("startFrame")),
+							   TiConvert.toInt(proxy.getProperty("endFrame")));
+			}
+		}
 
 		if (d.containsKey("file") && d.getString("file") != "") {
 			if (TiApplication.isUIThread()) {
