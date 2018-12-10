@@ -25,10 +25,10 @@ import org.appcelerator.kroll.KrollDict;
 								   "autoStart", "loop", "assetFolder", "width", "height", "duration", "paused", "speed",
 								   "startFrame", "endFrame", "json" })
 
-public class LottieViewProxy extends TiViewProxy
+public class AnimationViewProxy extends TiViewProxy
 {
 	// Standard Debugging variables
-	private static final String LCAT = "LottieViewProxy";
+	private static final String LCAT = "AnimationViewProxy";
 	private static final boolean DBG = TiConfig.LOGD;
 
 	protected static final int MSG_STARTANIMATION = KrollProxy.MSG_LAST_ID + 101;
@@ -49,7 +49,7 @@ public class LottieViewProxy extends TiViewProxy
 	public static final int ANIMATION_RUNNING = 5;
 
 	// Constructor
-	public LottieViewProxy()
+	public AnimationViewProxy()
 	{
 		super();
 		defaultValues.put("scaleMode", "center_inside");
@@ -70,14 +70,14 @@ public class LottieViewProxy extends TiViewProxy
 	@Override
 	public TiUIView createView(Activity activity)
 	{
-		TiUIView view = new LottieView(this);
+		TiUIView view = new AnimationView(this);
 		view.getLayoutParams().autoFillsHeight = true;
 		view.getLayoutParams().autoFillsWidth = true;
 		return view;
 	}
-	protected LottieView getView()
+	protected AnimationView getView()
 	{
-		return (LottieView) getOrCreateView();
+		return (AnimationView) getOrCreateView();
 	}
 
 	public boolean handleMessage(Message message)
