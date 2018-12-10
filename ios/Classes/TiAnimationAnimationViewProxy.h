@@ -4,16 +4,16 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-#import "TiAnimationLottieView.h"
+#import "TiAnimationAnimationView.h"
 #import "TiViewProxy.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TiAnimationLottieViewProxy : TiViewProxy
+@interface TiAnimationAnimationViewProxy : TiViewProxy
 
 #pragma mark Module Utilities
 
-- (TiAnimationLottieView *)animationView;
+- (TiAnimationAnimationView *)animationView;
 
 #pragma mark Public API's
 
@@ -39,7 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Layers
 
-- (void)addViewToLayer:(id)args;
 - (void)addViewToKeypathLayer:(id)args;
 
 #pragma mark - Convert

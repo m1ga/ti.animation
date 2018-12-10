@@ -6,29 +6,26 @@
  */
 
 #import "TiAnimationModule.h"
+#import "TiAnimationConstants.h"
 #import "TiBase.h"
 #import "TiHost.h"
-#import "TiLottieConstants.h"
 #import "TiUtils.h"
 
 @implementation TiAnimationModule
 
 #pragma mark Internal
 
-- (id)moduleGUID
-{
+- (id)moduleGUID {
   return @"1fcfea69-bbbf-42f8-b738-9545b5dda74d";
 }
 
-- (NSString *)moduleId
-{
+- (NSString *)moduleId {
   return @"ti.animation";
 }
 
 #pragma mark Lifecycle
 
-- (void)startup
-{
+- (void)startup {
   [super startup];
 
   NSLog(@"[DEBUG] %@ loaded", self);

@@ -10,16 +10,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class LOTAnimationView;
 
-@interface TiAnimationLottieView : TiUIView
+@interface TiAnimationAnimationView : TiUIView
 
 @property (nonatomic, retain) LOTAnimationView *animationView;
 
-- (void)playWithCompletionHandler:(KrollCallback * __nullable)callback;
-- (void)playFromFrame:(NSNumber *)fromFrame toFrame:(NSNumber *)toFrame completion:(KrollCallback * __nullable)callback;
-- (void)playFromProgress:(NSNumber *)fromProgress toProgress:(NSNumber *)toProgress completion:(KrollCallback * __nullable)callback;
+- (void)playWithCompletionHandler:(KrollCallback *__nullable)callback;
+- (void)playFromFrame:(NSNumber *)fromFrame toFrame:(NSNumber *)toFrame completion:(KrollCallback *__nullable)callback;
+- (void)playFromProgress:(NSNumber *)fromProgress toProgress:(NSNumber *)toProgress completion:(KrollCallback *__nullable)callback;
 - (void)pause;
 - (void)stop;
-- (void)addView:(UIView *)view toLayer:(NSString *)layer applyTransform:(BOOL)applyTransform;
 - (void)addView:(UIView *)view toKeypathLayer:(NSString *)layer;
 
 - (void)setProgress:(CGFloat)progress;

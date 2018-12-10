@@ -5,8 +5,8 @@
 //  Created by Hans Knöchel on 11.02.18.
 //
 
-#ifndef TiLottieConstants_h
-#define TiLottieConstants_h
+#ifndef TiAnimationConstants_h
+#define TiAnimationConstants_h
 
 typedef NS_ENUM(NSUInteger, TiLottieCallback) {
   TiLottieCallbackColorBlock, // Unused
@@ -21,4 +21,4 @@ typedef NS_ENUM(NSUInteger, TiLottieCallback) {
   TiLottieCallbackPathValue
 };
 
-#endif /* TiLottieConstants_h */
+#endif /* TiAnimationConstants_h */

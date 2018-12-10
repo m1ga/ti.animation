@@ -5,16 +5,16 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiAnimationLottieView.h"
-#import "Lottie.h"
-#import "TiAnimationLottieViewProxy.h"
+#import "TiAnimationAnimationView.h"
+#import "TiAnimationAnimationViewProxy.h"
 
-@implementation TiAnimationLottieView
+#import <Lottie/Lottie.h>
+
+@implementation TiAnimationAnimationView
 
 #pragma mark Internals
 
-- (LOTAnimationView *)animationView
-{
+- (LOTAnimationView *)animationView {
   if (_animationView == nil) {
     id file = [[self proxy] valueForKey:@"file"];
     id autoStart = [[self proxy] valueForKey:@"autoStart"];
@@ -30,13 +30,13 @@
     }
 
     _animationView = [LOTAnimationView animationFromJSON:[self loadAnimationFromJSON:file]];
-    
+
     // Enable click-events
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickView:)];
     [_animationView addGestureRecognizer:tapGestureRecognizer];
 
     // Handle content mode
-    NSArray *validContentModes = @[ NUMINT(UIViewContentModeScaleAspectFit), NUMINT(UIViewContentModeScaleAspectFill), NUMINT(UIViewContentModeScaleToFill) ];
+    NSArray<NSNumber *> *validContentModes = @[ @(UIViewContentModeScaleAspectFit), @(UIViewContentModeScaleAspectFill), @(UIViewContentModeScaleToFill) ];
 
     if (contentMode && [validContentModes containsObject:contentMode]) {
       [_animationView setContentMode:[TiUtils intValue:contentMode]];
@@ -60,151 +60,124 @@
   return _animationView;
 }
 
-- (void)didClickView:(UIGestureRecognizer *)sender
-{
+- (void)didClickView:(UIGestureRecognizer *)sender {
   if ([[self proxy] _hasListeners:@"click"]) {
     [[self proxy] fireEvent:@"click"];
   }
 }
 
-- (NSDictionary *)loadAnimationFromJSON:(NSString *)file
-{
+- (NSDictionary *)loadAnimationFromJSON:(NSString *)file {
   NSString *filePath = [[NSBundle mainBundle] pathForResource:[[self proxy] valueForKey:@"file"] ofType:nil inDirectory:nil];
   NSData *data = [NSData dataWithContentsOfFile:filePath];
-  NSDictionary *jsonAnimation = [[NSDictionary alloc] init];
 
   if (!data) {
     [self log:[NSString stringWithFormat:@"The specified file %@ could not be loaded.", file] forLevel:@"error"];
-  } else
-    jsonAnimation = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+    return nil;
+  }
 
-  return jsonAnimation;
+  return [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
 }
 
-- (void)log:(NSString *)string forLevel:(NSString *)level
-{
-  NSLog(@"[%@] %@: %@", [level uppercaseString], NSStringFromClass([self class]), string);
+- (void)log:(NSString *)string forLevel:(NSString *)level {
+  DebugLog(@"[%@] %@: %@", [level uppercaseString], NSStringFromClass([self class]), string);
 }
 
 #pragma mark Public APIs
 
-- (void)playWithCompletionHandler:(KrollCallback *)callback
-{
+- (void)playWithCompletionHandler:(KrollCallback *)callback {
   [[self animationView] playWithCompletion:^(BOOL animationFinished) {
     [self processCompleteEventWith:callback animationFinished:animationFinished];
   }];
 }
 
-- (void)playFromFrame:(NSNumber *)fromFrame toFrame:(NSNumber *)toFrame completion:(KrollCallback *)callback
-{
-  [[self animationView] playFromFrame:fromFrame toFrame:toFrame withCompletion:^(BOOL animationFinished) {
-    [self processCompleteEventWith:callback animationFinished:animationFinished];
-  }];
+- (void)playFromFrame:(NSNumber *)fromFrame toFrame:(NSNumber *)toFrame completion:(KrollCallback *)callback {
+  [[self animationView] playFromFrame:fromFrame
+                              toFrame:toFrame
+                       withCompletion:^(BOOL animationFinished) {
+                         [self processCompleteEventWith:callback animationFinished:animationFinished];
+                       }];
 }
 
 // TODO: Expose to module in next major, because we need to break the 3 parameters into a dictionary to be more flexible
-- (void)playFromProgress:(NSNumber *)fromProgress toProgress:(NSNumber *)toProgress completion:(KrollCallback *)callback
-{
-  [[self animationView] playFromProgress:fromProgress.floatValue toProgress:toProgress.floatValue withCompletion:^(BOOL animationFinished) {
-    [self processCompleteEventWith:callback animationFinished:animationFinished];
-  }];
+- (void)playFromProgress:(NSNumber *)fromProgress toProgress:(NSNumber *)toProgress completion:(KrollCallback *)callback {
+  [[self animationView] playFromProgress:fromProgress.floatValue
+                              toProgress:toProgress.floatValue
+                          withCompletion:^(BOOL animationFinished) {
+                            [self processCompleteEventWith:callback animationFinished:animationFinished];
+                          }];
 }
 
-- (void)pause
-{
+- (void)pause {
   [[self animationView] pause];
 }
 
-- (void)stop
-{
+- (void)stop {
   [[self animationView] stop];
 }
 
-- (void)addView:(UIView *)view toLayer:(NSString *)layer applyTransform:(BOOL)applyTransform
-{
-  DEPRECATED_REPLACED(@"Lottie.addViewToLayer(view, layer)", @"2.6.0", @"Lottie.addViewToKeypathLayer(view, keypathLayer)");
-
-  [[self animationView] addSubview:view
-                      toLayerNamed:layer
-                    applyTransform:applyTransform];
-}
-
-- (void)addView:(UIView *)view toKeypathLayer:(NSString *)layer
-{
+- (void)addView:(UIView *)view toKeypathLayer:(NSString *)layer {
   [[self animationView] addSubview:view toKeypathLayer:[LOTKeypath keypathWithString:layer]];
 }
 
-- (BOOL)isPlaying
-{
+- (BOOL)isPlaying {
   return [[self animationView] isAnimationPlaying];
 }
 
-- (CGFloat)duration
-{
+- (CGFloat)duration {
   return [[self animationView] animationDuration];
 }
 
-- (CGFloat)progress
-{
+- (CGFloat)progress {
   return [[self animationView] animationProgress];
 }
 
-- (CGFloat)speed
-{
+- (CGFloat)speed {
   return [[self animationView] animationSpeed];
 }
 
-- (BOOL)loop
-{
+- (BOOL)loop {
   return [[self animationView] loopAnimation];
 }
 
-- (void)setProgress:(CGFloat)progress
-{
+- (void)setProgress:(CGFloat)progress {
   [[self animationView] setAnimationProgress:progress];
 }
 
-- (void)setSpeed:(CGFloat)speed
-{
+- (void)setSpeed:(CGFloat)speed {
   [[self animationView] setAnimationSpeed:speed];
 }
 
-- (void)setLoop:(BOOL)loop
-{
+- (void)setLoop:(BOOL)loop {
   [[self animationView] setLoopAnimation:loop];
 }
 
-- (void)setCacheEnabled:(BOOL)cacheEnabled
-{
+- (void)setCacheEnabled:(BOOL)cacheEnabled {
   [[self animationView] setCacheEnable:cacheEnabled];
 }
 
-- (BOOL)cacheEnabled
-{
+- (BOOL)cacheEnabled {
   return [[self animationView] cacheEnable];
 }
 
-- (void)processCompleteEventWith:(KrollCallback *)callback animationFinished:(BOOL)animationFinished
-{
+- (void)processCompleteEventWith:(KrollCallback *)callback animationFinished:(BOOL)animationFinished {
   if ([[self proxy] _hasListeners:@"complete"]) {
-    [[self proxy] fireEvent:@"complete" withObject:@{@"animationFinished": NUMBOOL(TRUE)}];
+    [[self proxy] fireEvent:@"complete" withObject:@{ @"animationFinished" : @(YES) }];
   }
-  
+
   if (callback == nil) {
     return;
   }
-  
-  NSDictionary *propertiesDict = @{ @"finished" : NUMBOOL(animationFinished) };
+
+  NSDictionary *propertiesDict = @{ @"finished" : @(animationFinished) };
   NSArray *invocationArray = [[NSArray alloc] initWithObjects:&propertiesDict count:1];
-  
+
   [callback call:invocationArray thisObject:[self proxy]];
 }
 
 #pragma mark Layout utilities
 
 #ifdef TI_USE_AUTOLAYOUT
-- (void)initializeTiLayoutView
-{
+- (void)initializeTiLayoutView {
   [super initializeTiLayoutView];
   [self setDefaultHeight:TiDimensionAutoFill];
   [self setDefaultWidth:TiDimensionAutoFill];
@@ -213,8 +186,7 @@
 
 #pragma mark Layout helper
 
-- (void)frameSizeChanged:(CGRect)frame bounds:(CGRect)bounds
-{
+- (void)frameSizeChanged:(CGRect)frame bounds:(CGRect)bounds {
   for (UIView *child in [self subviews]) {
     [TiUtils setView:child positionRect:bounds];
   }
