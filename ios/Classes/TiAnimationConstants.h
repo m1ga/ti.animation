@@ -1,5 +1,5 @@
 //
-//  TiLottieConstants.h
+//  TiAnimationConstants.h
 //  ti.animation
 //
 //  Created by Hans Knöchel on 11.02.18.
