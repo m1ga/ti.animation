@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.3.0
+version: 2.0.0
 apiversion: 2
 architectures: armv7 arm64 i386 x86_64
 description: ti.animation
@@ -15,4 +15,4 @@ name: ti.animation
 moduleid: ti.animation
 guid: 1fcfea69-bbbf-42f8-b738-9545b5dda74d
 platform: iphone
-minsdk: 6.0.0
+minsdk: 7.0.0
