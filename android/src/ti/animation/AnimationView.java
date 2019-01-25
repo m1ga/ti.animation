@@ -34,10 +34,10 @@ import org.appcelerator.kroll.common.TiMessenger;
 import org.appcelerator.kroll.KrollFunction;
 import java.lang.Float;
 
-public class LottieView extends TiUIView implements OnCompositionLoadedListener
+public class AnimationView extends TiUIView implements OnCompositionLoadedListener
 {
 
-	private static final String LCAT = "LottieViewProxy";
+	private static final String LCAT = "AnimationViewProxy";
 	private static final boolean DBG = TiConfig.LOGD;
 
 	private Resources resources;
@@ -50,7 +50,7 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 	private ValueAnimator va = null;
 	private TextDelegate delegate = new TextDelegate(lottieView);
 
-	public LottieView(TiViewProxy proxy)
+	public AnimationView(TiViewProxy proxy)
 	{
 		super(proxy);
 
@@ -134,7 +134,7 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 				loadFile(d.getString("file"));
 			} else {
 				TiMessenger.sendBlockingMainMessage(
-					proxy.getMainHandler().obtainMessage(LottieViewProxy.MSG_LOADFILE, d.getString("file")));
+					proxy.getMainHandler().obtainMessage(AnimationViewProxy.MSG_LOADFILE, d.getString("file")));
 			}
 		} else if (d.containsKey("json")) {
 			loadJson(d.getString("json"));
@@ -208,7 +208,7 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 		if (callbackReady != null) {
 			callbackReady.call(proxy.getKrollObject(), new KrollDict());
 		}
-		((LottieViewProxy) proxy).readyEvent(new KrollDict());
+		((AnimationViewProxy) proxy).readyEvent(new KrollDict());
 	}
 
 	public void loadFile(String f)
@@ -240,8 +240,8 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 		{
 			KrollDict event = new KrollDict();
 			event.put("frame", lottieView.getFrame());
-			event.put("status", LottieViewProxy.ANIMATION_RUNNING);
-			((LottieViewProxy) proxy).updateEvent(event);
+			event.put("status", AnimationViewProxy.ANIMATION_RUNNING);
+			((AnimationViewProxy) proxy).updateEvent(event);
 		}
 	}
 
@@ -250,31 +250,31 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 		public void onAnimationStart(Animator animation)
 		{
 			KrollDict event = new KrollDict();
-			event.put("status", LottieViewProxy.ANIMATION_START);
-			((LottieViewProxy) proxy).updateEvent(event);
+			event.put("status", AnimationViewProxy.ANIMATION_START);
+			((AnimationViewProxy) proxy).updateEvent(event);
 		}
 
 		public void onAnimationEnd(Animator animation)
 		{
 			KrollDict event = new KrollDict();
-			event.put("status", LottieViewProxy.ANIMATION_END);
+			event.put("status", AnimationViewProxy.ANIMATION_END);
 			event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
-			((LottieViewProxy) proxy).completeEvent(event);
+			((AnimationViewProxy) proxy).completeEvent(event);
 		}
 
 		public void onAnimationCancel(Animator animation)
 		{
 			KrollDict event = new KrollDict();
-			event.put("status", LottieViewProxy.ANIMATION_CANCEL);
-			((LottieViewProxy) proxy).updateEvent(event);
+			event.put("status", AnimationViewProxy.ANIMATION_CANCEL);
+			((AnimationViewProxy) proxy).updateEvent(event);
 		}
 
 		public void onAnimationRepeat(Animator animation)
 		{
 			KrollDict event = new KrollDict();
-			event.put("status", LottieViewProxy.ANIMATION_END);
+			event.put("status", AnimationViewProxy.ANIMATION_END);
 			event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
-			((LottieViewProxy) proxy).completeEvent(event);
+			((AnimationViewProxy) proxy).completeEvent(event);
 		}
 	}
 
@@ -305,8 +305,8 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 					lottieView.setProgress((Float) animation.getAnimatedValue());
 					KrollDict event = new KrollDict();
 					event.put("frame", lottieView.getFrame());
-					event.put("status", LottieViewProxy.ANIMATION_RUNNING);
-					((LottieViewProxy) proxy).updateEvent(event);
+					event.put("status", AnimationViewProxy.ANIMATION_RUNNING);
+					((AnimationViewProxy) proxy).updateEvent(event);
 				}
 			});
 
@@ -323,17 +323,17 @@ public class LottieView extends TiUIView implements OnCompositionLoadedListener
 				public void onAnimationRepeat(Animator animation)
 				{
 					KrollDict event = new KrollDict();
-					event.put("status", LottieViewProxy.ANIMATION_END);
+					event.put("status", AnimationViewProxy.ANIMATION_END);
 					event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
-					((LottieViewProxy) proxy).completeEvent(event);
+					((AnimationViewProxy) proxy).completeEvent(event);
 				}
 				@Override
 				public void onAnimationEnd(Animator animation)
 				{
 					KrollDict event = new KrollDict();
-					event.put("status", LottieViewProxy.ANIMATION_END);
+					event.put("status", AnimationViewProxy.ANIMATION_END);
 					event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
-					((LottieViewProxy) proxy).completeEvent(event);
+					((AnimationViewProxy) proxy).completeEvent(event);
 				}
 			});
 			va.start();
