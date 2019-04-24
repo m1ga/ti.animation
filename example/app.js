@@ -16,7 +16,7 @@ var win = Ti.UI.createWindow({
 			fontSize: 12
 		}
 	}),
-	view = TiAnimation.createLottieView({
+	view = TiAnimation.createAnimationView({
 		file: 'sample_lottie.json',
 		loop: false,
 		bottom: 300,
@@ -25,7 +25,7 @@ var win = Ti.UI.createWindow({
 		borderRadius: 60,
 		autoStart: false
 	}),
-	view2 = TiAnimation.createLottieView({
+	view2 = TiAnimation.createAnimationView({
 		file: 'sample_lottie.json',
 		loop: false,
 		bottom: 200,
