@@ -13,7 +13,7 @@ var scroller = Ti.UI.createScrollView({
 	layout: "vertical"
 })
 
-var ani1 = TiAnimation.createLottieView({
+var ani1 = TiAnimation.createAnimationView({
 	file: 'sample_lottie.json',
 	top: 5,
 	loop: true,
@@ -23,7 +23,7 @@ var ani1 = TiAnimation.createLottieView({
 	borderColor: "#000",
 	autoStart: true
 });
-var ani2 = TiAnimation.createLottieView({
+var ani2 = TiAnimation.createAnimationView({
 	file: 'sample_lottie.json',
 	top: 5,
 	loop: true,
@@ -33,7 +33,7 @@ var ani2 = TiAnimation.createLottieView({
 	borderColor: "#000",
 	autoStart: true
 });
-var ani3 = TiAnimation.createLottieView({
+var ani3 = TiAnimation.createAnimationView({
 	file: 'sample_lottie.json',
 	top: 5,
 	loop: true,
@@ -43,7 +43,7 @@ var ani3 = TiAnimation.createLottieView({
 	borderColor: "#000",
 	autoStart: true
 });
-var ani4 = TiAnimation.createLottieView({
+var ani4 = TiAnimation.createAnimationView({
 	file: 'sample_lottie.json',
 	top: 5,
 	loop: true,
@@ -54,7 +54,7 @@ var ani4 = TiAnimation.createLottieView({
 	autoStart: true,
 	scaleMode: "centerCrop"
 });
-var ani5 = TiAnimation.createLottieView({
+var ani5 = TiAnimation.createAnimationView({
 	file: 'sample_lottie.json',
 	top: 5,
 	loop: true,
