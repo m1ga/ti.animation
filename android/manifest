@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 3.0.0
+version: 4.0.0
 apiversion: 4
 architectures: arm64-v8a armeabi-v7a x86
 description: ti.animation
@@ -15,4 +15,4 @@ name: ti.animation
 moduleid: ti.animation
 guid: 0af214dd-5fa0-4cc7-b8c3-268fb78a03d5
 platform: android
-minsdk: 7.0.0
+minsdk: 9.0.0

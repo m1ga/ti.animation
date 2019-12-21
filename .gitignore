@@ -11,3 +11,5 @@ ios/ti.animation.xcodeproj/project.xcworkspace/xcuserdata/*
 .DS_Store
 ios/Cartfile.resolved
 ios/Carthage
+/android/.gradle
+/android/.settings/org.eclipse.buildship.core.prefs
