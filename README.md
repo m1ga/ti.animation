@@ -13,6 +13,7 @@ Instead of using `createLottieView`, simply use `createAnimationView` now. That'
 ## Requirements
 
 - Axway Titanium SDK 7.0.0+
+- Axway Titanium SDK 9.0.0+ for Ti.Animation 4.0.0+
 
 ## Library versions:
 
@@ -20,7 +21,7 @@ The Titanium modules use external libraries
 
 |Library|Platform|Version|Build Date|
 |---|---|---|---|
-| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 3.0.3 | 2019/11/30 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 3.4.0 | 2020/04/13 |
 | [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 2.5.2 | 2018/12/10 |
 
 
@@ -28,16 +29,21 @@ The Titanium modules use external libraries
 
 ```js
 var animation = TiAnimation.createAnimationView({
-  file: 'file.json',
+  file: '/file.json',
   loop: false,
   autoStart: false
 });
 ```
 
+or in Alloy:
+```xml
+<AnimationView id='view_lottie' module='ti.animation' />
+```
+
 ## Update native Libraries
 
 - iOS: Use Carthage and `carthage update` to compile the framework automatically. Then, copy the output from `ios/Carthage/Build/iOS` to `ios/platform/`.
-- Android: To be documented!
+- Android: change the version number in `build.gradle`
 
 ## Features/Documentation
 
@@ -49,7 +55,8 @@ Please see the basic example in `example/app.js`. More examples can found in the
 
 ## Resources
 
-At [LottieFiles](http://www.lottiefiles.com/) you will find a list of free Lottie animations.
+* At [LottieFiles](http://www.lottiefiles.com/) you will find a list of free Lottie animations.
+* Elephant animation by <a href="https://lottiefiles.com/user/266156">LottieFiles - weejkqwjlkejlk2</a>
 
 ## Authors
 

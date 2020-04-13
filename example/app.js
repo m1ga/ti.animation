@@ -17,7 +17,7 @@ var win = Ti.UI.createWindow({
 		}
 	}),
 	view = TiAnimation.createAnimationView({
-		file: 'sample_lottie.json',
+		file: '/sample_lottie.json',
 		loop: false,
 		bottom: 300,
 		height: 120,
@@ -26,7 +26,7 @@ var win = Ti.UI.createWindow({
 		autoStart: false
 	}),
 	view2 = TiAnimation.createAnimationView({
-		file: 'sample_lottie.json',
+		file: '/sample_lottie.json',
 		loop: false,
 		bottom: 200,
 		height: 120,
@@ -49,6 +49,10 @@ if (isAndroid) {
 		console.log("current frame: " + e.frame)
 	});
 }
+view.addEventListener("ready", function() {
+	var dur = (isAndroid) ? view.getDuration() : (Math.floor(view.getDuration() * 1000));
+	lbl.text = "Lottie: Duration: " + dur + "ms\n";
+});
 view.addEventListener("complete", function() {
 	console.log("view: complete");
 });
@@ -62,12 +66,6 @@ win.add([
 	view, view2, lbl, createButtonWithAction('Start animation', startAnimation), createButtonWithAction('Pause animation', pauseAnimation),
 	createButtonWithAction('Resume animation', resumeAnimation), createButtonWithAction('Double speed', doubleSpeed), createButtonWithAction('Get frame', getFrame), slider
 ]);
-
-function onOpen(e) {
-	var dur = (isAndroid) ? view.getDuration() : (Math.floor(view.getDuration() * 1000));
-	lbl.text = "Lottie: Duration: " + dur + "ms\n";
-}
-win.addEventListener("open", onOpen);
 
 if (isAndroid) {
 	win.open();
