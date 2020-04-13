@@ -70,6 +70,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 		setScaleMode(TiConvert.toString(proxy.getProperty("scaleMode")));
 		lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
 		lottieView.addAnimatorListener(new AnimatorListener());
+		lottieView.addLottieOnCompositionLoadedListener(this);
 
 		if (TiConvert.toBoolean(proxy.getProperty("disableHardwareAcceleration"))) {
 			lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -220,7 +221,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 				stream.read(buffer);
 				String json = new String(buffer, StandardCharsets.UTF_8);
 				parseJson(json);
-				LottieCompositionFactory.fromAssetSync(TiApplication.getInstance(), url.replaceAll("file:///android_asset/", ""));
+				lottieView.setAnimation(url.replaceAll("file:///android_asset/", ""));
 			} catch (Exception e) {
 				Log.e(LCAT, "Error opening file " + file.name());
 			}

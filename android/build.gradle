@@ -5,5 +5,5 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.airbnb.android:lottie:3.0.3'
+  implementation 'com.airbnb.android:lottie:3.4.0'
 }
