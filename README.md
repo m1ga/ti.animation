@@ -21,7 +21,7 @@ The Titanium modules use external libraries
 
 |Library|Platform|Version|Build Date|
 |---|---|---|---|
-| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 3.4.0 | 2020/04/13 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 3.4.0 | 2020/02/22 |
 | [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 2.5.2 | 2018/12/10 |
 
 
