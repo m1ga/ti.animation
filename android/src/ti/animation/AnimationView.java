@@ -280,9 +280,19 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 		lottieView.setProgress(0f);
 		proxy.setProperty("paused", false);
 
+		if (startFrame == -1 && TiConvert.toInt(proxy.getProperty("startFrame"),-1) != -1){
+			startFrame = TiConvert.toInt(proxy.getProperty("startFrame"),-1);
+		}
+
+		if (endFrame == -1 && TiConvert.toInt(proxy.getProperty("endFrame"),-1) != -1){
+			endFrame = TiConvert.toInt(proxy.getProperty("endFrame"),-1);
+		}
+
 		if (TiConvert.toFloat(proxy.getProperty("speed")) == 1.0f) {
-			if (startFrame != -1 && endFrame != 1) {
+			if (startFrame != -1) {
 				lottieView.setMinFrame(startFrame);
+			}
+			if (endFrame != -1) {
 				lottieView.setMaxFrame(endFrame);
 			}
 			lottieView.playAnimation();
