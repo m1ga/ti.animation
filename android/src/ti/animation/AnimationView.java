@@ -304,15 +304,12 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 			if (TiConvert.toBoolean(proxy.getProperty("loop"))) {
 				va.setRepeatCount(-1);
 			}
-			va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-				public void onAnimationUpdate(ValueAnimator animation)
-				{
-					lottieView.setProgress((Float) animation.getAnimatedValue());
-					KrollDict event = new KrollDict();
-					event.put("frame", lottieView.getFrame());
-					event.put("status", AnimationViewProxy.ANIMATION_RUNNING);
-					((AnimationViewProxy) proxy).updateEvent(event);
-				}
+			va.addUpdateListener(animation -> {
+				lottieView.setProgress((Float) animation.getAnimatedValue());
+				KrollDict event = new KrollDict();
+				event.put("frame", lottieView.getFrame());
+				event.put("status", AnimationViewProxy.ANIMATION_RUNNING);
+				((AnimationViewProxy) proxy).updateEvent(event);
 			});
 
 			va.addListener(new Animator.AnimatorListener() {

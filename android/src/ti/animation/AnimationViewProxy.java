@@ -37,15 +37,15 @@ public class AnimationViewProxy extends TiViewProxy
 	static final int MSG_STOP_ANIMATION = KrollProxy.MSG_LAST_ID + 105;
 
 	@Kroll.constant
-	public static final int ANIMATION_START = 1;
+	static final int ANIMATION_START = 1;
 	@Kroll.constant
-	public static final int ANIMATION_END = 2;
+	static final int ANIMATION_END = 2;
 	@Kroll.constant
-	public static final int ANIMATION_CANCEL = 3;
+	static final int ANIMATION_CANCEL = 3;
 	@Kroll.constant
-	public static final int ANIMATION_REPEAT = 4;
+	static final int ANIMATION_REPEAT = 4;
 	@Kroll.constant
-	public static final int ANIMATION_RUNNING = 5;
+	static final int ANIMATION_RUNNING = 5;
 
 	// Constructor
 	public AnimationViewProxy()
@@ -202,21 +202,21 @@ public class AnimationViewProxy extends TiViewProxy
 		return getView().getFrame();
 	}
 
-	public void updateEvent(KrollDict event)
+	void updateEvent(KrollDict event)
 	{
 		if (hasListeners("update")) {
 			fireEvent("update", event);
 		}
 	}
 
-	public void completeEvent(KrollDict event)
+	void completeEvent(KrollDict event)
 	{
 		if (hasListeners("complete")) {
 			fireEvent("complete", event);
 		}
 	}
 
-	public void readyEvent(KrollDict event)
+	void readyEvent(KrollDict event)
 	{
 		if (hasListeners("ready")) {
 			fireEvent("ready", event);
