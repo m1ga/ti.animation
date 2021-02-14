@@ -13,3 +13,4 @@ ios/Cartfile.resolved
 ios/Carthage
 /android/.gradle
 /android/.settings/org.eclipse.buildship.core.prefs
+/ios/dist
