@@ -26,7 +26,7 @@ The Titanium modules use external libraries
 
 |Library|Platform|Version|Build Date|
 |---|---|---|---|
-| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 3.5.0 | 2020/11/09 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 3.7.1 | 2021/07/08 |
 | [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 2.5.2 | 2018/12/10 |
 
 
@@ -86,7 +86,7 @@ creation (tss) only:
 Name | Parameter | Info | Platforms
 --- | --- | --- | --- |
 assetFolder|String|If your animation contains images put the folder inside the assetFolder (e.g. `images/` and put the image files inside `app/assets/images/`) | Android |
-file | String | JSON file. Files go into app/assets/ (Alloy) | iOS, Android |
+file | String | JSON file. Files go into app/assets/ (Alloy)<br/>Android: Support for dotLottie files in 4.1.0+ | iOS, Android |
 loop | boolean | loop the animation | iOS, Android |
 autoStart | boolean | automatically start the animation | iOS, Android |
 
