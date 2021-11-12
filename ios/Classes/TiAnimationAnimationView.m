@@ -53,7 +53,9 @@
     [self addSubview:_animationView];
 
     if ([TiUtils boolValue:autoStart def:NO]) {
-      [[self animationView] play];
+      [[self animationView] playWithCompletion:^(BOOL animationFinished) {
+        [self processCompleteEventWith:nil animationFinished:animationFinished];
+      }];
     }
   }
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -26,13 +26,12 @@
 		24DD6CFA1134B3F500162E58 /* TiAnimationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DD6CF81134B3F500162E58 /* TiAnimationModule.m */; };
 		24DE9E1111C5FE74003F90F6 /* TiAnimationModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DE9E0F11C5FE74003F90F6 /* TiAnimationModuleAssets.h */; };
 		24DE9E1211C5FE74003F90F6 /* TiAnimationModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DE9E1011C5FE74003F90F6 /* TiAnimationModuleAssets.m */; };
-		3AB3D37B21BE459A0060E89D /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB3D37A21BE459A0060E89D /* Lottie.framework */; };
+		2C14E7A526C7E8D000F55E93 /* Lottie.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C14E7A426C7E8D000F55E93 /* Lottie.xcframework */; };
 		3AB3D38021BE475F0060E89D /* TiAnimationAnimationView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AB3D37C21BE475F0060E89D /* TiAnimationAnimationView.h */; };
 		3AB3D38121BE475F0060E89D /* TiAnimationAnimationViewProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AB3D37D21BE475F0060E89D /* TiAnimationAnimationViewProxy.m */; };
 		3AB3D38221BE475F0060E89D /* TiAnimationAnimationViewProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AB3D37E21BE475F0060E89D /* TiAnimationAnimationViewProxy.h */; };
 		3AB3D38321BE475F0060E89D /* TiAnimationAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AB3D37F21BE475F0060E89D /* TiAnimationAnimationView.m */; };
 		AA747D9F0F9514B9006C5449 /* TiAnimation_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* TiAnimation_Prefix.pch */; };
-		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		DB79E6742030D7A8009CFB39 /* TiAnimationConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DB79E6732030D7A8009CFB39 /* TiAnimationConstants.h */; };
 /* End PBXBuildFile section */
 
@@ -52,13 +51,12 @@
 		24DD6D1B1134B66800162E58 /* titanium.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = titanium.xcconfig; sourceTree = "<group>"; };
 		24DE9E0F11C5FE74003F90F6 /* TiAnimationModuleAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiAnimationModuleAssets.h; path = Classes/TiAnimationModuleAssets.h; sourceTree = "<group>"; };
 		24DE9E1011C5FE74003F90F6 /* TiAnimationModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiAnimationModuleAssets.m; path = Classes/TiAnimationModuleAssets.m; sourceTree = "<group>"; };
-		3AB3D37A21BE459A0060E89D /* Lottie.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = platform/Lottie.framework; sourceTree = "<group>"; };
+		2C14E7A426C7E8D000F55E93 /* Lottie.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Lottie.xcframework; path = platform/Lottie.xcframework; sourceTree = "<group>"; };
 		3AB3D37C21BE475F0060E89D /* TiAnimationAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiAnimationAnimationView.h; path = Classes/TiAnimationAnimationView.h; sourceTree = "<group>"; };
 		3AB3D37D21BE475F0060E89D /* TiAnimationAnimationViewProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiAnimationAnimationViewProxy.m; path = Classes/TiAnimationAnimationViewProxy.m; sourceTree = "<group>"; };
 		3AB3D37E21BE475F0060E89D /* TiAnimationAnimationViewProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiAnimationAnimationViewProxy.h; path = Classes/TiAnimationAnimationViewProxy.h; sourceTree = "<group>"; };
 		3AB3D37F21BE475F0060E89D /* TiAnimationAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiAnimationAnimationView.m; path = Classes/TiAnimationAnimationView.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* TiAnimation_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiAnimation_Prefix.pch; sourceTree = SOURCE_ROOT; };
-		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libti.animation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libti.animation.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB79E6732030D7A8009CFB39 /* TiAnimationConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiAnimationConstants.h; path = Classes/TiAnimationConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,8 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
-				3AB3D37B21BE459A0060E89D /* Lottie.framework in Frameworks */,
+				2C14E7A526C7E8D000F55E93 /* Lottie.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,8 +95,7 @@
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3AB3D37A21BE459A0060E89D /* Lottie.framework */,
-				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+				2C14E7A426C7E8D000F55E93 /* Lottie.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -179,17 +175,18 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1240;
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "ti.animation" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				en,
+				fr,
+				Base,
+				ja,
+				de,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* ti.animation */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -270,7 +267,7 @@
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
 					"-DDEBUG",
@@ -314,7 +311,7 @@
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "-DTI_POST_1_2";
 				OTHER_LDFLAGS = "-ObjC";
@@ -345,6 +342,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -375,6 +373,7 @@
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INSTALL_PATH = /usr/local/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-DDEBUG",
@@ -386,6 +385,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -411,6 +411,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -438,12 +439,13 @@
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INSTALL_PATH = /usr/local/lib;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				OTHER_CFLAGS = "-DTI_POST_1_2";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = ti.animation;
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
