@@ -73,8 +73,16 @@
   NSData *data = [NSData dataWithContentsOfFile:filePath];
 
   if (!data) {
-    [self log:[NSString stringWithFormat:@"The specified file %@ could not be loaded.", file] forLevel:@"error"];
-    return nil;
+	[self log:[NSString stringWithFormat:@"The specified file %@ could not be loaded. Trying absolute path.", filePath] forLevel:@"error"];
+	data = [NSData dataWithContentsOfFile:[[self proxy] valueForKey:@"file"]];
+	if (!data) {
+		[self log:[NSString stringWithFormat:@"The specified file %@ could not be loaded again.", [[self proxy] valueForKey:@"file"]] forLevel:@"error"];
+		return nil;
+	} else {
+		[self log:[NSString stringWithFormat:@"Loading file %@", [[self proxy] valueForKey:@"file"]] forLevel:@"info"];
+	}
+  } else {
+	[self log:[NSString stringWithFormat:@"Loading file %@", filePath] forLevel:@"info"];
   }
 
   return [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
