@@ -11,7 +11,6 @@ import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll.module;
 
 @module(name = "TiAnimation", id = "ti.animation")
-public class TiAnimationModule extends KrollModule
-{
+public class TiAnimationModule extends KrollModule {
 
 }
