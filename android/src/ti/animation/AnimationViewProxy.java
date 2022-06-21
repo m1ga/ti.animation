@@ -41,9 +41,6 @@ public class AnimationViewProxy extends TiViewProxy {
     static final int ANIMATION_REPEAT = 4;
     @Kroll.constant
     static final int ANIMATION_RUNNING = 5;
-    // Standard Debugging variables
-    private static final String LCAT = "AnimationViewProxy";
-    private static final boolean DBG = TiConfig.LOGD;
 
     // Constructor
     public AnimationViewProxy() {

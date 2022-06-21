@@ -43,10 +43,10 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
     private final LottieAnimationView lottieView;
     private final TiViewProxy proxy;
+    private final TextDelegate delegate;
     private KrollFunction callbackReady = null;
     private float initialDuration = 0;
     private ValueAnimator va = null;
-    private final TextDelegate delegate;
 
     AnimationView(TiViewProxy proxy) {
         super(proxy);
