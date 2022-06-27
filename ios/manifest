@@ -16,4 +16,4 @@ name: ti.animation
 moduleid: ti.animation
 guid: 1fcfea69-bbbf-42f8-b738-9545b5dda74d
 platform: iphone
-minsdk: 10.0.1
+minsdk: 9.2.0
