@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 4.0.0
+version: 4.0.1
 apiversion: 2
 architectures: arm64 x86_64
 description: ti.animation
