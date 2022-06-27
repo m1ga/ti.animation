@@ -7,219 +7,204 @@
  */
 package ti.animation;
 
+import android.app.Activity;
+import android.os.Message;
+
+import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollProxy;
 import org.appcelerator.kroll.annotations.Kroll;
+import org.appcelerator.kroll.common.AsyncResult;
 import org.appcelerator.kroll.common.TiConfig;
+import org.appcelerator.kroll.common.TiMessenger;
+import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.titanium.proxy.TiViewProxy;
 import org.appcelerator.titanium.view.TiUIView;
-import android.app.Activity;
-import org.appcelerator.titanium.TiApplication;
-import android.os.Message;
-import org.appcelerator.kroll.common.TiMessenger;
-import org.appcelerator.kroll.common.AsyncResult;
-import org.appcelerator.kroll.KrollDict;
 
 @Kroll.proxy(creatableInModule = TiAnimationModule.class,
-			 propertyAccessors = { "file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update",
-								   "autoStart", "loop", "assetFolder", "width", "height", "duration", "paused", "speed",
-								   "startFrame", "endFrame", "json" })
+        propertyAccessors = {"file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update",
+                "autoStart", "loop", "assetFolder", "width", "height", "duration", "paused", "speed",
+                "startFrame", "endFrame", "json"})
 
-public class AnimationViewProxy extends TiViewProxy
-{
-	// Standard Debugging variables
-	private static final String LCAT = "AnimationViewProxy";
-	private static final boolean DBG = TiConfig.LOGD;
+public class AnimationViewProxy extends TiViewProxy {
+    static final int MSG_START_ANIMATION = KrollProxy.MSG_LAST_ID + 101;
+    static final int MSG_LOAD_FILE = KrollProxy.MSG_LAST_ID + 102;
+    static final int MSG_PAUSE_ANIMATION = KrollProxy.MSG_LAST_ID + 103;
+    static final int MSG_RESUME_ANIMATION = KrollProxy.MSG_LAST_ID + 104;
+    static final int MSG_STOP_ANIMATION = KrollProxy.MSG_LAST_ID + 105;
+    @Kroll.constant
+    static final int ANIMATION_START = 1;
+    @Kroll.constant
+    static final int ANIMATION_END = 2;
+    @Kroll.constant
+    static final int ANIMATION_CANCEL = 3;
+    @Kroll.constant
+    static final int ANIMATION_REPEAT = 4;
+    @Kroll.constant
+    static final int ANIMATION_RUNNING = 5;
 
-	static final int MSG_START_ANIMATION = KrollProxy.MSG_LAST_ID + 101;
-	static final int MSG_LOAD_FILE = KrollProxy.MSG_LAST_ID + 102;
-	static final int MSG_PAUSE_ANIMATION = KrollProxy.MSG_LAST_ID + 103;
-	static final int MSG_RESUME_ANIMATION = KrollProxy.MSG_LAST_ID + 104;
-	static final int MSG_STOP_ANIMATION = KrollProxy.MSG_LAST_ID + 105;
+    // Constructor
+    public AnimationViewProxy() {
+        super();
+        defaultValues.put("scaleMode", "center_inside");
+        defaultValues.put("disableHardwareAcceleration", false);
+        defaultValues.put("mergePath", false);
+        defaultValues.put("autoStart", false);
+        defaultValues.put("loop", false);
+        defaultValues.put("assetFolder", "");
+        defaultValues.put("speed", 1);
+        defaultValues.put("startFrame", -1);
+        defaultValues.put("endFrame", -1);
+        defaultValues.put("duration", 0);
+        defaultValues.put("file", "");
+        defaultValues.put("json", "");
+        defaultValues.put("paused", false);
+    }
 
-	@Kroll.constant
-	static final int ANIMATION_START = 1;
-	@Kroll.constant
-	static final int ANIMATION_END = 2;
-	@Kroll.constant
-	static final int ANIMATION_CANCEL = 3;
-	@Kroll.constant
-	static final int ANIMATION_REPEAT = 4;
-	@Kroll.constant
-	static final int ANIMATION_RUNNING = 5;
+    @Override
+    public TiUIView createView(Activity activity) {
+        TiUIView view = new AnimationView(this);
+        view.getLayoutParams().autoFillsHeight = true;
+        view.getLayoutParams().autoFillsWidth = true;
+        return view;
+    }
 
-	// Constructor
-	public AnimationViewProxy()
-	{
-		super();
-		defaultValues.put("scaleMode", "center_inside");
-		defaultValues.put("disableHardwareAcceleration", false);
-		defaultValues.put("mergePath", false);
-		defaultValues.put("autoStart", false);
-		defaultValues.put("loop", false);
-		defaultValues.put("assetFolder", "");
-		defaultValues.put("speed", 1);
-		defaultValues.put("startFrame", -1);
-		defaultValues.put("endFrame", -1);
-		defaultValues.put("duration", 0);
-		defaultValues.put("file", "");
-		defaultValues.put("json", "");
-		defaultValues.put("paused", false);
-	}
+    protected AnimationView getView() {
+        return (AnimationView) getOrCreateView();
+    }
 
-	@Override
-	public TiUIView createView(Activity activity)
-	{
-		TiUIView view = new AnimationView(this);
-		view.getLayoutParams().autoFillsHeight = true;
-		view.getLayoutParams().autoFillsWidth = true;
-		return view;
-	}
-	protected AnimationView getView()
-	{
-		return (AnimationView) getOrCreateView();
-	}
+    public boolean handleMessage(Message message) {
+        AsyncResult result = null;
+        switch (message.what) {
+            case MSG_LOAD_FILE: {
+                result = (AsyncResult) message.obj;
+                getView().loadFile((String) result.getArg());
+                result.setResult(null);
+                return true;
+            }
+            case MSG_START_ANIMATION: {
+                result = (AsyncResult) message.obj;
+                int[] frames = (int[]) result.getArg();
+                getView().startAnimation(frames[0], frames[1]);
+                result.setResult(null);
+                return true;
+            }
+            case MSG_PAUSE_ANIMATION: {
+                getView().pauseAnimation();
+                result.setResult(null);
+                return true;
+            }
+            case MSG_RESUME_ANIMATION: {
+                getView().resumeAnimation();
+                result.setResult(null);
+                return true;
+            }
+            case MSG_STOP_ANIMATION: {
+                getView().stopAnimation();
+                result.setResult(null);
+                return true;
+            }
+        }
 
-	public boolean handleMessage(Message message)
-	{
-		AsyncResult result = null;
-		switch (message.what) {
-			case MSG_LOAD_FILE: {
-				result = (AsyncResult) message.obj;
-				getView().loadFile((String) result.getArg());
-				result.setResult(null);
-				return true;
-			}
-			case MSG_START_ANIMATION: {
-				result = (AsyncResult) message.obj;
-				int[] frames = (int[]) result.getArg();
-				getView().startAnimation(frames[0], frames[1]);
-				result.setResult(null);
-				return true;
-			}
-			case MSG_PAUSE_ANIMATION: {
-				getView().pauseAnimation();
-				result.setResult(null);
-				return true;
-			}
-			case MSG_RESUME_ANIMATION: {
-				getView().resumeAnimation();
-				result.setResult(null);
-				return true;
-			}
-			case MSG_STOP_ANIMATION: {
-				getView().stopAnimation();
-				result.setResult(null);
-				return true;
-			}
-		}
+        return super.handleMessage(message);
+    }
 
-		return super.handleMessage(message);
-	}
+    @Kroll.method
+    public void start(@Kroll.argument(optional = true) int fromFrame, @Kroll.argument(optional = true) int endFrame) {
+        if (TiApplication.isUIThread()) {
+            getView().startAnimation(fromFrame, endFrame);
+        } else {
+            TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_START_ANIMATION),
+                    new int[]{fromFrame, endFrame});
+        }
+    }
 
-	@Kroll.method
-	public void start(@Kroll.argument(optional = true) int fromFrame, @Kroll.argument(optional = true) int endFrame)
-	{
-		if (TiApplication.isUIThread()) {
-			getView().startAnimation(fromFrame, endFrame);
-		} else {
-			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_START_ANIMATION),
-												new int[] { fromFrame, endFrame });
-		}
-	}
+    @Kroll.method
+    public void resume() {
+        if (TiApplication.isUIThread()) {
+            getView().resumeAnimation();
+        } else {
+            TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_RESUME_ANIMATION));
+        }
+    }
 
-	@Kroll.method
-	public void resume()
-	{
-		if (TiApplication.isUIThread()) {
-			getView().resumeAnimation();
-		} else {
-			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_RESUME_ANIMATION));
-		}
-	}
+    @Kroll.method
+    public void stop() {
+        if (TiApplication.isUIThread()) {
+            getView().stopAnimation();
+        } else {
+            TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STOP_ANIMATION));
+        }
+    }
 
-	@Kroll.method
-	public void stop()
-	{
-		if (TiApplication.isUIThread()) {
-			getView().stopAnimation();
-		} else {
-			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STOP_ANIMATION));
-		}
-	}
+    @Kroll.method
+    public void pause() {
+        if (TiApplication.isUIThread()) {
+            getView().pauseAnimation();
+        } else {
+            TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_PAUSE_ANIMATION));
+        }
+    }
 
-	@Kroll.method
-	public void pause()
-	{
-		if (TiApplication.isUIThread()) {
-			getView().pauseAnimation();
-		} else {
-			TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_PAUSE_ANIMATION));
-		}
-	}
+    // clang-format off
+    @Kroll.setProperty
+    @Kroll.method
+    public void setText(String layer, String text)
+    // clang-format on
+    {
+        getView().setText(layer, text);
+    }
 
-	// clang-format off
-	@Kroll.setProperty
-	@Kroll.method
-	public void setText(String layer, String text)
-	// clang-format on
-	{
-		getView().setText(layer, text);
-	}
+    // clang-format off
+    @Kroll.getProperty
+    @Kroll.method
+    public float getProgress()
+    // clang-format on
+    {
+        return getView().getProgress();
+    }
 
-	// clang-format off
-	@Kroll.setProperty
-	@Kroll.method
-	public void setProgress(float val)
-	// clang-format on
-	{
-		getView().setProgress(val);
-	}
+    // clang-format off
+    @Kroll.setProperty
+    @Kroll.method
+    public void setProgress(float val)
+    // clang-format on
+    {
+        getView().setProgress(val);
+    }
 
-	// clang-format off
-	@Kroll.getProperty
-	@Kroll.method
-	public float getProgress()
-	// clang-format on
-	{
-		return getView().getProgress();
-	}
+    // clang-format off
+    @Kroll.getProperty
+    @Kroll.method
+    public int getFrame()
+    // clang-format on
+    {
+        return getView().getFrame();
+    }
 
-	// clang-format off
-	@Kroll.setProperty
-	@Kroll.method
-	public void setFrame(int val)
-	// clang-format on
-	{
-		getView().setFrame(val);
-	}
+    // clang-format off
+    @Kroll.setProperty
+    @Kroll.method
+    public void setFrame(int val)
+    // clang-format on
+    {
+        getView().setFrame(val);
+    }
 
-	// clang-format off
-	@Kroll.getProperty
-	@Kroll.method
-	public int getFrame()
-	// clang-format on
-	{
-		return getView().getFrame();
-	}
+    void updateEvent(KrollDict event) {
+        if (hasListeners("update")) {
+            fireEvent("update", event);
+        }
+    }
 
-	void updateEvent(KrollDict event)
-	{
-		if (hasListeners("update")) {
-			fireEvent("update", event);
-		}
-	}
+    void completeEvent(KrollDict event) {
+        if (hasListeners("complete")) {
+            fireEvent("complete", event);
+        }
+    }
 
-	void completeEvent(KrollDict event)
-	{
-		if (hasListeners("complete")) {
-			fireEvent("complete", event);
-		}
-	}
-
-	void readyEvent(KrollDict event)
-	{
-		if (hasListeners("ready")) {
-			fireEvent("ready", event);
-		}
-	}
+    void readyEvent(KrollDict event) {
+        if (hasListeners("ready")) {
+            fireEvent("ready", event);
+        }
+    }
 }

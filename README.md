@@ -5,20 +5,12 @@
 ![gif](animation.gif)
 
 
-Appcelerator Titanium Android module to support smooth and scalable animations using [Airbnb Lottie](https://airbnb.design/lottie/).
+Titanium module to support smooth and scalable animations using [Airbnb Lottie](https://airbnb.design/lottie/).
 
-
-
-> ⚠️ The versions iOS 2.0.0 and Android 3.0.0 contain a breaking change that removed the Facebook Keyframes library. We decided to go with a Lottie only library for the future, since it made the race for the best animation library. Also, the deprecated method `addViewToLayer` is now removed. Please continue to use `addViewToKeypathLayer`.
-
-## Migrate from iOS < 2.0.0 and Android < 3.0.0
-
-Instead of using `createLottieView`, simply use `createAnimationView` now. That's it!
 
 ## Requirements
 
-- Axway Titanium SDK 7.0.0+
-- Axway Titanium SDK 9.0.0+ for Ti.Animation 4.0.0+
+- Titanium SDK 9.0.0+
 
 ## Library versions:
 
@@ -26,7 +18,7 @@ The Titanium modules use external libraries
 
 |Library|Platform|Version|Build Date|
 |---|---|---|---|
-| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 3.7.1 | 2021/07/08 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 5.2.0 | 2022/05/31 |
 | [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 2.5.2 | 2018/12/10 |
 
 
@@ -140,6 +132,4 @@ If you scale your view bigger and you have some jagged lines you need to add `di
 ## Authors
 
 - Hans Knöchel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de))
-- Michael Gangolf ([@MichaelGangolf](https://twitter.com/MichaelGangolf) / [Web](http://migaweb.de))
-
-<span class="badge-patreon"><a href="https://www.patreon.com/michaelgangolf" title="Donate to this project using Patreon"><img src="https://img.shields.io/badge/patreon-donate-yellow.svg" alt="Patreon donate button" /></a></span>
+- Michael Gangolf ([@MichaelGangolf](https://twitter.com/MichaelGangolf) / [Web](http://migaweb.de)) <span class="badge-buymeacoffee"><a href="https://www.buymeacoffee.com/miga" title="donate"><img src="https://img.shields.io/badge/buy%20me%20a%20coke-donate-orange.svg" alt="Buy Me A Coke donate button" /></a></span>

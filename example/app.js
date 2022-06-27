@@ -19,7 +19,8 @@ var win = Ti.UI.createWindow({
 	view = TiAnimation.createAnimationView({
 		file: '/sample_lottie.json',
 		loop: false,
-		bottom: 300,
+		bottom: 200,
+		left: 30,
 		height: 120,
 		width: 120,
 		borderRadius: 60,
@@ -29,6 +30,7 @@ var win = Ti.UI.createWindow({
 		file: '/sample_lottie.json',
 		loop: false,
 		bottom: 200,
+		right: 30,
 		height: 120,
 		width: 120,
 		borderRadius: 60,
@@ -50,7 +52,7 @@ if (isAndroid) {
 	});
 }
 view.addEventListener("ready", function() {
-	var dur = (isAndroid) ? view.getDuration() : (Math.floor(view.getDuration() * 1000));
+	var dur = (isAndroid) ? view.duration : (Math.floor(view.duration * 1000));
 	lbl.text = "Lottie: Duration: " + dur + "ms\n";
 });
 view.addEventListener("complete", function() {
@@ -100,7 +102,7 @@ function createButtonWithAction(title, action) {
 	var btn = Ti.UI.createButton({
 		title: title,
 		top: offset,
-		height: 28,
+		height: 30,
 		width: 200,
 		borderRadius: 4,
 		borderWidth: 1,
@@ -111,7 +113,7 @@ function createButtonWithAction(title, action) {
 
 	btn.addEventListener('click', action);
 
-	offset += 30;
+	offset += 32;
 	return btn;
 }
 
