@@ -2,13 +2,13 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 4.0.1
+version: 5.0.0
 apiversion: 2
 architectures: arm64 x86_64
 description: ti.animation
 author: Hans Knöchel
 license: Apache 2
-mac: true 
+mac: false 
 copyright: Copyright (c) 2017-present by Hans Knöchel, Michael Gangolf
 
 # these should not be edited
@@ -16,4 +16,4 @@ name: ti.animation
 moduleid: ti.animation
 guid: 1fcfea69-bbbf-42f8-b738-9545b5dda74d
 platform: iphone
-minsdk: 9.2.0
+minsdk: 11.0.0
