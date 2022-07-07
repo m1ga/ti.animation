@@ -80,11 +80,18 @@ public class TiAnimationAnimationView : TiUIView {
   
   private func loadAnimationFrom(JSON file: String) -> [String: Any]? {
     let filePath = Bundle.main.path(forResource: file, ofType: nil)
-    let data = try? Data(contentsOf: URL(string: filePath!)!)
+    var data = try? Data(contentsOf: URL(string: filePath!)!)
     
     if data == nil {
-      NSLog("[ERROR] The specified file \"\(file)\" could not be loaded")
-      return nil
+      NSLog("[ERROR] The specified file \"\(file)\" could not be loaded. Trying absolute path")
+      data = try? Data(contentsOf: URL(string: file)!)
+      
+      if data == nil {
+        NSLog("[ERROR] The specified file \"\(file)\" could not be loaded again. Trying absolute path")
+        return nil
+      } else {
+        NSLog("[INFO] Loading file \(file)")
+      }     
     }
     
     return try? JSONSerialization.jsonObject(with: data!) as? [String: Any]
