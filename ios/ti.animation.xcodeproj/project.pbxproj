@@ -16,7 +16,6 @@
 		DB52E2401E9CCF8D00AAAEE0 /* TiAnimation_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = DB52E23F1E9CCF8D00AAAEE0 /* TiAnimation_Prefix.pch */; };
 		DB52E2431E9CD0F800AAAEE0 /* TiAnimationModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB52E2421E9CD0F800AAAEE0 /* TiAnimationModule.swift */; };
 		DB75E5161E9CD59000809B2D /* TiAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB75E5151E9CD58100809B2D /* TiAnimation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		000000000000000000000002 /* TitaniumKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 000000000000000000000001 /* TitaniumKit.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +31,6 @@
 		DB52E2411E9CD09900AAAEE0 /* titanium.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = titanium.xcconfig; sourceTree = "<group>"; };
 		DB52E2421E9CD0F800AAAEE0 /* TiAnimationModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TiAnimationModule.swift; path = Classes/TiAnimationModule.swift; sourceTree = "<group>"; };
 		DB75E5151E9CD58100809B2D /* TiAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TiAnimation.h; path = Classes/TiAnimation.h; sourceTree = "<group>"; };
-		000000000000000000000001 /* TitaniumKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "TitaniumKit.xcframework"; path = "$(TITANIUM_SDK)/iphone/Frameworks/TitaniumKit.xcframework"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +40,6 @@
 			files = (
 				DB34CDE6207B9EBD005F8E8C /* Foundation.framework in Frameworks */,
 				3A5D75612876C4EA00965D8F /* Lottie.xcframework in Frameworks */,
-				000000000000000000000002 /* TitaniumKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +74,6 @@
 			children = (
 				3A5D75602876C4EA00965D8F /* Lottie.xcframework */,
 				DB34CDE5207B9EBD005F8E8C /* Foundation.framework */,
-				000000000000000000000001 /* TitaniumKit.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
