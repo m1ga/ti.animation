@@ -71,6 +71,7 @@ Name | Parameter | Info | Platforms
 --- | --- | --- | --- |
 assetFolder|String|If your animation contains images put the folder inside the assetFolder (e.g. `images/` and put the image files inside `app/assets/images/`) | Android |
 file | String | JSON file. Files go into app/assets/ (Alloy)<br/>Android: Support for dotLottie files in 4.1.0+ | iOS, Android |
+jsonString | String | Pass a raw JSON string to the module | iOS |
 loop | boolean | loop the animation | iOS, Android |
 autoStart | boolean | automatically start the animation | iOS, Android |
 
