@@ -4,9 +4,7 @@
 
 ![gif](animation.gif)
 
-
 Titanium module to support smooth and scalable animations using [Airbnb Lottie](https://airbnb.design/lottie/).
-
 
 ## Requirements
 
@@ -19,8 +17,7 @@ The Titanium modules use external libraries
 |Library|Platform|Version|Build Date|
 |---|---|---|---|
 | [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 5.2.0 | 2022/05/31 |
-| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 2.5.3 | 2019/03/06 |
-
+| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 3.4.3 | 2022/09/17 |
 
 ## Create a View
 
@@ -44,34 +41,29 @@ or in Alloy:
 
 ## Features/Documentation
 
-## Methods:
+## Methods
+
 Name | Parameter | Info | Platforms
 --- | --- | --- | -- |
 start() | | Starts an animation from the beginning | iOS, Android |
-start(int from, int to) | Startframe, Endframe | Plays an animation from frame `from` to `to` | Android |
+start(int from, int to) | Startframe, Endframe | Plays an animation from frame `from` to `to` | iOS, Android |
 pause() | | Pause an animation | iOS, Android |
 resume() | | Resumes an animation from the current point | iOS, Android |
 stop() | | Stops an animation an resets it | iOS, Android |
 addEventListener(String event, Callback function) | Event name as string<br>Callback function | Adds events to the animation view | iOS, Android |
-setFile(String path) | File path as string | Sets the current animation, Files go into app/assets/ (Alloy) | Android |
+setFile(String path) | File path as string | Sets the current animation, Files go into app/assets/ (Alloy) | iOS, Android |
 setText(String layer, String text) | Layer, Text | Sets the text in the layer `layer` to `text` | Android |
-addViewToKeypathLayer(TiUiView view, String layer) | View, Layer | Adds a given Ti.UI.View instance to a layer with the given name | iOS |
-convertRectToKeypathLayer() | args | - | iOS |
-convertPointToKeypathLayer() | args | - | iOS |
-convertRectFromKeypathLayer() | args | - | iOS |
-convertPointFromKeypathLayer() | args | - | iOS |
-setValueDelegateForKeyPath() | args | - | iOS |
 
+## Properties
 
-## Properties:
 Name | Parameter | Info | Platforms
 --- | --- | --- | --- |
-progress | float | Get/set the current progress (in percentage) | Android |
-loop | boolean | Get/set if the animation should loop | Android |
-speed | float | Get/set the speed of the animation | Android |
-duration | float | Get/set the duration of the animation | Android |
-isPlaying | boolean | Get the animation status | Android |
-cache() | boolean | - | iOS |
+progress | float | Get/set the current progress (in percentage) | iOS, Android |
+loop | boolean | Get/set if the animation should loop | iOS, Android |
+speed | float | Get/set the speed of the animation | iOS, Android |
+duration | float | Get/set the duration of the animation | iOS, Android |
+isPlaying | boolean | Get the animation status | iOS, Android |
+newRenderingEngineEnabled | boolean | Use the core animation background rendering engine instead of the main thread | iOS |
 
 creation (tss) only:
 
@@ -83,24 +75,15 @@ loop | boolean | loop the animation | iOS, Android |
 autoStart | boolean | automatically start the animation | iOS, Android |
 
 
-## Events:
+## Events
+
 Name |  Info | Properties | Platforms
 --- |  --- | --- | --- |
 complete | When the animation is done | Status:int, Loop:boolean | iOS, Android |
 update | Fires during the animation | Frame:int, status:int (ANIMATION_START, ANIMATION_END, ANIMATION_CANCEL, ANIMATION_REPEAT, ANIMATION_RUNNING)  | Android |
 
-## iOS Constants
-used in setValueDelegateForKeyPath.type
-
-Name |  Platforms
---- |  --- |
-CALLBACK_COLOR_VALUE |  iOS |
-CALLBACK_NUMBER_VALUE |  iOS |
-CALLBACK_POINT_VALUE |  iOS |
-CALLBACK_SIZE_VALUE |  iOS |
-CALLBACK_PATH_VALUE |  iOS |
-
 ## Example
+
 ```xml
 <AnimationView id='view_lottie' module='ti.animation' />
 ```

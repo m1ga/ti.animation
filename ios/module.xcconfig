@@ -4,7 +4,7 @@
 //
 // see the following webpage for instructions on the settings
 // for this file:
-// http://developer.apple.com/mac/library/documentation/DeveloperTools/Conceptual/XcodeBuildSystem/400-Build_Configurations/build_configs.html
+// https://developer.apple.com/library/content/featuredarticles/XcodeConcepts/Concept-Build_Settings.html
 // 
 
-OTHER_LDFLAGS=$(inherited) -framework CoreGraphics -framework QuartzCore
+OTHER_LDFLAGS=$(inherited) -framework Lottie

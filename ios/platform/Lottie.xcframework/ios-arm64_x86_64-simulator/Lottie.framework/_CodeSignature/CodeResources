@@ -4,176 +4,121 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/LOTAnimatedControl.h</key>
+		<key>Headers/Lottie-Swift.h</key>
 		<data>
-		kuzSTV+o/3ss53lTLvqhFBRm1NA=
-		</data>
-		<key>Headers/LOTAnimatedSwitch.h</key>
-		<data>
-		u+l+84XAWDlWUyHqjNXx+OtC5FY=
-		</data>
-		<key>Headers/LOTAnimationCache.h</key>
-		<data>
-		bM6wE+kgYYTAXmkWnvRHQ+J4S9M=
-		</data>
-		<key>Headers/LOTAnimationTransitionController.h</key>
-		<data>
-		3ftOKbEkbGUDi0/zFiZfcx+T2tA=
-		</data>
-		<key>Headers/LOTAnimationView.h</key>
-		<data>
-		ZTW4+LjRK2AuKNEEaVvSwbjXy+A=
-		</data>
-		<key>Headers/LOTAnimationView_Compat.h</key>
-		<data>
-		xDqSuwxpD7U6DAPuNoJbKu0nfLI=
-		</data>
-		<key>Headers/LOTBlockCallback.h</key>
-		<data>
-		ZNpIDZS55Cg3/ig6tJVpQTb30c0=
-		</data>
-		<key>Headers/LOTCacheProvider.h</key>
-		<data>
-		pkP7YsEyXw1i8AHZrmiD2fVKeok=
-		</data>
-		<key>Headers/LOTComposition.h</key>
-		<data>
-		0EW729bXNlsnOKaE2f5FuNNpiJ8=
-		</data>
-		<key>Headers/LOTInterpolatorCallback.h</key>
-		<data>
-		RJDx/ubQq5RUtavsCMezxjR4jLE=
-		</data>
-		<key>Headers/LOTKeypath.h</key>
-		<data>
-		5wNMMeKKwWkEa6rAX1P5EkLU7A8=
-		</data>
-		<key>Headers/LOTValueCallback.h</key>
-		<data>
-		eLYzyLyhp3AE9p+ua2zEuWN/PQc=
-		</data>
-		<key>Headers/LOTValueDelegate.h</key>
-		<data>
-		QwzcUfLejLc420xRGPRKVMNcLYM=
-		</data>
-		<key>Headers/Lottie.h</key>
-		<data>
-		XEV4l8dHwtEJw83UD4azgEy3u+I=
+		boHy9+m5vLhiHYsBHDpzMXr+9j0=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		xM9QpVE/0ZmYWIVvdVGszdnK3+o=
+		86gBKId3oYUBGU1BGF1+BCIiOkE=
+		</data>
+		<key>Modules/Lottie.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
+		<data>
+		8u64LpC2lKNee86geH4IRKapNjY=
+		</data>
+		<key>Modules/Lottie.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
+		<data>
+		hHHXKKkmBe1hRiFX6Do5PrU7O4M=
+		</data>
+		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
+		<data>
+		FSPnLbho3G+LL9smI3XgVOqBIQ4=
+		</data>
+		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
+		<data>
+		Uunt29Ae5XBpXUqCdAVS3HKnoXc=
+		</data>
+		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
+		<data>
+		4dCRqFvS2MB5Svv3CmkAhm/WGuo=
+		</data>
+		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
+		<data>
+		FSPnLbho3G+LL9smI3XgVOqBIQ4=
+		</data>
+		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
+		<data>
+		z/8vP6gzII1b/FrJMQxYwI3LClo=
+		</data>
+		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
+		<data>
+		O98NyXWWLy1+CrJdLHCH01KTN7o=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		5zWJdq5GU7LyJDaLgqRgRFy9DEc=
+		DV06Wqt1A0d79oGLNVIbxjpgBhU=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/LOTAnimatedControl.h</key>
+		<key>Headers/Lottie-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hpz5mnbG2767HkAsyNM4sEa5chTYiqnX5x0hWdUp8W8=
+			ks3oPJy93Z61F6kZXInTDiYoXHPQry1sXiZjuAudsG4=
 			</data>
 		</dict>
-		<key>Headers/LOTAnimatedSwitch.h</key>
+		<key>Modules/Lottie.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			4RvlB516wYaZL6pUWhEXKVb4nK1W4fFfXBX29PuicO8=
+			INEBQ2ZM5fKW1XNgeh0MNqg2jj5P/WI4+DdgqaBexDo=
 			</data>
 		</dict>
-		<key>Headers/LOTAnimationCache.h</key>
+		<key>Modules/Lottie.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hjkRGYf7Lb6AcnZwzdNIgHh0sAGgYRvv8rj+94UGhsE=
+			Fk/gwg4uyhD0Y7ndWd+UC0lWDY3kd2DPLgLI+006XJ4=
 			</data>
 		</dict>
-		<key>Headers/LOTAnimationTransitionController.h</key>
+		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0+t6ufW4/H7M7cmEJz1/nmzmx52ktbFXfBKFxU3XY8Q=
+			KnRdWE4y6t4QM5zi5JDptPdHFgJy1Tku+7GLkZS2aNM=
 			</data>
 		</dict>
-		<key>Headers/LOTAnimationView.h</key>
+		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			d7ZmAoBAISa+2rhZSumn2r0UVjgX77O9ZYhkyYAsG9g=
+			NwlkuqEop9kCz0PhCMPfsmwCRhFg0u7+9OkS1Rk3aJk=
 			</data>
 		</dict>
-		<key>Headers/LOTAnimationView_Compat.h</key>
+		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YEW9eYuC4ALEFwzQw5xIQRSC1U+s759rNqPkhTltA1Y=
+			5s+3P9jwfHNSsnFzAll9fjR2+C18Nk6Za4izW+T02jI=
 			</data>
 		</dict>
-		<key>Headers/LOTBlockCallback.h</key>
+		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			7NoWx6AIB2Ipnv2eQ4yM1R9OtDyLsGfiJaJLPFJXhBQ=
+			KnRdWE4y6t4QM5zi5JDptPdHFgJy1Tku+7GLkZS2aNM=
 			</data>
 		</dict>
-		<key>Headers/LOTCacheProvider.h</key>
+		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			V64kS8poXjFhDMFHV00fv/Hgf7X9G6bAZzEiGfEkfXU=
+			udV7ZjJpQ8q9XbteTwSpk1tqa9/jSpnk0qWDhf/5ff4=
 			</data>
 		</dict>
-		<key>Headers/LOTComposition.h</key>
+		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			GOBPcDxBXELKCQTckJxI8bLmbl3uvLmkUIPSbNaDL/Q=
-			</data>
-		</dict>
-		<key>Headers/LOTInterpolatorCallback.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			L7fOwRQlfi6IYjj0AzTouWC8z7A0CkP6QWSO8Mkbn5s=
-			</data>
-		</dict>
-		<key>Headers/LOTKeypath.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			eqfDtQW1GH+FoWeGnh4l2XFqyyd70OlyC1xaHuL7vQs=
-			</data>
-		</dict>
-		<key>Headers/LOTValueCallback.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			/Xi0iDyVIYHnCjGSlG4wsefKMCQzKN9/cAqU9l8m4Tg=
-			</data>
-		</dict>
-		<key>Headers/LOTValueDelegate.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			9cevE4D5khI1TZ1E+Z4EnmdBMYlp4d5fEDdKV4J5DZ8=
-			</data>
-		</dict>
-		<key>Headers/Lottie.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			NDFIoxhSNUWvc9disPeA9QawENPeFQDzx30svaY2M94=
+			/DWKoZozMCKDR0IQyDcCl9dUiOqeYU82k/BAjXU0cPM=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			qXdeFOUNrSY0+y4Ur316Y9lblwo+gjCtw54C8NgjxiQ=
+			GTUIX/Hf1jwA337lpALyQjuRidby1Hc8v68BlEnql9s=
 			</data>
 		</dict>
 	</dict>
