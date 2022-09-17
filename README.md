@@ -17,7 +17,7 @@ The Titanium modules use external libraries
 |Library|Platform|Version|Build Date|
 |---|---|---|---|
 | [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 5.2.0 | 2022/05/31 |
-| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 3.4.0 | 2022/07/07 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 3.4.3 | 2022/09/17 |
 
 ## Create a View
 
@@ -62,7 +62,8 @@ progress | float | Get/set the current progress (in percentage) | iOS, Android |
 loop | boolean | Get/set if the animation should loop | iOS, Android |
 speed | float | Get/set the speed of the animation | iOS, Android |
 duration | float | Get/set the duration of the animation | iOS, Android |
-isPlaying | boolean | Get the animation status | Android |
+isPlaying | boolean | Get the animation status | iOS, Android |
+newRenderingEngineEnabled | boolean | Use the core animation background rendering engine instead of the main thread | iOS |
 
 creation (tss) only:
 
