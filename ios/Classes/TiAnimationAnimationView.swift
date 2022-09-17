@@ -70,12 +70,20 @@ public class TiAnimationAnimationView : TiUIView {
  
   @objc
   private func didClickView(_ sender: UIGestureRecognizer) {
+    guard let proxy = proxy else {
+      return
+    }
+
     if proxy._hasListeners("click") {
       proxy.fireEvent("click")
     }
   }
   
   private func processCompleteEvent(with callback: KrollCallback?, animationFinished: Bool) {
+    guard let proxy = proxy else {
+      return
+    }
+
     if proxy._hasListeners("complete") {
       proxy.fireEvent("complete", with: ["animatonFinished": true])
     }
