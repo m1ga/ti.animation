@@ -22,31 +22,13 @@ class TiAnimationModule: TiModule {
   override func moduleId() -> String! {
     return "ti.animation"
   }
-
-  override func startup() {
-    super.startup()
-    debugPrint("[DEBUG] \(self) loaded")
-  }
-
-  @objc(example:)
-  func example(arguments: Array<Any>?) -> String? {
-    guard let arguments = arguments, let params = arguments[0] as? [String: Any] else { return nil }
-
-    // Example method. 
-    // Call with "MyModule.example({ hello: 'world' })"
-
-    return params["hello"] as? String
-  }
   
-  @objc public var exampleProp: String {
-     get { 
-        // Example property getter
-        return "Titanium rocks!"
-     }
-     set {
-        // Example property setter
-        // Call with "MyModule.exampleProp = 'newValue'"
-        self.replaceValue(newValue, forKey: "exampleProp", notification: false)
-     }
-   }
+  @objc var newRenderingEngineEnabled: Any {
+    set {
+      LottieConfiguration.shared.renderingEngine = newValue as? Bool ?? false ? .coreAnimation : .mainThread
+    }
+    get {
+      return LottieConfiguration.shared.renderingEngine == .coreAnimation
+    }
+  }
 }

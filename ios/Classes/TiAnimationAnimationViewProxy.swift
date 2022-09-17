@@ -11,6 +11,15 @@ import TitaniumKit
 
 @objc(TiAnimationAnimationViewProxy)
 class TiAnimationAnimationViewProxy: TiViewProxy {
+  
+  var autoStart = false
+  
+  override func _init(withProperties properties: [AnyHashable : Any]!) {
+    super._init(withProperties: properties)
+    
+    autoStart = TiUtils.boolValue("autoStart", properties: properties)
+    loop = TiUtils.boolValue("loop", properties: properties)
+  }
 
   private func animationView() -> TiAnimationAnimationView {
     return view as! TiAnimationAnimationView
@@ -25,7 +34,7 @@ class TiAnimationAnimationViewProxy: TiViewProxy {
       animationView().play(with: nil)
       return
     }
-    
+
     if params.count == 1 {
       let callback = params.first as? KrollCallback
       animationView().play(with: callback)
@@ -57,64 +66,55 @@ class TiAnimationAnimationViewProxy: TiViewProxy {
   
   // MARK: - Properties
   
-  @objc(setProgress:)
-  func setProgress(params: Any?) {
-    let progress = params as? Float ?? 0.0
-    animationView().setProgress(progress: progress)
-    
-    replaceValue(progress, forKey: "progress", notification: false)
+  @objc var progress: Any? {
+    set {
+      let progress = newValue as? Float ?? 0.0
+      animationView().setProgress(progress: progress)
+      
+      replaceValue(progress, forKey: "progress", notification: false)
+    }
+    get {
+      return animationView().progress()
+    }
   }
   
-  @objc(progress)
-  func progress() -> Float {
-    return animationView().progress()
+  @objc var speed: Any? {
+    set {
+      let speed = newValue as? Float ?? 0.0
+      animationView().setSpeed(speed: speed)
+      
+      replaceValue(speed, forKey: "speed", notification: false)
+
+    }
+    get {
+      return animationView().speed()
+    }
   }
-  
-  @objc(setSpeed:)
-  func setSpeed(params: Any?) {
-    let speed = params as? Float ?? 0.0
-    animationView().setSpeed(speed: speed)
-    
-    replaceValue(speed, forKey: "speed", notification: false)
-  }
-  
-  @objc(speed)
-  func speed() -> Float {
-    return animationView().speed()
-  }
-  
-  @objc(setLoop:)
-  func setLoop(params: Any?) {
-    let loop = params as? Bool ?? false
-    animationView().setLoop(loop: loop)
-    
-    replaceValue(loop, forKey: "loop", notification: false)
-  }
-  
-  @objc(loop)
-  func loop() -> Bool {
+
+  @objc lazy var loop: Bool = {
     return animationView().loop()
+  }()
+
+  @objc var cache: Any {
+    set {
+      let cache = newValue as? Bool ?? false
+      animationView().setCacheEnabled(cacheEnabled: cache)
+    }
+    get {
+      return animationView().cacheEnabled()
+    }
   }
   
-  @objc(setCache:)
-  func setCache(params: Any?) {
-    let cache = params as? Bool ?? false
-    animationView().setCacheEnabled(cacheEnabled: cache)
-  }
-  
-  @objc(cache)
-  func cache() -> Bool {
-    return animationView().cacheEnabled()
-  }
-  
-  @objc(isPlaying)
-  func isPlaying() -> Bool {
+  @objc var isPlaying: Bool {
     return animationView().isPlaying()
   }
   
-  @objc(duration)
-  func duration() -> Float {
+  @objc var duration: Float {
     return animationView().duration()
+  }
+  
+  @objc var frame: Float {
+    return animationView().frame()
   }
   
   // MARK: - Layers

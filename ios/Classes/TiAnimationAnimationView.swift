@@ -17,23 +17,26 @@ public class TiAnimationAnimationView : TiUIView {
   private func animationView() -> AnimationView {
     if _animationView == nil {
       let file = TiUtils.stringValue(proxy.value(forKey: "file"))
-      let autoStart = TiUtils.boolValue(proxy.value(forKey: "autoStart"))
+      let jsonString = TiUtils.stringValue(proxy.value(forKey: "jsonString"))
+      let autoStart = (proxy as! TiAnimationAnimationViewProxy).autoStart
+      let loop = (proxy as! TiAnimationAnimationViewProxy).loop
       let contentMode: Int? = Int(TiUtils.intValue(proxy.value(forKey: "contentMode")))
 
-      guard var file = file else {
-        NSLog("[ERROR] Missing required \"file\" parameter")
-        fatalError("")
+      // Case A: Handle JSON file references (either from the packaged app or from the application cache
+      if let file = file, file.hasSuffix(".json") {
+        guard let dictionary = loadAnimationFrom(JSON: file) else {
+          fatalError("Cannot find file!")
+        }
+        
+        _animationView = AnimationView(animation: try! Animation(dictionary: dictionary))
+      // Case B: Handle JSON strings
+      } else if let jsonString = jsonString {
+        let data = jsonString.data(using: .utf8)
+        if let data = data, let jsonData = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+          _animationView = AnimationView(animation: try! Animation(dictionary: jsonData))
+        }
       }
-      
-      // Handle both "file.json" and "file"
-      if file.hasSuffix(".json") {
-        let url = URL(string: file)
-        file = url!.deletingPathExtension().absoluteString
-      }
-      
-      _animationView = AnimationView(animation: try! Animation(dictionary: loadAnimationFrom(JSON: file)!))
-      _animationView.frame = bounds
-      
+            
       // Enable click-events
       let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didClickView))
       _animationView.addGestureRecognizer(tapGestureRecognizer)
@@ -48,8 +51,15 @@ public class TiAnimationAnimationView : TiUIView {
         _animationView.contentMode = .scaleAspectFit
       }
       
+      _animationView.frame = bounds
       addSubview(_animationView)
       
+      // Creation only: Loop mode
+      if (loop) {
+        _animationView.loopMode = .loop
+      }
+      
+      // Creation only: Auto start
       if autoStart {
         play(with: nil)
       }
@@ -79,19 +89,36 @@ public class TiAnimationAnimationView : TiUIView {
   }
   
   private func loadAnimationFrom(JSON file: String) -> [String: Any]? {
-    let filePath = Bundle.main.path(forResource: file, ofType: nil)
-    var data = try? Data(contentsOf: URL(string: filePath!)!)
+    var data: Data? = nil
+    var fileString = file
     
+    // Handle file document data directory
+    if let documentsDirectoryURL = URL(string: file) {
+      data = try? Data(contentsOf: documentsDirectoryURL, options: .mappedIfSafe)
+    }
+
+    // Handle bundled files
     if data == nil {
-      NSLog("[ERROR] The specified file \"\(file)\" could not be loaded. Trying absolute path")
-      data = try? Data(contentsOf: URL(string: file)!)
+      // Handle both "file.json" and "file"
+      if fileString.hasSuffix(".json") {
+        let url = URL(string: file)
+        fileString = url!.deletingPathExtension().absoluteString
+      }
+      
+      let filePath = Bundle.main.url(forResource: fileString, withExtension: "json")
+      data = try? Data(contentsOf: filePath!)
       
       if data == nil {
-        NSLog("[ERROR] The specified file \"\(file)\" could not be loaded again. Trying absolute path")
-        return nil
-      } else {
-        NSLog("[INFO] Loading file \(file)")
-      }     
+        NSLog("[ERROR] The specified file \"\(file)\" could not be loaded. Trying absolute path")
+        data = try? Data(contentsOf: URL(string: file)!)
+        
+        if data == nil {
+          NSLog("[ERROR] The specified file \"\(file)\" could not be loaded again. Trying absolute path")
+          return nil
+        } else {
+          NSLog("[INFO] Loading file \(file)")
+        }
+      }
     }
     
     return try? JSONSerialization.jsonObject(with: data!) as? [String: Any]
@@ -99,7 +126,7 @@ public class TiAnimationAnimationView : TiUIView {
 
   public override func frameSizeChanged(_ frame: CGRect, bounds: CGRect) {
     super.frameSizeChanged(frame, bounds: bounds)
-    _animationView.frame = bounds
+    animationView().frame = bounds
   }
 }
 
@@ -145,12 +172,15 @@ extension TiAnimationAnimationView {
   
   func isPlaying() -> Bool {
     animationView().isAnimationPlaying
-    
   }
   
   func duration() -> Float {
     NSLog("[ERROR] The \"duration\" property has been removed from the native library")
     return 0.0
+  }
+  
+  func frame() -> Float {
+    return Float(animationView().currentFrame)
   }
   
   func progress() -> Float {
