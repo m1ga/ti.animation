@@ -7,22 +7,4 @@
 // https://developer.apple.com/library/content/featuredarticles/XcodeConcepts/Concept-Build_Settings.html
 // 
 
-//
-// How to manually add a Framework (example)
-// Note: Titanium SDK 6.2.2+ detects and links frameworks automatically
-//
-// OTHER_LDFLAGS=$(inherited) -framework Foo
-//
-// Adding a framework for a specific version(s) of iOS, e.g iOS 11:
-//
-// OTHER_LDFLAGS[sdk=iphoneos11*]=$(inherited) -framework Foo
-// OTHER_LDFLAGS[sdk=iphonesimulator11*]=$(inherited) -framework Foo
-//
-//
-// How to add a compiler define:
-//
-// OTHER_CFLAGS=$(inherited) -DFOO=1
-//
-//
-// IMPORTANT NOTE: always use $(inherited) in your overrides
-// 
+OTHER_LDFLAGS=$(inherited) -framework Lottie
