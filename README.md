@@ -46,7 +46,7 @@ or in Alloy:
 Name | Parameter | Info | Platforms
 --- | --- | --- | -- |
 start() | | Starts an animation from the beginning | iOS, Android |
-start(int from, int to) | Startframe, Endframe | Plays an animation from frame `from` to `to` | Android |
+start(int from, int to) | Startframe, Endframe | Plays an animation from frame `from` to `to` | iOS, Android |
 pause() | | Pause an animation | iOS, Android |
 resume() | | Resumes an animation from the current point | iOS, Android |
 stop() | | Stops an animation an resets it | iOS, Android |

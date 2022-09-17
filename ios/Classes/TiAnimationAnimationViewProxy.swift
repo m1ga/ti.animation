@@ -134,11 +134,4 @@ class TiAnimationAnimationViewProxy: TiViewProxy {
     remember(viewProxy)
     animationView().add(view: viewProxy.view, toLayer: keypathLayer)
   }
-  
-  // MARK: - Convert
-  // TODO: Add APIs
-  
-  // MARK: - Dynamic Properties
-  // TODO: Add APIs
-
 }
