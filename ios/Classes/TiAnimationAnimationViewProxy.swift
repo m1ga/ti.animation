@@ -13,12 +13,25 @@ import TitaniumKit
 class TiAnimationAnimationViewProxy: TiViewProxy {
   
   var autoStart = false
-  
+
+  var loop = false
+
+  var speed: Float? = 1.0
+
+  var progress: Float? = 0.0
+
+  var cache = false
+
   override func _init(withProperties properties: [AnyHashable : Any]!) {
     super._init(withProperties: properties)
     
     autoStart = TiUtils.boolValue("autoStart", properties: properties)
     loop = TiUtils.boolValue("loop", properties: properties)
+    cache = TiUtils.boolValue("cache", properties: properties)
+    progress = TiUtils.floatValueSwift(properties["progress"])
+    speed = TiUtils.floatValueSwift(properties["speed"])
+    
+    animationView().initializeView()
   }
 
   private func animationView() -> TiAnimationAnimationView {
@@ -66,43 +79,34 @@ class TiAnimationAnimationViewProxy: TiViewProxy {
   
   // MARK: - Properties
   
-  @objc var progress: Any? {
-    set {
-      let progress = newValue as? Float ?? 0.0
+  @objc(setProgress:)
+  func setProgress(value: Any) {
+    let progress = TiUtils.floatValueSwift(value) ?? 0.0
+    if animationView()._animationView != nil {
       animationView().setProgress(progress: progress)
-      
-      replaceValue(progress, forKey: "progress", notification: false)
     }
-    get {
-      return animationView().progress()
-    }
+    
+    replaceValue(progress, forKey: "progress", notification: false)
   }
   
-  @objc var speed: Any? {
-    set {
-      let speed = newValue as? Float ?? 0.0
+  @objc(setSpeed:)
+  func setSpeed(value: Any) {
+    let speed = TiUtils.floatValueSwift(value) ?? 1.0
+    if animationView()._animationView != nil {
       animationView().setSpeed(speed: speed)
-      
-      replaceValue(speed, forKey: "speed", notification: false)
-
     }
-    get {
-      return animationView().speed()
-    }
+    
+    replaceValue(speed, forKey: "speed", notification: false)
   }
 
-  @objc lazy var loop: Bool = {
-    return animationView().loop()
-  }()
-
-  @objc var cache: Any {
-    set {
-      let cache = newValue as? Bool ?? false
+  @objc(setCache:)
+  func setCache(value: Any) {
+    let cache = value as? Bool ?? false
+    if animationView()._animationView != nil {
       animationView().setCacheEnabled(cacheEnabled: cache)
     }
-    get {
-      return animationView().cacheEnabled()
-    }
+    
+    replaceValue(cache, forKey: "cache", notification: false)
   }
   
   @objc var isPlaying: Bool {
@@ -133,5 +137,20 @@ class TiAnimationAnimationViewProxy: TiViewProxy {
     
     remember(viewProxy)
     animationView().add(view: viewProxy.view, toLayer: keypathLayer)
+  }
+}
+
+// MARK: Utils
+
+extension TiUtils {
+  
+  class func floatValueSwift(_ value: Any?) -> Float? {
+    if let floatValue = value as? Float {
+      return floatValue
+    } else if let stringValue = value as? String {
+      return Float(stringValue)
+    }
+    
+    return nil
   }
 }

@@ -12,13 +12,14 @@ import Lottie
 @objc(TiAnimationAnimationView)
 public class TiAnimationAnimationView : TiUIView {
 
-  private var _animationView: AnimationView!
+  var _animationView: AnimationView!
   
   private func animationView() -> AnimationView {
     if _animationView == nil {
       let file = TiUtils.stringValue(proxy.value(forKey: "file"))
       let jsonString = TiUtils.stringValue(proxy.value(forKey: "jsonString"))
       let autoStart = (proxy as! TiAnimationAnimationViewProxy).autoStart
+      let speed = TiUtils.floatValueSwift((proxy as! TiAnimationAnimationViewProxy).speed)
       let loop = (proxy as! TiAnimationAnimationViewProxy).loop
       let contentMode: Int? = Int(TiUtils.intValue(proxy.value(forKey: "contentMode")))
 
@@ -49,6 +50,10 @@ public class TiAnimationAnimationView : TiUIView {
         }
       } else {
         _animationView.contentMode = .scaleAspectFit
+      }
+      
+      if let speed = speed {
+        setSpeed(speed: speed)
       }
       
       _animationView.frame = bounds
@@ -131,10 +136,16 @@ public class TiAnimationAnimationView : TiUIView {
     
     return try? JSONSerialization.jsonObject(with: data!) as? [String: Any]
   }
+  
+  func initializeView() {
+    let _ = animationView()
+  }
 
   public override func frameSizeChanged(_ frame: CGRect, bounds: CGRect) {
     super.frameSizeChanged(frame, bounds: bounds)
-    animationView().frame = bounds
+    if let animationView = _animationView {
+      animationView.frame = bounds
+    }
   }
 }
 
