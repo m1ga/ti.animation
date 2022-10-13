@@ -64,14 +64,15 @@ setValueDelegateForKeyPath() | args | - | iOS |
 
 
 ## Properties:
-Name | Parameter | Info | Platforms
---- | --- | --- | --- |
-progress | float | Get/set the current progress (in percentage) | Android |
-loop | boolean | Get/set if the animation should loop | Android |
-speed | float | Get/set the speed of the animation | Android |
-duration | float | Get/set the duration of the animation | Android |
-isPlaying | boolean | Get the animation status | Android |
-cache() | boolean | - | iOS |
+Name | Parameter | Info | Framework | Platforms
+--- | --- | --- | --- | --- |
+progress | float | Get/set the current progress (in percentage) | Lottie | Android |
+loop | boolean | Get/set if the animation should loop | Lottie |  Android |
+speed | float | Get/set the speed of the animation | Lottie |  Android |
+duration | float | Get/set the duration of the animation | Lottie | Android |
+isPlaying | boolean | Get the animation status | Lottie | Android |
+cache() | boolean | - | Lottie | iOS |
+animationName | String or Array | Sets the Rive animation name | Rive | Android |
 
 creation (tss) only:
 
@@ -81,6 +82,7 @@ assetFolder|String|If your animation contains images put the folder inside the a
 file | String | JSON file. Files go into app/assets/ (Alloy)<br/>Android: Support for dotLottie files in 4.1.0+ | iOS, Android |
 loop | boolean | loop the animation | iOS, Android |
 autoStart | boolean | automatically start the animation | iOS, Android |
+animationType | int | One of the constants `ANIMATION_LOTTIE` or `ANIMATION_RIVE` | iOS, Android |
 
 
 ## Events:
@@ -89,8 +91,14 @@ Name |  Info | Properties | Platforms
 complete | When the animation is done | Status:int, Loop:boolean | iOS, Android |
 update | Fires during the animation | Frame:int, status:int (ANIMATION_START, ANIMATION_END, ANIMATION_CANCEL, ANIMATION_REPEAT, ANIMATION_RUNNING)  | Android |
 
-## iOS Constants
-used in setValueDelegateForKeyPath.type
+## Constants
+
+Name |  Platforms
+--- |  --- |
+ANIMATION_RIVE |  Android |
+ANIMATION_LOTTIE |  Android |
+
+used in setValueDelegateForKeyPath.type (iOS):
 
 Name |  Platforms
 --- |  --- |

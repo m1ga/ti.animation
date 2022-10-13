@@ -38,6 +38,17 @@ var win = Ti.UI.createWindow({
 		speed: 2,
 		loop: true
 	}),
+	view3 = TiAnimation.createAnimationView({
+		file: '/vehicles.riv',
+		loop: false,
+		bottom: 200,
+		height: 120,
+		width: 120,
+		animationType: TiAnimation.ANIMATION_RIVE,
+		artboardName: "Truck",
+		animationName: "idle",
+		stateName: "idle"
+	}),
 	slider = Ti.UI.createSlider({
 		value: 0,
 		min: 0,
@@ -65,7 +76,7 @@ view2.addEventListener("complete", function() {
 slider.addEventListener('change', seekToProgress);
 
 win.add([
-	view, view2, lbl, createButtonWithAction('Start animation', startAnimation), createButtonWithAction('Pause animation', pauseAnimation),
+	view, view2, view3, lbl, createButtonWithAction('Start animation', startAnimation), createButtonWithAction('Pause animation', pauseAnimation),
 	createButtonWithAction('Resume animation', resumeAnimation), createButtonWithAction('Double speed', doubleSpeed), createButtonWithAction('Get frame', getFrame), slider
 ]);
 
@@ -78,6 +89,9 @@ if (isAndroid) {
 	nav.open();
 }
 
+view3.addEventListener("click", function() {
+	view3.animationName = ["idle", "curves"];
+})
 
 function doubleSpeed(e) {
 	if (isDouble) {

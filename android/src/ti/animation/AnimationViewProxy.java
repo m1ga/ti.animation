@@ -7,6 +7,8 @@
  */
 package ti.animation;
 
+import static ti.animation.TiAnimationModule.ANIMATION_LOTTIE;
+
 import android.app.Activity;
 import android.os.Message;
 
@@ -23,7 +25,7 @@ import org.appcelerator.titanium.view.TiUIView;
 @Kroll.proxy(creatableInModule = TiAnimationModule.class,
         propertyAccessors = {"file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update",
                 "autoStart", "loop", "assetFolder", "width", "height", "duration", "paused", "speed",
-                "startFrame", "endFrame", "json"})
+                "startFrame", "endFrame", "json", "animationType", "artboardName", "stateName"})
 
 public class AnimationViewProxy extends TiViewProxy {
     static final int MSG_START_ANIMATION = KrollProxy.MSG_LAST_ID + 101;
@@ -57,6 +59,10 @@ public class AnimationViewProxy extends TiViewProxy {
         defaultValues.put("duration", 0);
         defaultValues.put("file", "");
         defaultValues.put("json", "");
+        defaultValues.put("artboardName", "");
+        defaultValues.put("animationName", "");
+        defaultValues.put("stateName", "");
+        defaultValues.put("animationType", ANIMATION_LOTTIE);
         defaultValues.put("paused", false);
     }
 
@@ -127,6 +133,16 @@ public class AnimationViewProxy extends TiViewProxy {
         }
     }
 
+    @Kroll.setProperty
+    public void setAnimationName(Object animationName) {
+        getView().setAnimationName(animationName);
+    }
+
+    @Kroll.getProperty
+    public String getAnimationName() {
+        return "";
+    }
+
     @Kroll.method
     public void stop() {
         if (TiApplication.isUIThread()) {
@@ -156,7 +172,6 @@ public class AnimationViewProxy extends TiViewProxy {
 
     // clang-format off
     @Kroll.getProperty
-    @Kroll.method
     public float getProgress()
     // clang-format on
     {
@@ -165,7 +180,6 @@ public class AnimationViewProxy extends TiViewProxy {
 
     // clang-format off
     @Kroll.setProperty
-    @Kroll.method
     public void setProgress(float val)
     // clang-format on
     {
@@ -174,7 +188,6 @@ public class AnimationViewProxy extends TiViewProxy {
 
     // clang-format off
     @Kroll.getProperty
-    @Kroll.method
     public int getFrame()
     // clang-format on
     {
@@ -183,7 +196,6 @@ public class AnimationViewProxy extends TiViewProxy {
 
     // clang-format off
     @Kroll.setProperty
-    @Kroll.method
     public void setFrame(int val)
     // clang-format on
     {

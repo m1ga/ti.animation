@@ -7,10 +7,16 @@
  */
 package ti.animation;
 
+import static ti.animation.TiAnimationModule.ANIMATION_LOTTIE;
+import static ti.animation.TiAnimationModule.ANIMATION_RIVE;
+
+import androidx.startup.AppInitializer;
+
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView.ScaleType;
 
@@ -34,16 +40,31 @@ import org.appcelerator.titanium.util.TiConvert;
 import org.appcelerator.titanium.view.TiUIView;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import app.rive.runtime.kotlin.RiveAnimationView;
+import app.rive.runtime.kotlin.RiveInitializer;
+import app.rive.runtime.kotlin.core.Alignment;
+import app.rive.runtime.kotlin.core.Direction;
+import app.rive.runtime.kotlin.core.Fit;
+import app.rive.runtime.kotlin.core.LinearAnimationInstance;
+import app.rive.runtime.kotlin.core.Loop;
+import app.rive.runtime.kotlin.core.StateMachineInstance;
 
 public class AnimationView extends TiUIView implements LottieOnCompositionLoadedListener {
 
     private static final String LCAT = "AnimationViewProxy";
-
-    private final LottieAnimationView lottieView;
     private final TiViewProxy proxy;
-    private final TextDelegate delegate;
+    public int animationType = ANIMATION_LOTTIE;
+    ByteArrayOutputStream byteBuffer;
+    private LottieAnimationView lottieView;
+    private RiveAnimationView riveView;
+    private TextDelegate delegate;
     private KrollFunction callbackReady = null;
     private float initialDuration = 0;
     private ValueAnimator va = null;
@@ -57,29 +78,47 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
         View viewWrapper;
 
         int resId_viewHolder;
-        int resId_lottie;
+        int resId_aniView;
 
-        resId_viewHolder = resources.getIdentifier("layout_lottie", "layout", packageName);
-        resId_lottie = resources.getIdentifier("animation_view", "id", packageName);
+        if (TiConvert.toInt(proxy.getProperty("animationType")) == ANIMATION_RIVE) {
+            AppInitializer.getInstance(TiApplication.getAppCurrentActivity())
+                    .initializeComponent(RiveInitializer.class);
+            resId_viewHolder = resources.getIdentifier("layout_rive", "layout", packageName);
+        } else {
+            resId_viewHolder = resources.getIdentifier("layout_lottie", "layout", packageName);
+        }
+        resId_aniView = resources.getIdentifier("animation_view", "id", packageName);
 
         LayoutInflater inflater = LayoutInflater.from(proxy.getActivity());
         viewWrapper = inflater.inflate(resId_viewHolder, null);
 
-        lottieView = viewWrapper.findViewById(resId_lottie);
-        delegate = new TextDelegate(lottieView);
-        setNativeView(viewWrapper);
+        if (TiConvert.toInt(proxy.getProperty("animationType")) == ANIMATION_RIVE) {
+            riveView = viewWrapper.findViewById(resId_aniView);
+            animationType = ANIMATION_RIVE;
+            MotionEvent mEvent = null;
+            riveView.setOnTouchListener((view, motionEvent) -> {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    fireEvent("click", new KrollDict());
+                }
+                return false;
+            });
 
-        setScaleMode(TiConvert.toString(proxy.getProperty("scaleMode")));
-        lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
-        lottieView.addAnimatorListener(new AnimatorListener());
-        lottieView.addLottieOnCompositionLoadedListener(this);
-
-        if (TiConvert.toBoolean(proxy.getProperty("disableHardwareAcceleration"))) {
-            lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         } else {
-            lottieView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            lottieView = viewWrapper.findViewById(resId_aniView);
+            delegate = new TextDelegate(lottieView);
+            setScaleMode(TiConvert.toString(proxy.getProperty("scaleMode")));
+            lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
+            lottieView.addAnimatorListener(new AnimatorListener());
+            lottieView.addLottieOnCompositionLoadedListener(this);
+
+            if (TiConvert.toBoolean(proxy.getProperty("disableHardwareAcceleration"))) {
+                lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            } else {
+                lottieView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            }
+            lottieView.enableMergePathsForKitKatAndAbove(TiConvert.toBoolean(proxy.getProperty("mergePath")));
         }
-        lottieView.enableMergePathsForKitKatAndAbove(TiConvert.toBoolean(proxy.getProperty("mergePath")));
+        setNativeView(viewWrapper);
     }
 
     @Override
@@ -91,19 +130,21 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
         }
         if (d.containsKey("disableHardwareAcceleration")) {
             if (d.getBoolean("disableHardwareAcceleration")) {
-                lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                if (lottieView != null) lottieView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             } else {
-                lottieView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                if (lottieView != null) lottieView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             }
         }
         if (d.containsKey("loop")) {
-            lottieView.setRepeatCount(d.getBoolean("loop") ? LottieDrawable.INFINITE : 0);
+            if (lottieView != null)
+                lottieView.setRepeatCount(d.getBoolean("loop") ? LottieDrawable.INFINITE : 0);
         }
         if (d.containsKey("ready")) {
             callbackReady = (KrollFunction) d.get("ready");
         }
         if (d.containsKey("mergePath")) {
-            lottieView.enableMergePathsForKitKatAndAbove(d.getBoolean("mergePath"));
+            if (lottieView != null)
+                lottieView.enableMergePathsForKitKatAndAbove(d.getBoolean("mergePath"));
         }
         if (d.containsKey("progress")) {
             setProgress(Float.parseFloat(d.getString("progress")));
@@ -146,16 +187,20 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     private void setScaleMode(String smode) {
         // Set scale mode on view
         //
+        if (animationType == ANIMATION_RIVE) {
+            return;
+        }
+
         switch (smode) {
             case "center":
-                lottieView.setScaleType(ScaleType.CENTER);
+                if (lottieView != null) lottieView.setScaleType(ScaleType.CENTER);
                 break;
             case "centerCrop":
-                lottieView.setScaleType(ScaleType.CENTER_CROP);
+                if (lottieView != null) lottieView.setScaleType(ScaleType.CENTER_CROP);
                 break;
             case "centerInside":
             default:
-                lottieView.setScaleType(ScaleType.CENTER_INSIDE);
+                if (lottieView != null) lottieView.setScaleType(ScaleType.CENTER_INSIDE);
                 break;
         }
     }
@@ -211,14 +256,34 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
         if (file.exists()) {
             try {
                 InputStream stream = file.getInputStream();
-                int size = stream.available();
-                byte[] buffer = new byte[size];
-                stream.read(buffer);
-                String json = new String(buffer, StandardCharsets.UTF_8);
-                parseJson(json);
-                lottieView.setAnimation(url.replaceAll("file:///android_asset/", ""));
+
+                if (animationType == ANIMATION_RIVE) {
+                    byteBuffer = new ByteArrayOutputStream();
+                    int bufferSize = 1024;
+                    byte[] buffer = new byte[bufferSize];
+                    int len = 0;
+                    while ((len = stream.read(buffer)) != -1) {
+                        byteBuffer.write(buffer, 0, len);
+                    }
+
+                    riveView.setRiveBytes(byteBuffer.toByteArray(),
+                            TiConvert.toString(proxy.getProperty("artboardName")),
+                            TiConvert.toString(proxy.getProperty("animationName")),
+                            TiConvert.toString(proxy.getProperty("stateName")),
+                            true,
+                            Fit.CONTAIN,
+                            Alignment.CENTER,
+                            Loop.LOOP);
+                } else {
+                    int size = stream.available();
+                    byte[] buffer = new byte[size];
+                    stream.read(buffer);
+                    String json = new String(buffer, StandardCharsets.UTF_8);
+                    parseJson(json);
+                    lottieView.setAnimation(url.replaceAll("file:///android_asset/", ""));
+                }
             } catch (Exception e) {
-                Log.e(LCAT, "Error opening file " + file.name());
+                Log.e(LCAT, "Error opening file " + file.name() + "\n" + e.getMessage());
             }
         } else {
             Log.e(LCAT, "File " + file.name() + " not found!");
@@ -226,6 +291,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     }
 
     void startAnimation(int startFrame, int endFrame) {
+        if (animationType == ANIMATION_RIVE) return;
         lottieView.cancelAnimation();
         lottieView.setProgress(0f);
         proxy.setProperty("paused", false);
@@ -292,6 +358,8 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     }
 
     void pauseAnimation() {
+        if (animationType == ANIMATION_RIVE) return;
+
         proxy.setProperty("paused", true);
 
         if (va != null) {
@@ -302,6 +370,8 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     }
 
     void resumeAnimation() {
+        if (animationType == ANIMATION_RIVE) return;
+
         proxy.setProperty("paused", false);
         if (va != null) {
             va.resume();
@@ -311,6 +381,8 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     }
 
     void stopAnimation() {
+        if (animationType == ANIMATION_RIVE) return;
+
         proxy.setProperty("paused", false);
         if (va != null) {
             va.cancel();
@@ -324,19 +396,38 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     }
 
     float getProgress() {
+        if (animationType == ANIMATION_RIVE) return 0;
         return lottieView.getProgress();
     }
 
     void setProgress(float val) {
+        if (animationType == ANIMATION_RIVE) return;
         lottieView.setProgress(val);
     }
 
     int getFrame() {
+        if (animationType == ANIMATION_RIVE) return 0;
         return lottieView.getFrame();
     }
 
     void setFrame(int val) {
+        if (animationType == ANIMATION_RIVE) return;
         lottieView.setFrame(val);
+    }
+
+    public void setAnimationName(Object animationName) {
+        if (animationType == ANIMATION_RIVE) {
+            if (animationName instanceof String) {
+                riveView.play((String) animationName, Loop.LOOP, Direction.AUTO, false, true);
+            } else if (animationName instanceof Object[]) {
+                Object[] objVal = (Object[]) animationName;
+                List<String> lst = new ArrayList<String>();
+                for (Object s: objVal) {
+                    lst.add((String) s);
+                }
+                riveView.play(lst, Loop.LOOP, Direction.AUTO, false, true);
+            }
+        }
     }
 
     protected class AnimatorUpdateListener implements ValueAnimator.AnimatorUpdateListener {
@@ -375,4 +466,5 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             ((AnimationViewProxy) proxy).completeEvent(event);
         }
     }
+
 }
