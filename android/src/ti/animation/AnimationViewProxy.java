@@ -59,9 +59,6 @@ public class AnimationViewProxy extends TiViewProxy {
         defaultValues.put("duration", 0);
         defaultValues.put("file", "");
         defaultValues.put("json", "");
-        defaultValues.put("artboardName", "");
-        defaultValues.put("animationName", "");
-        defaultValues.put("stateName", "");
         defaultValues.put("animationType", ANIMATION_LOTTIE);
         defaultValues.put("paused", false);
     }
@@ -89,8 +86,12 @@ public class AnimationViewProxy extends TiViewProxy {
             }
             case MSG_START_ANIMATION: {
                 result = (AsyncResult) message.obj;
-                int[] frames = (int[]) result.getArg();
-                getView().startAnimation(frames[0], frames[1]);
+                if (result.getArg() instanceof Object) {
+                    getView().startAnimation(result.getArg());
+                } else {
+                    int[] frames = (int[]) result.getArg();
+                    getView().startAnimation(frames[0], frames[1]);
+                }
                 result.setResult(null);
                 return true;
             }
@@ -125,6 +126,19 @@ public class AnimationViewProxy extends TiViewProxy {
     }
 
     @Kroll.method
+    public void start(@Kroll.argument(optional = true) Object data) {
+        if (data != null) {
+            if (TiApplication.isUIThread()) {
+                getView().startAnimation(data);
+            } else {
+                TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_START_ANIMATION), data);
+            }
+        } else {
+            start(-1, -1);
+        }
+    }
+
+    @Kroll.method
     public void resume() {
         if (TiApplication.isUIThread()) {
             getView().resumeAnimation();
@@ -133,14 +147,14 @@ public class AnimationViewProxy extends TiViewProxy {
         }
     }
 
-    @Kroll.setProperty
-    public void setAnimationName(Object animationName) {
-        getView().setAnimationName(animationName);
-    }
-
     @Kroll.getProperty
     public String getAnimationName() {
         return "";
+    }
+
+    @Kroll.setProperty
+    public void setAnimationName(Object animationName) {
+        getView().setAnimationName(animationName);
     }
 
     @Kroll.method

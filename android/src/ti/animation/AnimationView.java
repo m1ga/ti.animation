@@ -10,10 +10,12 @@ package ti.animation;
 import static ti.animation.TiAnimationModule.ANIMATION_LOTTIE;
 import static ti.animation.TiAnimationModule.ANIMATION_RIVE;
 
+import androidx.annotation.NonNull;
 import androidx.startup.AppInitializer;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -45,15 +47,18 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import app.rive.runtime.kotlin.RiveAnimationView;
+import app.rive.runtime.kotlin.RiveArtboardRenderer;
 import app.rive.runtime.kotlin.RiveInitializer;
 import app.rive.runtime.kotlin.core.Alignment;
 import app.rive.runtime.kotlin.core.Direction;
 import app.rive.runtime.kotlin.core.Fit;
 import app.rive.runtime.kotlin.core.LinearAnimationInstance;
 import app.rive.runtime.kotlin.core.Loop;
+import app.rive.runtime.kotlin.core.PlayableInstance;
 import app.rive.runtime.kotlin.core.StateMachineInstance;
 
 public class AnimationView extends TiUIView implements LottieOnCompositionLoadedListener {
@@ -69,6 +74,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     private float initialDuration = 0;
     private ValueAnimator va = null;
 
+    @SuppressLint("ClickableViewAccessibility")
     AnimationView(TiViewProxy proxy) {
         super(proxy);
 
@@ -102,7 +108,34 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                 }
                 return false;
             });
+            /*
+            riveView.registerListener(new RiveArtboardRenderer.Listener() {
+                @Override
+                public void notifyPlay(@NonNull PlayableInstance playableInstance) {
 
+                }
+
+                @Override
+                public void notifyPause(@NonNull PlayableInstance playableInstance) {
+
+                }
+
+                @Override
+                public void notifyStop(@NonNull PlayableInstance playableInstance) {
+
+                }
+
+                @Override
+                public void notifyLoop(@NonNull PlayableInstance playableInstance) {
+
+                }
+
+                @Override
+                public void notifyStateChanged(@NonNull String s, @NonNull String s1) {
+
+                }
+            });
+            */
         } else {
             lottieView = viewWrapper.findViewById(resId_aniView);
             delegate = new TextDelegate(lottieView);
@@ -266,14 +299,35 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                         byteBuffer.write(buffer, 0, len);
                     }
 
+                    String artboard = null;
+                    String ani = null;
+                    String state = null;
+                    Loop loop = Loop.ONESHOT;
+
+                    if (proxy.hasPropertyAndNotNull("artboardName")) {
+                        artboard = TiConvert.toString(proxy.getProperty("artboardName"));
+                    }
+                    if (proxy.hasPropertyAndNotNull("animationName")) {
+                        ani = TiConvert.toString(proxy.getProperty("animationName"));
+                    }
+                    if (proxy.hasPropertyAndNotNull("stateName")) {
+                        state = TiConvert.toString(proxy.getProperty("stateName"));
+                    }
+                    if (proxy.hasPropertyAndNotNull("loop")) {
+                        if (TiConvert.toInt(proxy.getProperty("loop")) == 0) {
+                            loop = Loop.ONESHOT;
+                        } else if (TiConvert.toInt(proxy.getProperty("loop")) == 1) {
+                            loop = Loop.LOOP;
+                        }
+                    }
                     riveView.setRiveBytes(byteBuffer.toByteArray(),
-                            TiConvert.toString(proxy.getProperty("artboardName")),
-                            TiConvert.toString(proxy.getProperty("animationName")),
-                            TiConvert.toString(proxy.getProperty("stateName")),
+                            artboard,
+                            ani,
+                            state,
                             true,
                             Fit.CONTAIN,
                             Alignment.CENTER,
-                            Loop.LOOP);
+                            loop);
                 } else {
                     int size = stream.available();
                     byte[] buffer = new byte[size];
@@ -287,6 +341,19 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             }
         } else {
             Log.e(LCAT, "File " + file.name() + " not found!");
+        }
+    }
+
+    void startAnimation(Object data) {
+        if (animationType == ANIMATION_RIVE) {
+            HashMap kd = (HashMap) data;
+            String aniName = TiConvert.toString(kd.get("animationName"));
+            Boolean loop = TiConvert.toBoolean(kd.get("loop"));
+            Loop l = Loop.ONESHOT;
+            if (loop) {
+                l = Loop.LOOP;
+            }
+            riveView.play(aniName, l, Direction.AUTO, false, false);
         }
     }
 
@@ -358,36 +425,43 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     }
 
     void pauseAnimation() {
-        if (animationType == ANIMATION_RIVE) return;
-
         proxy.setProperty("paused", true);
 
-        if (va != null) {
-            va.pause();
+        if (animationType == ANIMATION_RIVE) {
+            riveView.pause();
         } else {
-            lottieView.pauseAnimation();
+            if (va != null) {
+                va.pause();
+            } else {
+                lottieView.pauseAnimation();
+            }
         }
     }
 
     void resumeAnimation() {
-        if (animationType == ANIMATION_RIVE) return;
-
         proxy.setProperty("paused", false);
-        if (va != null) {
-            va.resume();
+        if (animationType == ANIMATION_RIVE) {
+            riveView.play(Loop.AUTO, Direction.AUTO, true);
         } else {
-            lottieView.resumeAnimation();
+            if (va != null) {
+                va.resume();
+            } else {
+                lottieView.resumeAnimation();
+            }
         }
     }
 
     void stopAnimation() {
-        if (animationType == ANIMATION_RIVE) return;
-
         proxy.setProperty("paused", false);
-        if (va != null) {
-            va.cancel();
+
+        if (animationType == ANIMATION_RIVE) {
+            riveView.stop();
         } else {
-            lottieView.cancelAnimation();
+            if (va != null) {
+                va.cancel();
+            } else {
+                lottieView.cancelAnimation();
+            }
         }
     }
 
@@ -422,7 +496,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             } else if (animationName instanceof Object[]) {
                 Object[] objVal = (Object[]) animationName;
                 List<String> lst = new ArrayList<String>();
-                for (Object s: objVal) {
+                for (Object s : objVal) {
                     lst.add((String) s);
                 }
                 riveView.play(lst, Loop.LOOP, Direction.AUTO, false, true);

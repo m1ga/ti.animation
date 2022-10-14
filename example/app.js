@@ -39,15 +39,15 @@ var win = Ti.UI.createWindow({
 		loop: true
 	}),
 	view3 = TiAnimation.createAnimationView({
-		file: '/vehicles.riv',
-		loop: false,
+		file: '/rocket.riv',
+		//loop: true,
 		bottom: 200,
 		height: 120,
 		width: 120,
 		animationType: TiAnimation.ANIMATION_RIVE,
-		artboardName: "Truck",
-		animationName: "idle",
-		stateName: "idle"
+		//artboardName: "Main",
+		//animationName: "Timeline 1",
+		//stateName: "idle"
 	}),
 	slider = Ti.UI.createSlider({
 		value: 0,
@@ -96,20 +96,20 @@ view3.addEventListener("click", function() {
 function doubleSpeed(e) {
 	if (isDouble) {
 		e.source.title = "Double speed";
-		view.setSpeed(1);
+		view.speed = 1;
 	} else {
 		e.source.title = "Normal speed";
-		view.setSpeed(2);
+		view.speed = 2;
 	}
 	isDouble = !isDouble;
 }
 
 function seekToProgress(e) {
-	view.setProgress(e.value);
+	view.progress = e.value;
 }
 
 function getFrame() {
-	console.log("Current frame view-animation: " + view.getFrame());
+	console.log("Current frame view-animation: " + view.frame);
 }
 
 function createButtonWithAction(title, action) {
@@ -133,12 +133,18 @@ function createButtonWithAction(title, action) {
 
 function startAnimation() {
 	view.start();
+    view3.start({
+        animationName: "Timeline 1",
+        loop: true
+    });
 }
 
 function pauseAnimation() {
 	view.pause();
+	view3.pause();
 }
 
 function resumeAnimation() {
 	view.resume();
+	view3.resume();
 }
