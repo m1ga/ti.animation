@@ -169,8 +169,10 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             }
         }
         if (d.containsKey("loop")) {
-            if (lottieView != null)
-                lottieView.setRepeatCount(d.getBoolean("loop") ? LottieDrawable.INFINITE : 0);
+            if (animationType == ANIMATION_LOTTIE) {
+                if (lottieView != null)
+                    lottieView.setRepeatCount(d.getBoolean("loop") ? LottieDrawable.INFINITE : 0);
+            }
         }
         if (d.containsKey("ready")) {
             callbackReady = (KrollFunction) d.get("ready");
@@ -492,14 +494,27 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     public void setAnimationName(Object animationName) {
         if (animationType == ANIMATION_RIVE) {
             if (animationName instanceof String) {
-                riveView.play((String) animationName, Loop.LOOP, Direction.AUTO, false, true);
+                riveView.play((String) animationName, Loop.ONESHOT, Direction.AUTO, false, true);
             } else if (animationName instanceof Object[]) {
                 Object[] objVal = (Object[]) animationName;
                 List<String> lst = new ArrayList<String>();
                 for (Object s : objVal) {
                     lst.add((String) s);
                 }
-                riveView.play(lst, Loop.LOOP, Direction.AUTO, false, true);
+                riveView.play(lst, Loop.ONESHOT, Direction.AUTO, false, true);
+            }
+        }
+    }
+
+    public void resetAnimation() {
+        if (animationType == ANIMATION_RIVE) {
+            try {
+                riveView.stop();
+                riveView.clearAnimation();
+                riveView.reset();
+                riveView.stop();
+            } catch (Exception e) {
+                Log.e("--", e.getMessage());
             }
         }
     }

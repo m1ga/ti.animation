@@ -1,61 +1,112 @@
-var TiAnimation = require('ti.animation');
-var isAndroid = (Ti.Platform.osname == 'android');
+const TiAnimation = require('ti.animation');
+const isAndroid = (Ti.Platform.osname == 'android');
 var offset = 0;
 var isDouble = false;
+var isLoop = false;
+var isDay = true;
 
-var win = Ti.UI.createWindow({
-		backgroundColor: '#fff',
-		title: 'Ti.Animation Demo',
-		fullscreen: true
-	}),
-	lbl = Ti.UI.createLabel({
-		bottom: 50,
-		color: "#000",
-		textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		font: {
-			fontSize: 12
-		}
-	}),
-	view = TiAnimation.createAnimationView({
-		file: '/sample_lottie.json',
-		loop: false,
-		bottom: 200,
-		left: 30,
-		height: 120,
-		width: 120,
-		borderRadius: 60,
-		autoStart: false
-	}),
-	view2 = TiAnimation.createAnimationView({
-		file: '/sample_lottie.json',
-		loop: false,
-		bottom: 200,
-		right: 30,
-		height: 120,
-		width: 120,
-		borderRadius: 60,
-		autoStart: true,
-		speed: 2,
-		loop: true
-	}),
-	view3 = TiAnimation.createAnimationView({
-		file: '/rocket.riv',
-		//loop: true,
-		bottom: 200,
-		height: 120,
-		width: 120,
-		animationType: TiAnimation.ANIMATION_RIVE,
-		//artboardName: "Main",
-		//animationName: "Timeline 1",
-		//stateName: "idle"
-	}),
-	slider = Ti.UI.createSlider({
-		value: 0,
-		min: 0,
-		max: 1,
-		bottom: 10,
-		width: 300
-	});
+const win = Ti.UI.createWindow({
+	backgroundColor: '#fff',
+	title: 'Titanium demo',
+	fullscreen: true
+});
+
+var buttonRow = Ti.UI.createView({
+	height: Ti.UI.SIZE,
+	width: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 10
+});
+var buttonRow2 = Ti.UI.createView({
+	height: Ti.UI.SIZE,
+	width: Ti.UI.SIZE,
+	layout: "horizontal",
+	top: 65
+});
+var buttonRow3 = Ti.UI.createView({
+	height: Ti.UI.SIZE,
+	width: Ti.UI.SIZE,
+	layout: "horizontal",
+	bottom: 100
+});
+
+
+function onClickLoop(e) {
+	isLoop = !isLoop;
+	if (isLoop) {
+		e.source.backgroundColor = "#afa";
+	} else {
+		e.source.backgroundColor = "#fff";
+	}
+}
+
+
+buttonRow.add([
+	createButtonWithAction('Start', startAnimation),
+	createButtonWithAction('Pause', pauseAnimation),
+	createButtonWithAction('Resume', resumeAnimation),
+	createButtonWithAction('Stop/Reset', resetAnimation),
+]);
+buttonRow2.add([
+	createButtonWithAction('Loop', onClickLoop),
+]);
+buttonRow3.add([
+	createButtonWithAction('Double speed', doubleSpeed),
+	createButtonWithAction('Get frame', getFrame),
+]);
+
+const lbl_title = Ti.UI.createLabel({
+	bottom: 300,
+	color: "#000",
+	text: "Lottie:"
+});
+const lbl = Ti.UI.createLabel({
+	bottom: 40,
+	color: "#000",
+	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+	font: {
+		fontSize: 12
+	}
+});
+const view = TiAnimation.createAnimationView({
+	file: '/sample_lottie.json',
+	loop: false,
+	bottom: 200,
+	left: 30,
+	height: 120,
+	width: 120,
+	borderRadius: 60,
+	autoStart: false
+});
+const view2 = TiAnimation.createAnimationView({
+	file: '/sample_lottie.json',
+	loop: false,
+	bottom: 200,
+	right: 30,
+	height: 120,
+	width: 120,
+	borderRadius: 60,
+	autoStart: true,
+	speed: 2,
+	loop: true
+});
+const riveView = TiAnimation.createAnimationView({
+	file: '/knight.riv',
+	top: 140,
+	height: 200,
+	width: 200,
+	animationType: TiAnimation.ANIMATION_RIVE,
+	//artboardName: "Main",
+	animationName: "idle",
+	//stateName: "idle"
+});
+const slider = Ti.UI.createSlider({
+	value: 0,
+	min: 0,
+	max: 1,
+	bottom: 10,
+	width: 300
+});
 
 if (isAndroid) {
 	view.addEventListener("update", function(e) {
@@ -76,26 +127,23 @@ view2.addEventListener("complete", function() {
 slider.addEventListener('change', seekToProgress);
 
 win.add([
-	view, view2, view3, lbl, createButtonWithAction('Start animation', startAnimation), createButtonWithAction('Pause animation', pauseAnimation),
-	createButtonWithAction('Resume animation', resumeAnimation), createButtonWithAction('Double speed', doubleSpeed), createButtonWithAction('Get frame', getFrame), slider
+	view, view2, riveView, lbl_title, lbl, buttonRow, slider, buttonRow2, buttonRow3
 ]);
 
-if (isAndroid) {
-	win.open();
-} else {
-	var nav = Ti.UI.iOS.createNavigationWindow({
-		window: win
-	});
-	nav.open();
-}
+win.open();
 
-view3.addEventListener("click", function() {
-	view3.animationName = ["idle", "curves"];
+riveView.addEventListener("click", function() {
+	if (isDay) {
+		riveView.animationName = "day_night";
+	} else {
+		riveView.animationName = "night_day";
+	}
+	isDay = !isDay;
 })
 
 function doubleSpeed(e) {
 	if (isDouble) {
-		e.source.title = "Double speed";
+		e.source.title = " Double speed ";
 		view.speed = 1;
 	} else {
 		e.source.title = "Normal speed";
@@ -115,36 +163,41 @@ function getFrame() {
 function createButtonWithAction(title, action) {
 	var btn = Ti.UI.createButton({
 		title: title,
-		top: offset,
-		height: 30,
-		width: 200,
+		height: 50,
 		borderRadius: 4,
 		borderWidth: 1,
+		right: 2,
 		borderColor: "#000",
 		color: "#000",
-		backgroundColor: "#fff"
+		backgroundColor: "#eee",
+		touchFeedback: true,
+		touchFeedbackColor: "#aaa"
 	});
 
 	btn.addEventListener('click', action);
 
-	offset += 32;
 	return btn;
 }
 
 function startAnimation() {
+	view.loop = isLoop;
 	view.start();
-    view3.start({
-        animationName: "Timeline 1",
-        loop: true
-    });
+	riveView.start({
+		animationName: "idle",
+		loop: isLoop
+	});
+}
+
+function resetAnimation() {
+	riveView.reset();
 }
 
 function pauseAnimation() {
 	view.pause();
-	view3.pause();
+	riveView.pause();
 }
 
 function resumeAnimation() {
 	view.resume();
-	view3.resume();
+	riveView.resume();
 }

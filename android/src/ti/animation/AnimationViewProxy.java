@@ -33,6 +33,7 @@ public class AnimationViewProxy extends TiViewProxy {
     static final int MSG_PAUSE_ANIMATION = KrollProxy.MSG_LAST_ID + 103;
     static final int MSG_RESUME_ANIMATION = KrollProxy.MSG_LAST_ID + 104;
     static final int MSG_STOP_ANIMATION = KrollProxy.MSG_LAST_ID + 105;
+    static final int MSG_RESET_ANIMATION = KrollProxy.MSG_LAST_ID + 106;
     @Kroll.constant
     static final int ANIMATION_START = 1;
     @Kroll.constant
@@ -110,6 +111,11 @@ public class AnimationViewProxy extends TiViewProxy {
                 result.setResult(null);
                 return true;
             }
+            case MSG_RESET_ANIMATION: {
+                getView().resetAnimation();
+                result.setResult(null);
+                return true;
+            }
         }
 
         return super.handleMessage(message);
@@ -172,6 +178,15 @@ public class AnimationViewProxy extends TiViewProxy {
             getView().pauseAnimation();
         } else {
             TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_PAUSE_ANIMATION));
+        }
+    }
+
+    @Kroll.method
+    public void reset() {
+        if (TiApplication.isUIThread()) {
+            getView().resetAnimation();
+        } else {
+            TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_RESET_ANIMATION));
         }
     }
 
