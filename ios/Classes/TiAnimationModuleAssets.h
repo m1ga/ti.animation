@@ -3,8 +3,10 @@
  */
 
 @interface TiAnimationModuleAssets : NSObject {
+
 }
+
 - (NSData *)moduleAsset;
-- (NSData *)resolveModuleAsset:(NSString *)path;
+- (NSData *)resolveModuleAsset:(NSString*)path;
 
 @end

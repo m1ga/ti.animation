@@ -4,9 +4,7 @@
 
 ![gif](animation.gif)
 
-
 Titanium module to support smooth and scalable animations using [Airbnb Lottie](https://airbnb.design/lottie/).
-
 
 ## Requirements
 
@@ -19,8 +17,7 @@ The Titanium modules use external libraries
 |Library|Platform|Version|Build Date|
 |---|---|---|---|
 | [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 5.2.0 | 2022/05/31 |
-| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 2.5.2 | 2018/12/10 |
-
+| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 3.4.3 | 2022/09/17 |
 
 ## Create a View
 
@@ -44,7 +41,8 @@ or in Alloy:
 
 ## Features/Documentation
 
-## Methods:
+## Methods
+
 Name | Parameter | Info | Platforms
 --- | --- | --- | -- |
 start() | | Starts an animation from the beginning | iOS, Android |
@@ -54,17 +52,11 @@ pause() | | Pause an animation | iOS, Android |
 resume() | | Resumes an animation from the current point | iOS, Android |
 stop() | | Stops an animation an resets it | iOS, Android |
 addEventListener(String event, Callback function) | Event name as string<br>Callback function | Adds events to the animation view | iOS, Android |
-setFile(String path) | File path as string | Sets the current animation, Files go into app/assets/ (Alloy) | Android |
+setFile(String path) | File path as string | Sets the current animation, Files go into app/assets/ (Alloy) | iOS, Android |
 setText(String layer, String text) | Layer, Text | Sets the text in the layer `layer` to `text` | Android |
-addViewToKeypathLayer(TiUiView view, String layer) | View, Layer | Adds a given Ti.UI.View instance to a layer with the given name | iOS |
-convertRectToKeypathLayer() | args | - | iOS |
-convertPointToKeypathLayer() | args | - | iOS |
-convertRectFromKeypathLayer() | args | - | iOS |
-convertPointFromKeypathLayer() | args | - | iOS |
-setValueDelegateForKeyPath() | args | - | iOS |
 
+## Properties
 
-## Properties:
 Name | Parameter | Info | Framework | Platforms
 --- | --- | --- | --- | --- |
 progress | float | Get/set the current progress (in percentage) | Lottie | Android |
@@ -74,6 +66,7 @@ duration | float | Get/set the duration of the animation | Lottie | Android |
 isPlaying | boolean | Get the animation status | Lottie | Android |
 cache() | boolean | - | Lottie | iOS |
 animationName | String or Array | Sets the Rive animation name | Rive | Android |
+newRenderingEngineEnabled | boolean | Use the core animation background rendering engine instead of the main thread | Lottie | iOS |
 
 creation (tss) only:
 
@@ -81,12 +74,14 @@ Name | Parameter | Info | Platforms
 --- | --- | --- | --- |
 assetFolder|String|If your animation contains images put the folder inside the assetFolder (e.g. `images/` and put the image files inside `app/assets/images/`) | Android |
 file | String | JSON file. Files go into app/assets/ (Alloy)<br/>Android: Support for dotLottie files in 4.1.0+ | iOS, Android |
+jsonString | String | Pass a raw JSON string to the module | iOS |
 loop | boolean | loop the animation | iOS, Android |
 autoStart | boolean | automatically start the animation | iOS, Android |
 animationType | int | One of the constants `ANIMATION_LOTTIE` or `ANIMATION_RIVE` | iOS, Android |
 
 
-## Events:
+## Events
+
 Name |  Info | Properties | Platforms
 --- |  --- | --- | --- |
 complete | When the animation is done | Status:int, Loop:boolean | iOS, Android |
@@ -109,7 +104,9 @@ CALLBACK_POINT_VALUE |  iOS |
 CALLBACK_SIZE_VALUE |  iOS |
 CALLBACK_PATH_VALUE |  iOS |
 
+
 ## Example
+
 ```xml
 <AnimationView id='view_lottie' module='ti.animation' />
 ```

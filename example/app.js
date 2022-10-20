@@ -5,6 +5,10 @@ var isDouble = false;
 var isLoop = false;
 var isDay = true;
 
+if (OS_IOS){
+	TiAnimation.newRenderingEngineEnabled = true;
+}
+
 const win = Ti.UI.createWindow({
 	backgroundColor: '#fff',
 	title: 'Titanium demo',
