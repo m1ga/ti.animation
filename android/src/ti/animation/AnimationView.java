@@ -108,34 +108,6 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                 }
                 return false;
             });
-            /*
-            riveView.registerListener(new RiveArtboardRenderer.Listener() {
-                @Override
-                public void notifyPlay(@NonNull PlayableInstance playableInstance) {
-
-                }
-
-                @Override
-                public void notifyPause(@NonNull PlayableInstance playableInstance) {
-
-                }
-
-                @Override
-                public void notifyStop(@NonNull PlayableInstance playableInstance) {
-
-                }
-
-                @Override
-                public void notifyLoop(@NonNull PlayableInstance playableInstance) {
-
-                }
-
-                @Override
-                public void notifyStateChanged(@NonNull String s, @NonNull String s1) {
-
-                }
-            });
-            */
         } else {
             lottieView = viewWrapper.findViewById(resId_aniView);
             delegate = new TextDelegate(lottieView);
@@ -514,7 +486,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                 riveView.reset();
                 riveView.stop();
             } catch (Exception e) {
-                Log.e("--", e.getMessage());
+                Log.e(LCAT, e.getMessage());
             }
         }
     }
