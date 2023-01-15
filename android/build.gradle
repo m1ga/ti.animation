@@ -3,5 +3,7 @@ repositories {
 }
 
 dependencies {
+  implementation "androidx.startup:startup-runtime:1.1.0"
   implementation 'com.airbnb.android:lottie:5.2.0'
+  implementation 'app.rive:rive-android:4.2.2'
 }

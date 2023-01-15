@@ -7,6 +7,8 @@
  */
 package ti.animation;
 
+import static ti.animation.TiAnimationModule.ANIMATION_LOTTIE;
+
 import android.app.Activity;
 import android.os.Message;
 
@@ -23,7 +25,7 @@ import org.appcelerator.titanium.view.TiUIView;
 @Kroll.proxy(creatableInModule = TiAnimationModule.class,
         propertyAccessors = {"file", "scaleMode", "disableHardwareAcceleration", "mergePath", "update",
                 "autoStart", "loop", "assetFolder", "width", "height", "duration", "paused", "speed",
-                "startFrame", "endFrame", "json"})
+                "startFrame", "endFrame", "json", "animationType", "artboardName", "stateName"})
 
 public class AnimationViewProxy extends TiViewProxy {
     static final int MSG_START_ANIMATION = KrollProxy.MSG_LAST_ID + 101;
@@ -31,6 +33,7 @@ public class AnimationViewProxy extends TiViewProxy {
     static final int MSG_PAUSE_ANIMATION = KrollProxy.MSG_LAST_ID + 103;
     static final int MSG_RESUME_ANIMATION = KrollProxy.MSG_LAST_ID + 104;
     static final int MSG_STOP_ANIMATION = KrollProxy.MSG_LAST_ID + 105;
+    static final int MSG_RESET_ANIMATION = KrollProxy.MSG_LAST_ID + 106;
     @Kroll.constant
     static final int ANIMATION_START = 1;
     @Kroll.constant
@@ -57,6 +60,7 @@ public class AnimationViewProxy extends TiViewProxy {
         defaultValues.put("duration", 0);
         defaultValues.put("file", "");
         defaultValues.put("json", "");
+        defaultValues.put("animationType", ANIMATION_LOTTIE);
         defaultValues.put("paused", false);
     }
 
@@ -83,8 +87,12 @@ public class AnimationViewProxy extends TiViewProxy {
             }
             case MSG_START_ANIMATION: {
                 result = (AsyncResult) message.obj;
-                int[] frames = (int[]) result.getArg();
-                getView().startAnimation(frames[0], frames[1]);
+                if (result.getArg() instanceof Object) {
+                    getView().startAnimation(result.getArg());
+                } else {
+                    int[] frames = (int[]) result.getArg();
+                    getView().startAnimation(frames[0], frames[1]);
+                }
                 result.setResult(null);
                 return true;
             }
@@ -100,6 +108,11 @@ public class AnimationViewProxy extends TiViewProxy {
             }
             case MSG_STOP_ANIMATION: {
                 getView().stopAnimation();
+                result.setResult(null);
+                return true;
+            }
+            case MSG_RESET_ANIMATION: {
+                getView().resetAnimation();
                 result.setResult(null);
                 return true;
             }
@@ -119,12 +132,35 @@ public class AnimationViewProxy extends TiViewProxy {
     }
 
     @Kroll.method
+    public void start(@Kroll.argument(optional = true) Object data) {
+        if (data != null) {
+            if (TiApplication.isUIThread()) {
+                getView().startAnimation(data);
+            } else {
+                TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_START_ANIMATION), data);
+            }
+        } else {
+            start(-1, -1);
+        }
+    }
+
+    @Kroll.method
     public void resume() {
         if (TiApplication.isUIThread()) {
             getView().resumeAnimation();
         } else {
             TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_RESUME_ANIMATION));
         }
+    }
+
+    @Kroll.getProperty
+    public String getAnimationName() {
+        return "";
+    }
+
+    @Kroll.setProperty
+    public void setAnimationName(Object animationName) {
+        getView().setAnimationName(animationName);
     }
 
     @Kroll.method
@@ -145,6 +181,15 @@ public class AnimationViewProxy extends TiViewProxy {
         }
     }
 
+    @Kroll.method
+    public void reset() {
+        if (TiApplication.isUIThread()) {
+            getView().resetAnimation();
+        } else {
+            TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_RESET_ANIMATION));
+        }
+    }
+
     // clang-format off
     @Kroll.setProperty
     @Kroll.method
@@ -156,7 +201,6 @@ public class AnimationViewProxy extends TiViewProxy {
 
     // clang-format off
     @Kroll.getProperty
-    @Kroll.method
     public float getProgress()
     // clang-format on
     {
@@ -165,7 +209,6 @@ public class AnimationViewProxy extends TiViewProxy {
 
     // clang-format off
     @Kroll.setProperty
-    @Kroll.method
     public void setProgress(float val)
     // clang-format on
     {
@@ -174,7 +217,6 @@ public class AnimationViewProxy extends TiViewProxy {
 
     // clang-format off
     @Kroll.getProperty
-    @Kroll.method
     public int getFrame()
     // clang-format on
     {
@@ -183,7 +225,6 @@ public class AnimationViewProxy extends TiViewProxy {
 
     // clang-format off
     @Kroll.setProperty
-    @Kroll.method
     public void setFrame(int val)
     // clang-format on
     {

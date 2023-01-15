@@ -8,9 +8,13 @@
 package ti.animation;
 
 import org.appcelerator.kroll.KrollModule;
+import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.kroll.annotations.Kroll.module;
 
 @module(name = "TiAnimation", id = "ti.animation")
 public class TiAnimationModule extends KrollModule {
-
+    @Kroll.constant
+    static final int ANIMATION_LOTTIE = 0;
+    @Kroll.constant
+    static final int ANIMATION_RIVE = 1;
 }
