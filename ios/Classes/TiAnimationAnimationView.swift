@@ -12,9 +12,9 @@ import Lottie
 @objc(TiAnimationAnimationView)
 public class TiAnimationAnimationView : TiUIView {
 
-  var _animationView: AnimationView!
+  var _animationView: LottieAnimationView!
   
-  private func animationView() -> AnimationView {
+  private func animationView() -> LottieAnimationView {
     if _animationView == nil {
       let file = TiUtils.stringValue(proxy.value(forKey: "file"))
       let jsonString = TiUtils.stringValue(proxy.value(forKey: "jsonString"))
@@ -29,12 +29,12 @@ public class TiAnimationAnimationView : TiUIView {
           fatalError("Cannot find file!")
         }
         
-        _animationView = AnimationView(animation: try! Animation(dictionary: dictionary))
+        _animationView = LottieAnimationView(animation: try! LottieAnimation(dictionary: dictionary))
       // Case B: Handle JSON strings
       } else if let jsonString = jsonString {
         let data = jsonString.data(using: .utf8)
         if let data = data, let jsonData = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-          _animationView = AnimationView(animation: try! Animation(dictionary: jsonData))
+          _animationView = LottieAnimationView(animation: try! LottieAnimation(dictionary: jsonData))
         }
       }
             
