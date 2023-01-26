@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000000000000000000000002 /* TitaniumKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 000000000000000000000001 /* TitaniumKit.xcframework */; };
 		3A5D75612876C4EA00965D8F /* Lottie.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A5D75602876C4EA00965D8F /* Lottie.xcframework */; };
 		3A5D75632876C71400965D8F /* TiAnimationAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D75622876C71400965D8F /* TiAnimationAnimationView.swift */; };
-		3ABBAC6C2982AA9900C6B919 /* RiveRuntime.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABBAC6B2982AA9900C6B919 /* RiveRuntime.xcframework */; };
 		DB24E03C20766AC90033B2B1 /* TiAnimationAnimationViewProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB24E03B20766AC90033B2B1 /* TiAnimationAnimationViewProxy.swift */; };
 		DB34CDE0207B998A005F8E8C /* TiAnimationModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = DB34CDDE207B998A005F8E8C /* TiAnimationModuleAssets.m */; };
 		DB34CDE1207B998A005F8E8C /* TiAnimationModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = DB34CDDF207B998A005F8E8C /* TiAnimationModuleAssets.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -20,9 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		000000000000000000000001 /* TitaniumKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TitaniumKit.xcframework; path = "$(TITANIUM_SDK)/iphone/Frameworks/TitaniumKit.xcframework"; sourceTree = "<absolute>"; };
 		3A5D75602876C4EA00965D8F /* Lottie.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Lottie.xcframework; path = platform/Lottie.xcframework; sourceTree = "<group>"; };
 		3A5D75622876C71400965D8F /* TiAnimationAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TiAnimationAnimationView.swift; path = Classes/TiAnimationAnimationView.swift; sourceTree = "<group>"; };
-		3ABBAC6B2982AA9900C6B919 /* RiveRuntime.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RiveRuntime.xcframework; path = platform/RiveRuntime.xcframework; sourceTree = "<group>"; };
 		DB24E03B20766AC90033B2B1 /* TiAnimationAnimationViewProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TiAnimationAnimationViewProxy.swift; path = Classes/TiAnimationAnimationViewProxy.swift; sourceTree = "<group>"; };
 		DB34CDDE207B998A005F8E8C /* TiAnimationModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiAnimationModuleAssets.m; path = Classes/TiAnimationModuleAssets.m; sourceTree = SOURCE_ROOT; };
 		DB34CDDF207B998A005F8E8C /* TiAnimationModuleAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiAnimationModuleAssets.h; path = Classes/TiAnimationModuleAssets.h; sourceTree = SOURCE_ROOT; };
@@ -41,8 +41,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB34CDE6207B9EBD005F8E8C /* Foundation.framework in Frameworks */,
-				3ABBAC6C2982AA9900C6B919 /* RiveRuntime.xcframework in Frameworks */,
 				3A5D75612876C4EA00965D8F /* Lottie.xcframework in Frameworks */,
+				000000000000000000000002 /* TitaniumKit.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,8 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				3A5D75602876C4EA00965D8F /* Lottie.xcframework */,
-				3ABBAC6B2982AA9900C6B919 /* RiveRuntime.xcframework */,
 				DB34CDE5207B9EBD005F8E8C /* Foundation.framework */,
+				000000000000000000000001 /* TitaniumKit.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
