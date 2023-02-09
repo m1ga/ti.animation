@@ -3,7 +3,12 @@ repositories {
 }
 
 dependencies {
-  implementation "androidx.startup:startup-runtime:1.1.0"
+  // https://developer.android.com/jetpack/androidx/releases/startup
+  implementation "androidx.startup:startup-runtime:1.1.1"
+
+  // https://github.com/airbnb/lottie-android
   implementation 'com.airbnb.android:lottie:5.2.0'
+
+  // https://github.com/rive-app/rive-android
   implementation 'app.rive:rive-android:4.2.2'
 }
