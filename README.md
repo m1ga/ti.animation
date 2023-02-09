@@ -8,7 +8,8 @@ Titanium module to support smooth and scalable animations using [Airbnb Lottie](
 
 ## Requirements
 
-- Titanium SDK 9.0.0+
+- Android: Titanium SDK 9.0.0+
+- iOS: Titanium SDK 11.0.0+
 
 ## Library versions:
 
@@ -17,7 +18,7 @@ The Titanium modules use external libraries
 |Library|Platform|Version|Build Date|
 |---|---|---|---|
 | [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 5.2.0 | 2022/05/31 |
-| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 3.4.3 | 2022/09/17 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 4.1.2 | 2023/01/26 |
 
 ## Create a View
 

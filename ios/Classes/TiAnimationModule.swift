@@ -13,8 +13,6 @@ import Lottie
 @objc(TiAnimationModule)
 class TiAnimationModule: TiModule {
 
-  public let testProperty: String = "Hello World"
-  
   func moduleGUID() -> String {
     return "a6f82400-49cf-4b2a-8d32-53a1600b1077"
   }
@@ -25,7 +23,7 @@ class TiAnimationModule: TiModule {
   
   @objc var newRenderingEngineEnabled: Any {
     set {
-      LottieConfiguration.shared.renderingEngine = newValue as? Bool ?? false ? .coreAnimation : .mainThread
+      LottieConfiguration.shared.renderingEngine = newValue as? Bool ?? true ? .coreAnimation : .mainThread
     }
     get {
       return LottieConfiguration.shared.renderingEngine == .coreAnimation
