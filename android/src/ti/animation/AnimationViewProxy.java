@@ -107,7 +107,7 @@ public class AnimationViewProxy extends TiViewProxy {
                 return true;
             }
             case MSG_STOP_ANIMATION: {
-                getView().stopAnimation();
+                getView().stopAnimations();
                 result.setResult(null);
                 return true;
             }
@@ -166,7 +166,7 @@ public class AnimationViewProxy extends TiViewProxy {
     @Kroll.method
     public void stop() {
         if (TiApplication.isUIThread()) {
-            getView().stopAnimation();
+            getView().stopAnimations();
         } else {
             TiMessenger.sendBlockingMainMessage(getMainHandler().obtainMessage(MSG_STOP_ANIMATION));
         }

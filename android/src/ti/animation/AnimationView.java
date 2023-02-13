@@ -436,7 +436,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
         }
     }
 
-    void stopAnimation() {
+    void stopAnimations() {
         proxy.setProperty("paused", false);
 
         if (animationType == ANIMATION_RIVE) {
