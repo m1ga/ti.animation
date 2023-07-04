@@ -5,7 +5,7 @@ var isDouble = false;
 var isLoop = false;
 var isDay = true;
 
-if (OS_IOS){
+if (OS_IOS) {
 	TiAnimation.newRenderingEngineEnabled = true;
 }
 
@@ -94,16 +94,24 @@ const view2 = TiAnimation.createAnimationView({
 	speed: 2,
 	loop: true
 });
-const riveView = TiAnimation.createAnimationView({
-	file: '/knight.riv',
-	top: 140,
-	height: 200,
-	width: 200,
-	animationType: TiAnimation.ANIMATION_RIVE,
-	//artboardName: "Main",
-	animationName: "idle",
-	//stateName: "idle"
-});
+if (isAndroid) {
+	var riveView = TiAnimation.createAnimationView({
+		file: '/knight.riv',
+		top: 140,
+		height: 200,
+		width: 200,
+		animationType: TiAnimation.ANIMATION_RIVE,
+		//artboardName: "Main",
+		animationName: "idle",
+		//stateName: "idle"
+	});
+} else {
+	var riveView = Ti.UI.createView({
+		top: 140,
+		height: 10,
+		width: 10
+	})
+}
 const slider = Ti.UI.createSlider({
 	value: 0,
 	min: 0,
@@ -136,14 +144,16 @@ win.add([
 
 win.open();
 
-riveView.addEventListener("click", function() {
-	if (isDay) {
-		riveView.animationName = "day_night";
-	} else {
-		riveView.animationName = "night_day";
-	}
-	isDay = !isDay;
-})
+if (isAndroid) {
+	riveView.addEventListener("click", function() {
+		if (isDay) {
+			riveView.animationName = "day_night";
+		} else {
+			riveView.animationName = "night_day";
+		}
+		isDay = !isDay;
+	})
+}
 
 function doubleSpeed(e) {
 	if (isDouble) {
@@ -186,22 +196,24 @@ function createButtonWithAction(title, action) {
 function startAnimation() {
 	view.loop = isLoop;
 	view.start();
-	riveView.start({
-		animationName: "idle",
-		loop: isLoop
-	});
+	if (isAndroid) {
+		riveView.start({
+			animationName: "idle",
+			loop: isLoop
+		});
+	}
 }
 
 function resetAnimation() {
-	riveView.reset();
+	if (isAndroid) riveView.reset();
 }
 
 function pauseAnimation() {
 	view.pause();
-	riveView.pause();
+	if (isAndroid) riveView.pause();
 }
 
 function resumeAnimation() {
 	view.resume();
-	riveView.resume();
+	if (isAndroid) riveView.resume();
 }
