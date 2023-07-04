@@ -10,9 +10,6 @@ package ti.animation;
 import static ti.animation.TiAnimationModule.ANIMATION_LOTTIE;
 import static ti.animation.TiAnimationModule.ANIMATION_RIVE;
 
-import androidx.annotation.NonNull;
-import androidx.startup.AppInitializer;
-
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -21,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView.ScaleType;
+
+import androidx.startup.AppInitializer;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieComposition;
@@ -46,20 +45,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import app.rive.runtime.kotlin.RiveAnimationView;
-import app.rive.runtime.kotlin.RiveArtboardRenderer;
 import app.rive.runtime.kotlin.RiveInitializer;
 import app.rive.runtime.kotlin.core.Alignment;
 import app.rive.runtime.kotlin.core.Direction;
 import app.rive.runtime.kotlin.core.Fit;
-import app.rive.runtime.kotlin.core.LinearAnimationInstance;
 import app.rive.runtime.kotlin.core.Loop;
-import app.rive.runtime.kotlin.core.PlayableInstance;
-import app.rive.runtime.kotlin.core.StateMachineInstance;
 
 public class AnimationView extends TiUIView implements LottieOnCompositionLoadedListener {
 
@@ -198,16 +192,21 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             return;
         }
 
+        if (lottieView == null) return;
+
         switch (smode) {
             case "center":
-                if (lottieView != null) lottieView.setScaleType(ScaleType.CENTER);
+                lottieView.setScaleType(ScaleType.CENTER);
                 break;
             case "centerCrop":
-                if (lottieView != null) lottieView.setScaleType(ScaleType.CENTER_CROP);
+                lottieView.setScaleType(ScaleType.CENTER_CROP);
+                break;
+            case "stretch":
+                lottieView.setScaleType(ScaleType.FIT_XY);
                 break;
             case "centerInside":
             default:
-                if (lottieView != null) lottieView.setScaleType(ScaleType.CENTER_INSIDE);
+                lottieView.setScaleType(ScaleType.CENTER_INSIDE);
                 break;
         }
     }
