@@ -17,9 +17,9 @@ The Titanium modules use external libraries
 
 |Library|Platform|Version|Build Date|
 |---|---|---|---|
-| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 6.0.0 | 2023/02/17 |
-| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 4.1.2 | 2023/01/26 |
-| [Rive](https://github.com/airbnb/lottie-ios) | Android | 4.3.2 | 2023/04/03 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 6.1.0 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 4.1.2 |
+| [Rive](https://github.com/airbnb/lottie-ios) | Android | 4.3.2 |
 
 ## Create a View
 
@@ -49,7 +49,7 @@ Name | Parameter | Info | Platforms
 --- | --- | --- | -- |
 start() | | Starts an animation from the beginning | iOS, Android |
 start(int from, int to) | Startframe, Endframe | Plays an animation from frame `from` to `to` | Android |
-start({string animationName, bool loop}) |  | Plays the rive animation  | Android |
+start({string animationName, bool loop}) |  | Plays the rive animation  | Android (Rive only) |
 pause() | | Pause an animation | iOS, Android |
 resume() | | Resumes an animation from the current point | iOS, Android |
 stop() | | Stops an animation an resets it | iOS, Android |
