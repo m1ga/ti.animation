@@ -1,10 +1,10 @@
 # Ti.Animation
 
-<span class="badge-buymeacoffee"><a href="https://www.buymeacoffee.com/miga" title="donate"><img src="https://img.shields.io/badge/buy%20me%20a%20coke-donate-orange.svg" alt="Buy Me A Coke donate button" /></a></span>
+#### Titanium module to support smooth and scalable animations using [Airbnb Lottie](https://airbnb.design/lottie/) and [Rive](rive.app) (Android only).
+
 
 ![gif](animation.gif)
 
-Titanium module to support smooth and scalable animations using [Airbnb Lottie](https://airbnb.design/lottie/) and [Rive](rive.app) (Android only).
 
 ## Requirements
 
@@ -15,8 +15,8 @@ Titanium module to support smooth and scalable animations using [Airbnb Lottie](
 
 The Titanium modules use external libraries
 
-|Library|Platform|Version|Build Date|
-|---|---|---|---|
+|Library|Platform|Version|
+|---|---|---|
 | [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 6.1.0 |
 | [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 4.1.2 |
 | [Rive](https://github.com/airbnb/lottie-ios) | Android | 4.3.2 |
