@@ -7,7 +7,7 @@ dependencies {
   implementation "androidx.startup:startup-runtime:1.1.1"
 
   // https://github.com/airbnb/lottie-android
-  implementation 'com.airbnb.android:lottie:6.3.0'
+  implementation 'com.airbnb.android:lottie:6.4.0'
 
   // https://github.com/rive-app/rive-android
   implementation 'app.rive:rive-android:5.1.5'

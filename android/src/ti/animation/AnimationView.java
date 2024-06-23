@@ -214,8 +214,13 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     private void parseJson(String json) {
         try {
             JSONObject jsonObject = new JSONObject(json);
-            proxy.setProperty("width", jsonObject.optInt("w", 0));
-            proxy.setProperty("height", jsonObject.optInt("h", 0));
+            if (!proxy.hasPropertyAndNotNull("width")) {
+                proxy.setProperty("width", jsonObject.optInt("w", 0));
+            }
+            if (!proxy.hasPropertyAndNotNull("height")) {
+                proxy.setProperty("height", jsonObject.optInt("h", 0));
+            }
+
         } catch (Exception e) {
             Log.e(LCAT, "Couldn't read width/height");
         }
