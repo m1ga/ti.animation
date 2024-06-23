@@ -17,7 +17,7 @@ The Titanium modules use external libraries
 
 |Library|Platform|Version|
 |---|---|---|
-| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 6.3.0 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 6.4.0 |
 | [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 4.1.2 |
 | [Rive](https://github.com/rive-app/rive-android/) | Android | 5.1.5 |
 
