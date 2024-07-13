@@ -8,8 +8,7 @@
 
 ## Requirements
 
-- Android: Titanium SDK 9.0.0+
-- iOS: Titanium SDK 11.0.0+
+- Titanium SDK 12.0.0+
 
 ## Library versions:
 
@@ -18,7 +17,7 @@ The Titanium modules use external libraries
 |Library|Platform|Version|
 |---|---|---|
 | [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 6.4.0 |
-| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 4.1.2 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 4.5.0 |
 | [Rive](https://github.com/rive-app/rive-android/) | Android | 5.1.5 |
 
 ## Create a View
