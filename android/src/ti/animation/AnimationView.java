@@ -261,6 +261,15 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     }
 
     void loadFile(String f) {
+
+        // check if it is an URL
+        if (f.contains("http://") || f.contains("https://")) {
+            if (animationType == ANIMATION_LOTTIE) {
+                lottieView.setAnimationFromUrl(f);
+            }
+            return;
+        }
+
         String url = proxy.resolveUrl(null, f);
         TiBaseFile file = TiFileFactory.createTitaniumFile(new String[]{url}, false);
 
