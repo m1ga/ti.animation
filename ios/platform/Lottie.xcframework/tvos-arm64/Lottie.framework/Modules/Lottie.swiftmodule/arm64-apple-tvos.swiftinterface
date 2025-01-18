@@ -24,6 +24,8 @@ import zlib
   override final public func encode(to encoder: any Swift.Encoder) throws
   @objc deinit
 }
+extension Lottie.ImageAsset : @unchecked Swift.Sendable {
+}
 @objc @_hasMissingDesignatedInitializers public class LottieAnimationLayer : QuartzCore.CALayer {
   public init(animation: Lottie.LottieAnimation?, imageProvider: (any Lottie.AnimationImageProvider)? = nil, textProvider: any Lottie.AnimationKeypathTextProvider = DefaultTextProvider(), fontProvider: any Lottie.AnimationFontProvider = DefaultFontProvider(), configuration: Lottie.LottieConfiguration = .shared, logger: Lottie.LottieLogger = .shared)
   public init(dotLottie: Lottie.DotLottieFile?, animationId: Swift.String? = nil, textProvider: any Lottie.AnimationKeypathTextProvider = DefaultTextProvider(), fontProvider: any Lottie.AnimationFontProvider = DefaultFontProvider(), configuration: Lottie.LottieConfiguration = .shared, logger: Lottie.LottieLogger = .shared)
@@ -136,6 +138,7 @@ import zlib
   public func reloadImages()
   public func forceDisplayUpdate()
   public func setValueProvider(_ valueProvider: any Lottie.AnyValueProvider, keypath: Lottie.AnimationKeypath)
+  public func removeValueProvider(for keypath: Lottie.AnimationKeypath)
   public func getValue(for keypath: Lottie.AnimationKeypath, atFrame: Lottie.AnimationFrameTime?) -> Any?
   public func getOriginalValue(for keypath: Lottie.AnimationKeypath, atFrame: Lottie.AnimationFrameTime?) -> Any?
   public func logHierarchyKeypaths()
@@ -817,6 +820,7 @@ extension Lottie.LottieAnimationView {
   }
   @_Concurrency.MainActor(unsafe) public func setLayer(named: Swift.String, forState: Lottie.LottieControlState)
   @_Concurrency.MainActor(unsafe) public func setValueProvider(_ valueProvider: any Lottie.AnyValueProvider, keypath: Lottie.AnimationKeypath)
+  @_Concurrency.MainActor(unsafe) public func removeValueProvider(for keypath: Lottie.AnimationKeypath)
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class AnimatedButton : Lottie.AnimatedControl {
@@ -872,11 +876,11 @@ public enum AnyValueProviderStorage {
   }
   @_Concurrency.MainActor(unsafe) public var cancelBehavior: Lottie.AnimatedSwitch.CancelBehavior
   @_Concurrency.MainActor(unsafe) public var animateUpdateWhenChangingAnimation: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public var stateUpdated: ((_ isOn: Swift.Bool) -> Swift.Void)?
   @_Concurrency.MainActor(unsafe) @objc override dynamic public var accessibilityTraits: UIKit.UIAccessibilityTraits {
     @objc get
     @objc set
   }
-  @_Concurrency.MainActor(unsafe) public var stateUpdated: ((_ isOn: Swift.Bool) -> Swift.Void)?
   @_Concurrency.MainActor(unsafe) public var isOn: Swift.Bool {
     get
     set
@@ -1048,6 +1052,7 @@ extension Lottie.LottieLoopMode : Swift.Equatable {
   @_Concurrency.MainActor(unsafe) public func reloadImages()
   @_Concurrency.MainActor(unsafe) public func forceDisplayUpdate()
   @_Concurrency.MainActor(unsafe) public func setValueProvider(_ valueProvider: any Lottie.AnyValueProvider, keypath: Lottie.AnimationKeypath)
+  @_Concurrency.MainActor(unsafe) public func removeValueProvider(for keypath: Lottie.AnimationKeypath)
   @_Concurrency.MainActor(unsafe) public func getValue(for keypath: Lottie.AnimationKeypath, atFrame: Lottie.AnimationFrameTime?) -> Any?
   @_Concurrency.MainActor(unsafe) public func getOriginalValue(for keypath: Lottie.AnimationKeypath, atFrame: Lottie.AnimationFrameTime?) -> Any?
   @_Concurrency.MainActor(unsafe) public func logHierarchyKeypaths()
@@ -1315,13 +1320,13 @@ final public class LottieLogger {
   public init(assert: @escaping Lottie.LottieLogger.Assert = { condition, message, file, line in
       // If we default to `Swift.assert` directly with `assert: Assert = Swift.assert`,
       // the call will unexpectedly not respect the -O flag and will crash in release
-      // https://github.com/apple/swift/issues/60249
+      // https://github.com/swiftlang/swift/issues/60249
       Swift.assert(condition(), message(), file: file, line: line)
     }, assertionFailure: @escaping Lottie.LottieLogger.AssertionFailure = { message, file, line in
       // If we default to `Swift.assertionFailure` directly with
       // `assertionFailure: AssertionFailure = Swift.assertionFailure`,
       // the call will unexpectedly not respect the -O flag and will crash in release
-      // https://github.com/apple/swift/issues/60249
+      // https://github.com/swiftlang/swift/issues/60249
       Swift.assertionFailure(message(), file: file, line: line)
     }, warn: @escaping Lottie.LottieLogger.Warn = { message, _, _ in
     }, info: @escaping Lottie.LottieLogger.Info = { message in

@@ -10,47 +10,47 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		T+t9TPlqcu3qfUO8kNAIMOg2OVA=
+		qmzz6y3EmhTs5Zn0jm77sV8Pg9M=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		AZ7HwvUEftk04dUSC6/XTGiElmk=
+		5uMfHcLnMtU8zjLY26PIWApmBpI=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		o7/eoDUqYxXsZvlFSGECkOZApIg=
+		5GqdOqpHRpnKlpWN6YjbrkFBWb8=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		o3B1+iJLExGPRQjp1uTd+f1Aq+s=
+		mrUVP6DblZunremlanRGtFJnUqg=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		o7/eoDUqYxXsZvlFSGECkOZApIg=
+		5GqdOqpHRpnKlpWN6YjbrkFBWb8=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		4dHc96snNr6cYAln3UV1n0SShXs=
+		WBsdcPrRZdf9i3vpnRR9nynaakE=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		AZ7HwvUEftk04dUSC6/XTGiElmk=
+		5uMfHcLnMtU8zjLY26PIWApmBpI=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		6+EmWkVK4GbwacIVKRdvOlxzPNg=
+		AUUvNhnz1qLbSzI+YEmPOP/9s9Q=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		Un1MmD8pYXdfZc5fclkfqg43JYg=
+		LQycyy3VQAH5eVsdqRl4xDpz48M=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		6+EmWkVK4GbwacIVKRdvOlxzPNg=
+		AUUvNhnz1qLbSzI+YEmPOP/9s9Q=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		6FoQJIIeiPvm+kU1KYsnKz3Apj8=
+		8zPYxR/3IQ/BZsJp0uXZSt/YfWs=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -74,70 +74,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			5Km/xr9B2qXqba8kKplbP9WdLwC3p3UXNhnLILZxuEE=
+			jvoYlnMdduYXUX6NoFucjOPPPQfjABxldrlFDGC2eLs=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JUY7U07pZrULclUOBgtYtvzW7haA83wPybsCOGci6RE=
+			UneGO2UPPGOF6Ae4+fnW7ggphmLLa+9yyZ7AJ75YHU8=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3DR/cJ3EaeqPhaV8ia6PYKpZczDTKH+GCwpz+XNGiyE=
+			sI0tuxtAV5AmxhyD1+PJImwG1mN1ElX0tkY3m3wp9fc=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JUY7U07pZrULclUOBgtYtvzW7haA83wPybsCOGci6RE=
+			UneGO2UPPGOF6Ae4+fnW7ggphmLLa+9yyZ7AJ75YHU8=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TKLSgMWgpKPiowYI4kxxJWwzpqWR5LPKU3KxcgRFqg8=
+			KOd26bwMbx5YYoEE9Mr2OCTaI+T+e77Rl/fsAvJWs1k=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			5Km/xr9B2qXqba8kKplbP9WdLwC3p3UXNhnLILZxuEE=
+			jvoYlnMdduYXUX6NoFucjOPPPQfjABxldrlFDGC2eLs=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DsWI01k5BRljpA1AxSag7oxfVtNOsrjuaNhcpWjLhN8=
+			YcWxfxyCDBaI1Iy3/kCKa7jKVUOI94I6knnUod7ziMI=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			eNn5YLoX+KTlZ1g+Fm4JvKrJUKCueq12ooWXU9BOwjQ=
+			Kgzvp7JvpMRN8GHbAx5yi1sYoOa5Pb7hsPXoqom0urQ=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DsWI01k5BRljpA1AxSag7oxfVtNOsrjuaNhcpWjLhN8=
+			YcWxfxyCDBaI1Iy3/kCKa7jKVUOI94I6knnUod7ziMI=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			SqEA38QcOmfu8Py/rTyVQndITXNKBB93EJtBHvgaJeM=
+			CgLqKlk0L+tlM9rDuR4jCAt+5P3DV1va1p8o8BBjTNw=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
