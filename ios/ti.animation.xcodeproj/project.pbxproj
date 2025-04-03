@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,7 +21,7 @@
 
 /* Begin PBXFileReference section */
 		000000000000000000000001 /* TitaniumKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TitaniumKit.xcframework; path = "$(TITANIUM_SDK)/iphone/Frameworks/TitaniumKit.xcframework"; sourceTree = "<absolute>"; };
-		3A5D75602876C4EA00965D8F /* Lottie.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Lottie.xcframework; path = platform/Lottie.xcframework; sourceTree = "<group>"; };
+		3A5D75602876C4EA00965D8F /* Lottie.xcframework */ = {isa = PBXFileReference; expectedSignature = "SelfSigned:892F1B43047B50538F2F46EAD92900DD3D4811F3582178C061A5FB20F111CB26"; lastKnownFileType = wrapper.xcframework; name = Lottie.xcframework; path = platform/Lottie.xcframework; sourceTree = "<group>"; };
 		3A5D75622876C71400965D8F /* TiAnimationAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TiAnimationAnimationView.swift; path = Classes/TiAnimationAnimationView.swift; sourceTree = "<group>"; };
 		DB24E03B20766AC90033B2B1 /* TiAnimationAnimationViewProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TiAnimationAnimationViewProxy.swift; path = Classes/TiAnimationAnimationViewProxy.swift; sourceTree = "<group>"; };
 		DB34CDDE207B998A005F8E8C /* TiAnimationModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiAnimationModuleAssets.m; path = Classes/TiAnimationModuleAssets.m; sourceTree = SOURCE_ROOT; };
