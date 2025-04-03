@@ -8,7 +8,8 @@
 
 ## Requirements
 
-- Titanium SDK 12.0.0+
+- Android: Titanium SDK 12.6.0+
+- iOS: Titanium SDK 12.0.0+
 
 ## Library versions:
 
