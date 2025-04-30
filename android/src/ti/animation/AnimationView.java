@@ -312,6 +312,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                             ani,
                             state,
                             true,
+                            false,
                             Fit.CONTAIN,
                             Alignment.CENTER,
                             loop);
@@ -335,12 +336,17 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
         if (animationType == ANIMATION_RIVE) {
             HashMap kd = (HashMap) data;
             String aniName = TiConvert.toString(kd.get("animationName"));
-            Boolean loop = TiConvert.toBoolean(kd.get("loop"));
-            Loop l = Loop.ONESHOT;
+            boolean loop = TiConvert.toBoolean(kd.get("loop"));
+            Loop loopConstant = Loop.ONESHOT;
             if (loop) {
-                l = Loop.LOOP;
+                loopConstant = Loop.LOOP;
             }
-            riveView.play(aniName, l, Direction.AUTO, false, false);
+            if (aniName == null || aniName.isEmpty()) {
+                riveView.play(loopConstant, Direction.AUTO, false);
+            } else {
+                riveView.play(aniName, loopConstant, Direction.AUTO, false, true);
+            }
+
         }
     }
 
