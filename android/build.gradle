@@ -10,5 +10,5 @@ dependencies {
   implementation 'com.airbnb.android:lottie:6.6.6'
 
   // https://github.com/rive-app/rive-android
-  implementation 'app.rive:rive-android:10.1.0'
+  implementation 'app.rive:rive-android:10.1.4'
 }
