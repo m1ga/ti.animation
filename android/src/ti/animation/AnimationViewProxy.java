@@ -248,4 +248,10 @@ public class AnimationViewProxy extends TiViewProxy {
             fireEvent("ready", event);
         }
     }
+
+    @Override
+    public void onDestroy(Activity activity) {
+        super.onDestroy(activity);
+        stop();
+    }
 }

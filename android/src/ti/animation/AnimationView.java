@@ -237,6 +237,9 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
     @Override
     public void onCompositionLoaded(LottieComposition composition) {
+        if (lottieView == null) {
+            return;
+        }
         lottieView.setComposition(composition);
         lottieView.setImageAssetsFolder("Resources/" + TiConvert.toString(proxy.getProperty("assetFolder")));
         lottieView.setTextDelegate(delegate);
@@ -352,6 +355,9 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
     void startAnimation(int startFrame, int endFrame) {
         if (animationType == ANIMATION_RIVE) return;
+        if (lottieView == null) {
+            return;
+        }
         if (lottieView.isAnimating()) {
             lottieView.cancelAnimation();
         }
@@ -437,7 +443,9 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             if (va != null) {
                 va.pause();
             } else {
-                lottieView.pauseAnimation();
+                if (lottieView != null) {
+                    lottieView.pauseAnimation();
+                }
             }
         }
     }
@@ -450,7 +458,9 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             if (va != null) {
                 va.resume();
             } else {
-                lottieView.resumeAnimation();
+                if (lottieView != null) {
+                    lottieView.resumeAnimation();
+                }
             }
         }
     }
@@ -464,7 +474,9 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             if (va != null) {
                 va.cancel();
             } else {
-                lottieView.cancelAnimation();
+                if (lottieView != null) {
+                    lottieView.cancelAnimation();
+                }
             }
         }
     }
@@ -475,30 +487,41 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
     float getProgress() {
         if (animationType == ANIMATION_RIVE) return 0;
-        return lottieView.getProgress();
+        if (lottieView != null) {
+            return lottieView.getProgress();
+        } else {
+            return 0;
+        }
     }
 
     void setProgress(float val) {
         if (animationType == ANIMATION_RIVE) return;
-        lottieView.setProgress(val);
+        if (lottieView != null) {
+            lottieView.setProgress(val);
+        }
     }
 
     int getFrame() {
         if (animationType == ANIMATION_RIVE) return 0;
-        return lottieView.getFrame();
+        if (lottieView != null) {
+            return lottieView.getFrame();
+        } else {
+            return 0;
+        }
     }
 
     void setFrame(int val) {
         if (animationType == ANIMATION_RIVE) return;
-        lottieView.setFrame(val);
+        if (lottieView != null) {
+            lottieView.setFrame(val);
+        }
     }
 
     public void setAnimationName(Object animationName) {
         if (animationType == ANIMATION_RIVE) {
             if (animationName instanceof String) {
                 riveView.play((String) animationName, Loop.ONESHOT, Direction.AUTO, false, true);
-            } else if (animationName instanceof Object[]) {
-                Object[] objVal = (Object[]) animationName;
+            } else if (animationName instanceof Object[] objVal) {
                 List<String> lst = new ArrayList<String>();
                 for (Object s : objVal) {
                     lst.add((String) s);

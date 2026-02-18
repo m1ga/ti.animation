@@ -1,6 +1,6 @@
 # Ti.Animation
 
-#### Titanium module to support smooth and scalable animations using [Airbnb Lottie](https://airbnb.design/lottie/) and [Rive](rive.app) (Android only).
+#### Titanium module to support smooth and scalable animations using [Airbnb Lottie](https://lottie.airbnb.tech/) and [Rive](rive.app) (Android only).
 
 
 ![gif](animation.gif)
@@ -8,7 +8,7 @@
 
 ## Requirements
 
-- Android: Titanium SDK 12.6.0+
+- Android: Titanium SDK 13.0.0+
 - iOS: Titanium SDK 12.0.0+
 
 ## Library versions:
@@ -17,7 +17,7 @@ The Titanium modules use external libraries
 
 |Library|Platform|Version|
 |---|---|---|
-| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 6.6.6 |
+| [Airbnb Lottie](https://github.com/airbnb/lottie-android) | Android | 6.7.1 |
 | [Airbnb Lottie](https://github.com/airbnb/lottie-ios) | iOS | 4.5.1 |
 | [Rive](https://github.com/rive-app/rive-android/) | Android | 10.1.4 |
 
