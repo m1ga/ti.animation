@@ -67,6 +67,8 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     private KrollFunction callbackReady = null;
     private float initialDuration = 0;
     private ValueAnimator va = null;
+    private AnimatorUpdateListener animatorUpdateListener = null;
+    private AnimatorListener animatorListener = null;
 
     @SuppressLint("ClickableViewAccessibility")
     AnimationView(TiViewProxy proxy) {
@@ -106,8 +108,10 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             lottieView = viewWrapper.findViewById(resId_aniView);
             delegate = new TextDelegate(lottieView);
             setScaleMode(TiConvert.toString(proxy.getProperty("scaleMode")));
-            lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
-            lottieView.addAnimatorListener(new AnimatorListener());
+            animatorUpdateListener = new AnimatorUpdateListener();
+            animatorListener = new AnimatorListener();
+            lottieView.addAnimatorUpdateListener(animatorUpdateListener);
+            lottieView.addAnimatorListener(animatorListener);
             lottieView.addLottieOnCompositionLoadedListener(this);
 
             if (TiConvert.toBoolean(proxy.getProperty("disableHardwareAcceleration"))) {
@@ -264,9 +268,19 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     }
 
     void loadFile(String f) {
+        // Clear previous buffer to prevent memory leak
+        if (byteBuffer != null) {
+            try {
+                byteBuffer.close();
+            } catch (Exception e) {
+                // ignore
+            }
+            byteBuffer = null;
+        }
 
         // check if it is an URL
-        if (f.contains("http://") || f.contains("https://")) {
+        String lowerCaseF = f.toLowerCase(java.util.Locale.ROOT);
+        if (lowerCaseF.startsWith("http://") || lowerCaseF.startsWith("https://")) {
             if (animationType == ANIMATION_LOTTIE) {
                 lottieView.setAnimationFromUrl(f);
             }
@@ -541,6 +555,12 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             } catch (Exception e) {
                 Log.e(LCAT, e.getMessage());
             }
+        } else {
+            if (va != null) {
+                va.removeAllListeners();
+                va.cancel();
+                va = null;
+            }
         }
     }
 
@@ -551,6 +571,32 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             event.put("status", AnimationViewProxy.ANIMATION_RUNNING);
             ((AnimationViewProxy) proxy).updateEvent(event);
         }
+    }
+
+    @Override
+    public void release() {
+        if (lottieView != null) {
+            try {
+                if (animatorListener != null) {
+                    lottieView.removeAnimatorListener(animatorListener);
+                }
+            } catch (Exception e) {
+                // ignore - method may not exist in all Lottie versions
+            }
+            lottieView.cancelAnimation();
+        }
+        if (va != null) {
+            va.removeAllListeners();
+            va.cancel();
+            va = null;
+        }
+        delegate = null;
+        callbackReady = null;
+        lottieView = null;
+        riveView = null;
+        animatorUpdateListener = null;
+        animatorListener = null;
+        super.release();
     }
 
     protected class AnimatorListener implements Animator.AnimatorListener {
