@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		ATgywTmqKawkDSkfRQFq2suzAgU=
+		KdQsvPjQ7qBR8VWKLY2FIrNzZ80=
 		</data>
 		<key>Resources/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -19,77 +19,77 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			oeXxy3FfexuyHtU/XnqVYRXDn8e0oqHtMILuRpKG/qQ=
+			iHlxPW1iju3o28ZxWQUK+Ud/HkwS5LdUWf1dLDO3xSk=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-macos.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0DgAGYsDKv7TEjXPpPprLS+sa5z2hI4JaUwReDeErS4=
+			jYHXzAJQB1RzHvvfLI2D/Qo8DXVxrfeUTZPQcsmNJv4=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-macos.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			aWAPPxuNm6PXtHNBuV/Bp924Fec+opP+rTPLSv0dAyQ=
+			cNNnijfblMRskZ3jdQTvlFqxAoNktafjrM9clZ48m74=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-macos.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gK3LD1kBkgb3VizNZ8mvTewwU+R+mMpdFr578s4TDs0=
+			iv8R9GyXaXog5Zb6Vb7vxyDVNsdJxP1IlXliEptANoM=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-macos.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			aWAPPxuNm6PXtHNBuV/Bp924Fec+opP+rTPLSv0dAyQ=
+			cNNnijfblMRskZ3jdQTvlFqxAoNktafjrM9clZ48m74=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-macos.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			uJMBMZi+BPvoqRH4iJ3Fso/Mf06Fwz8VWPMweY4C0Ew=
+			KTTiDwx5oXCo9jQ6mQs8anwGJ7S/z6hrl2m5ErkkFSQ=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-macos.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0DgAGYsDKv7TEjXPpPprLS+sa5z2hI4JaUwReDeErS4=
+			jYHXzAJQB1RzHvvfLI2D/Qo8DXVxrfeUTZPQcsmNJv4=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-macos.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			up0k40xtwN5d/9KPBVWrTfydH1t9dfUmnaIKaGOnFyM=
+			/lq+CSKmZhbC7D/iZ4jUZJHvBDEMFs4Z6oPsGk1QnfM=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-macos.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ufHZZWV2vA4GM/IOGWEaurCiw2kMgeDAF897Om4hBhM=
+			2a3a+BDCjLAtuxe6RiWn8/UiFwXmiv4B0EhS8O5L5ps=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-macos.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			up0k40xtwN5d/9KPBVWrTfydH1t9dfUmnaIKaGOnFyM=
+			/lq+CSKmZhbC7D/iZ4jUZJHvBDEMFs4Z6oPsGk1QnfM=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-macos.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			plMRCwKfk5XCEHEEuChWKtofn9dXxeBh0I8SAZKnkwg=
+			msa/aiakZB23t2oRS1ubFXbgjiDgx9h3MDxdr2gCuyI=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -103,7 +103,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			UNM6vh7Fa7J9OU0cnvmZjeenuQcxRM1Z7eiYIaoDhHQ=
+			R0fT0YFadTmJuBF5yY2gjsqI1xDgHQQYWoOI9REktO8=
 			</data>
 		</dict>
 		<key>Resources/PrivacyInfo.xcprivacy</key>

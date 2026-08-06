@@ -6,51 +6,51 @@
 	<dict>
 		<key>Headers/Lottie-Swift.h</key>
 		<data>
-		kryiBHq9BWL0GEph37F73zHjGtY=
+		S48JmXNH9akM+b+6JShxOxrNNiM=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		CTIPTgalaDhWjUHEXn+ki/l17/I=
+		PYZpXzdwVqBh5FhAjhkqDMqs8Jg=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.abi.json</key>
 		<data>
-		Jm0R7JAXu5oIFW411ShM2m/ZucM=
+		qY5cLUw6qtLBtcWpfuZayMN3O2U=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.private.swiftinterface</key>
 		<data>
-		nVs3krzkm4ZVQ1pqe6M1KMf6RFQ=
+		DzBxj4l56FljJ3Kl2l3kbK45nqE=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.swiftdoc</key>
 		<data>
-		zfJsLQX/hNOWwfKZCvA/e4xbuQk=
+		xDzNuq74jwhqf+1idFszMjXhS0w=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.swiftinterface</key>
 		<data>
-		nVs3krzkm4ZVQ1pqe6M1KMf6RFQ=
+		DzBxj4l56FljJ3Kl2l3kbK45nqE=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.swiftmodule</key>
 		<data>
-		06UDENERjgBc8MrmOeACEkzwKDM=
+		MEbNnLellxmI4WiQ95bhr511FTo=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.abi.json</key>
 		<data>
-		Jm0R7JAXu5oIFW411ShM2m/ZucM=
+		qY5cLUw6qtLBtcWpfuZayMN3O2U=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.private.swiftinterface</key>
 		<data>
-		efTZHiKefz2aa7wYBxpOEWBm4G4=
+		ZtdryoungmuhIcAqbTjzRu0N3PQ=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.swiftdoc</key>
 		<data>
-		Y1sks6v2pvSG7VSKKpGEOYoDGvY=
+		ohuI407flHixvVclshgh4iOL4xM=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.swiftinterface</key>
 		<data>
-		efTZHiKefz2aa7wYBxpOEWBm4G4=
+		ZtdryoungmuhIcAqbTjzRu0N3PQ=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.swiftmodule</key>
 		<data>
-		L0EbZ2hEMGp/n916DUEhWGgaHZ8=
+		GCoazpxrCqYhCTjBeMgSGA4IgTU=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -67,77 +67,77 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			lL2ucBnjsplkjaKUiIxxlBKgtOqIffwUCk5D/bjEX9Y=
+			NmjwCYFUKceYzcxYXa74cOlwnpixuhUj2/1gE/EZEsA=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			5KhObyui6roXwjc22yUVvHa4LewYMUfgeRkv38RC0Wg=
+			pS9QjwsHTyGlm5e6xTQptgnPiEG299l9HMh/j/r1opY=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			spxPx1bvK6ZRUIzIKVrOJABnEjtn3rc5e339YSisAks=
+			hGOeBMRFtxBNWojzZ8a7Sy/iuE8GjYFhLMpNPNvxxaY=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			87KCL0lyYC3fNhptA89NqjBIaalXH8h0Wv01A5Sjdg4=
+			wO+MaNsQ8948EJfhlSxhfwhcpu8zYP/Yw+LiPWH7KLM=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			spxPx1bvK6ZRUIzIKVrOJABnEjtn3rc5e339YSisAks=
+			hGOeBMRFtxBNWojzZ8a7Sy/iuE8GjYFhLMpNPNvxxaY=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-tvos-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			NF/CbUr7EnfZTLWwYbvzafYZd1E/oATx78zAGIUNq28=
+			HzrtnMfPtLzZzWKWl8mi4JO1YGF0rGLO54qUsLWAGfM=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			5KhObyui6roXwjc22yUVvHa4LewYMUfgeRkv38RC0Wg=
+			pS9QjwsHTyGlm5e6xTQptgnPiEG299l9HMh/j/r1opY=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			j1TA3RJb+zGQo4PCeMHdiwoRBkuLi6zPhjsRs1+qUGA=
+			PY2X7vfk7qVomf44iiQxquw2A4VGgSozA7ijIn3qOR8=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0bZVi2L3B3RNSAH18TD4JsRUx7OLw8bicYBBVIASa2I=
+			Vug7uVd7AJu8x92KZYyXY9JYTvalCrNTKTSpQ/0KP8M=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			j1TA3RJb+zGQo4PCeMHdiwoRBkuLi6zPhjsRs1+qUGA=
+			PY2X7vfk7qVomf44iiQxquw2A4VGgSozA7ijIn3qOR8=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-tvos-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			l9+/y192sb3brFOcRYnwIGkFfYI8eH66gLunYqC/2LY=
+			NseqamC2J/9HKo5XTdlNnwxLhrhS+0LPgZDXTyWi508=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

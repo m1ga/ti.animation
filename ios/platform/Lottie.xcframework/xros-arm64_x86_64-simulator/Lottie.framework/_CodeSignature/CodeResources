@@ -6,51 +6,51 @@
 	<dict>
 		<key>Headers/Lottie-Swift.h</key>
 		<data>
-		6YV8CQRG/MsQw4KJU9sGCOgX95I=
+		vMlwfz6yod9ySc0QOJzdA2P2TKE=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		CtVyCttlqJyLmGL6qf6z3fDqIBE=
+		H2IjQNvnXDKc1MlwuZsl/GyaPAU=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.abi.json</key>
 		<data>
-		A9uhmvi1DOT1EPEvmAHTCag0DPM=
+		BHteBaG3xNLbpLOGhqoKEY7WceA=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.private.swiftinterface</key>
 		<data>
-		wzHyJiigXYFhCyd1DGXnyYEXmxY=
+		8WS1fZ6aGxThR3irXXmvIybF8/Q=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.swiftdoc</key>
 		<data>
-		K6FmcOVzvnxU6JoBFqtMM6EM/CQ=
+		BPZp/zYB2bFWPgGsD6KN6rY7/3U=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.swiftinterface</key>
 		<data>
-		wzHyJiigXYFhCyd1DGXnyYEXmxY=
+		8WS1fZ6aGxThR3irXXmvIybF8/Q=
 		</data>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.swiftmodule</key>
 		<data>
-		E8JrO2D4djNL9TwmGYY4/r4mkt0=
+		O4hBOa5/Agz/CyboD0J5GA4usQY=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.abi.json</key>
 		<data>
-		A9uhmvi1DOT1EPEvmAHTCag0DPM=
+		BHteBaG3xNLbpLOGhqoKEY7WceA=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.private.swiftinterface</key>
 		<data>
-		lxFMVPxhs/o7JdRYhEkjMMWI18o=
+		SuKZA+5DthIgFEKFqodezwQkuCk=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.swiftdoc</key>
 		<data>
-		oeNfnP0X4lnbsPqnuQIx7cjj7AQ=
+		U/vhbsoZ/FiUN6mivv+VZJDUqd4=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.swiftinterface</key>
 		<data>
-		lxFMVPxhs/o7JdRYhEkjMMWI18o=
+		SuKZA+5DthIgFEKFqodezwQkuCk=
 		</data>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.swiftmodule</key>
 		<data>
-		unuOVXRFktYO9zb46/etYGXrDts=
+		oCzCW8GNSxDGktp5rl6Mv2V9QWM=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -67,77 +67,77 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			WcE3XjFqaKgxt4S4DzwWOpPQouQdpr+1FR7BXorc+3k=
+			VljhrGl/4UVVqUcvAUF51JwVZuoQxGVjcSZWiEelv9g=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			+JuNHQFuJahHdfvw9Ehwqq2BtsOBdsEQz7ROtI4xcDw=
+			aoA7i6Pmphr8bEnmssaUC3zL6PNEFJpfEqZ6V7iPZyM=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DoH/uHSALSf6LGHhPrdsoy/u1dXhOzueJlVULlBEUTY=
+			3CstECrDbEjub8cc6Bkd0OkD/Ns+0mj/pZONWJqzrGg=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			OLHQdCVVTwDWzeCD/SuTcls+t09/mz4CFfJ5Bue7K/g=
+			xHNDuj4gKCjAuiHNGCOZHrGoFbka0XEVwQmeiVP7RXc=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DoH/uHSALSf6LGHhPrdsoy/u1dXhOzueJlVULlBEUTY=
+			3CstECrDbEjub8cc6Bkd0OkD/Ns+0mj/pZONWJqzrGg=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/arm64-apple-xros-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DtGw9IHfPUU+UN+S88WQv2EumGtpPQre6KSa0rw3lew=
+			/UXBjnDRBaW2RMFnoMCLSz6uCBPabe3yxvvpbkvZR2E=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			+JuNHQFuJahHdfvw9Ehwqq2BtsOBdsEQz7ROtI4xcDw=
+			aoA7i6Pmphr8bEnmssaUC3zL6PNEFJpfEqZ6V7iPZyM=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			tbzD+fc368WdMJeFXvFxh62CpDVw63xlON5or+GwrhQ=
+			LBu8X0AThqeTF3Xv6SQM3EOyAYFWFpuPSy4FYVhvtCI=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			YvWCLxngozAznumt3NzU/b2COu68/2x3CKqdaChNZUA=
+			Vja+/8SSWuBAIZrTcEKF/ImnLNSKYJWd4OXEl7sm+GI=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			tbzD+fc368WdMJeFXvFxh62CpDVw63xlON5or+GwrhQ=
+			LBu8X0AThqeTF3Xv6SQM3EOyAYFWFpuPSy4FYVhvtCI=
 			</data>
 		</dict>
 		<key>Modules/Lottie.swiftmodule/x86_64-apple-xros-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			tuXIM8VQppxDg0Tq8cZepJG3+JK/qlsaKSRSoZHMS0o=
+			/UU2hMZ5fXAABdfGYKcf2hsbw4WnmmTi83H7soHj4FU=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
