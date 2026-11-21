@@ -79,14 +79,21 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
         int resId_viewHolder;
         int resId_aniView;
 
-        if (TiConvert.toInt(proxy.getProperty("animationType")) == ANIMATION_RIVE) {
-            AppInitializer.getInstance(TiApplication.getAppCurrentActivity())
-                    .initializeComponent(RiveInitializer.class);
-            resId_viewHolder = resources.getIdentifier("layout_rive", "layout", packageName);
-        } else {
-            resId_viewHolder = resources.getIdentifier("layout_lottie", "layout", packageName);
+        try {
+            if (TiConvert.toInt(proxy.getProperty("animationType")) == ANIMATION_RIVE) {
+                AppInitializer.getInstance(TiApplication.getAppCurrentActivity())
+                        .initializeComponent(RiveInitializer.class);
+
+                resId_viewHolder = TiRHelper.getResource("layout.layout_rive");
+
+            } else {
+                resId_viewHolder = TiRHelper.getResource("layout.layout_lottie");
+            }
+
+            resId_aniView = TiRHelper.getResource("id.animation_view");
+        } catch (TiRHelper.ResourceNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        resId_aniView = resources.getIdentifier("animation_view", "id", packageName);
 
         LayoutInflater inflater = LayoutInflater.from(proxy.getActivity());
         viewWrapper = inflater.inflate(resId_viewHolder, null);
