@@ -280,9 +280,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
         TiBaseFile file = TiFileFactory.createTitaniumFile(new String[]{url}, false);
 
         if (file.exists()) {
-            try {
-                InputStream stream = file.getInputStream();
-
+            try (InputStream stream = file.getInputStream()) {
                 if (animationType == ANIMATION_RIVE) {
                     byteBuffer = new ByteArrayOutputStream();
                     int bufferSize = 1024;
