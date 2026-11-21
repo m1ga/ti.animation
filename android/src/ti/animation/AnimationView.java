@@ -321,11 +321,16 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                             Alignment.CENTER,
                             loop);
                 } else {
-                    int size = stream.available();
-                    byte[] buffer = new byte[size];
-                    stream.read(buffer);
-                    String json = new String(buffer, StandardCharsets.UTF_8);
-                    parseJson(json);
+                    // dotLottie and zip files are archives, not JSON text
+                    boolean isArchive = lowerCaseF.endsWith(".lottie") || lowerCaseF.endsWith(".zip");
+                    boolean hasSize = proxy.hasPropertyAndNotNull("width") && proxy.hasPropertyAndNotNull("height");
+                    if (!isArchive && !hasSize) {
+                        int size = stream.available();
+                        byte[] buffer = new byte[size];
+                        stream.read(buffer);
+                        String json = new String(buffer, StandardCharsets.UTF_8);
+                        parseJson(json);
+                    }
                     lottieView.setAnimation(url.replaceAll("file:///android_asset/", ""));
                 }
             } catch (Exception e) {
