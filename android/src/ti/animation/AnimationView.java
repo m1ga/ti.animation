@@ -13,12 +13,12 @@ import static ti.animation.TiAnimationModule.ANIMATION_RIVE;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView.ScaleType;
 
+import androidx.annotation.NonNull;
 import androidx.startup.AppInitializer;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -38,6 +38,7 @@ import org.appcelerator.titanium.io.TiBaseFile;
 import org.appcelerator.titanium.io.TiFileFactory;
 import org.appcelerator.titanium.proxy.TiViewProxy;
 import org.appcelerator.titanium.util.TiConvert;
+import org.appcelerator.titanium.util.TiRHelper;
 import org.appcelerator.titanium.view.TiUIView;
 import org.json.JSONObject;
 
@@ -67,16 +68,12 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
     private KrollFunction callbackReady = null;
     private float initialDuration = 0;
     private ValueAnimator va = null;
-    private AnimatorUpdateListener animatorUpdateListener = null;
-    private AnimatorListener animatorListener = null;
 
     @SuppressLint("ClickableViewAccessibility")
     AnimationView(TiViewProxy proxy) {
         super(proxy);
 
         this.proxy = proxy;
-        String packageName = proxy.getActivity().getPackageName();
-        Resources resources = proxy.getActivity().getResources();
         View viewWrapper;
 
         int resId_viewHolder;
@@ -97,7 +94,6 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
         if (TiConvert.toInt(proxy.getProperty("animationType")) == ANIMATION_RIVE) {
             riveView = viewWrapper.findViewById(resId_aniView);
             animationType = ANIMATION_RIVE;
-            MotionEvent mEvent = null;
             riveView.setOnTouchListener((view, motionEvent) -> {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     fireEvent("click", new KrollDict());
@@ -108,10 +104,9 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             lottieView = viewWrapper.findViewById(resId_aniView);
             delegate = new TextDelegate(lottieView);
             setScaleMode(TiConvert.toString(proxy.getProperty("scaleMode")));
-            animatorUpdateListener = new AnimatorUpdateListener();
-            animatorListener = new AnimatorListener();
-            lottieView.addAnimatorUpdateListener(animatorUpdateListener);
-            lottieView.addAnimatorListener(animatorListener);
+
+            lottieView.addAnimatorUpdateListener(new AnimatorUpdateListener());
+            lottieView.addAnimatorListener(new AnimatorListener());
             lottieView.addLottieOnCompositionLoadedListener(this);
 
             if (TiConvert.toBoolean(proxy.getProperty("disableHardwareAcceleration"))) {
@@ -170,12 +165,13 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             }
         }
 
-        if (d.containsKey("file") && !d.getString("file").equals("")) {
+        String file = d.getString("file");
+        if (file != null && !file.isEmpty()) {
             if (TiApplication.isUIThread()) {
-                loadFile(d.getString("file"));
+                loadFile(file);
             } else {
                 TiMessenger.sendBlockingMainMessage(
-                        proxy.getMainHandler().obtainMessage(AnimationViewProxy.MSG_LOAD_FILE, d.getString("file")));
+                        proxy.getMainHandler().obtainMessage(AnimationViewProxy.MSG_LOAD_FILE, file));
             }
         } else if (d.containsKey("json")) {
             loadJson(d.getString("json"));
@@ -198,21 +194,14 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
         if (lottieView == null) return;
 
-        switch (smode) {
-            case "center":
-                lottieView.setScaleType(ScaleType.CENTER);
-                break;
-            case "centerCrop":
-                lottieView.setScaleType(ScaleType.CENTER_CROP);
-                break;
-            case "stretch":
-                lottieView.setScaleType(ScaleType.FIT_XY);
-                break;
-            case "centerInside":
-            default:
-                lottieView.setScaleType(ScaleType.CENTER_INSIDE);
-                break;
-        }
+        ScaleType scaleType = switch (smode) {
+            case "center" -> ScaleType.CENTER;
+            case "centerCrop" -> ScaleType.CENTER_CROP;
+            case "stretch" -> ScaleType.FIT_XY;
+            default -> ScaleType.CENTER_INSIDE;
+        };
+
+        lottieView.setScaleType(scaleType);
     }
 
     private void parseJson(String json) {
@@ -269,16 +258,9 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
     void loadFile(String f) {
         // Clear previous buffer to prevent memory leak
-        if (byteBuffer != null) {
-            try {
-                byteBuffer.close();
-            } catch (Exception e) {
-                // ignore
-            }
-            byteBuffer = null;
-        }
+        closeByteBuffer();
 
-        // check if it is an URL
+        // check if it is a URL
         String lowerCaseF = f.toLowerCase(java.util.Locale.ROOT);
         if (lowerCaseF.startsWith("http://") || lowerCaseF.startsWith("https://")) {
             if (animationType == ANIMATION_LOTTIE) {
@@ -298,7 +280,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                     byteBuffer = new ByteArrayOutputStream();
                     int bufferSize = 1024;
                     byte[] buffer = new byte[bufferSize];
-                    int len = 0;
+                    int len;
                     while ((len = stream.read(buffer)) != -1) {
                         byteBuffer.write(buffer, 0, len);
                     }
@@ -318,9 +300,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                         state = TiConvert.toString(proxy.getProperty("stateName"));
                     }
                     if (proxy.hasPropertyAndNotNull("loop")) {
-                        if (TiConvert.toInt(proxy.getProperty("loop")) == 0) {
-                            loop = Loop.ONESHOT;
-                        } else if (TiConvert.toInt(proxy.getProperty("loop")) == 1) {
+                        if (TiConvert.toInt(proxy.getProperty("loop")) == 1) {
                             loop = Loop.LOOP;
                         }
                     }
@@ -351,13 +331,15 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
     void startAnimation(Object data) {
         if (animationType == ANIMATION_RIVE) {
-            HashMap kd = (HashMap) data;
+            HashMap<?, ?> kd = (HashMap<?, ?>) data;
             String aniName = TiConvert.toString(kd.get("animationName"));
-            boolean loop = TiConvert.toBoolean(kd.get("loop"));
+
             Loop loopConstant = Loop.ONESHOT;
+            boolean loop = TiConvert.toBoolean(kd.get("loop"), false);
             if (loop) {
                 loopConstant = Loop.LOOP;
             }
+
             if (aniName == null || aniName.isEmpty()) {
                 riveView.play(loopConstant, Direction.AUTO, false);
             } else {
@@ -412,7 +394,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
             va.addListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animation) {
+                public void onAnimationStart(@NonNull Animator animation) {
                     KrollDict event = new KrollDict();
                     event.put("status", AnimationViewProxy.ANIMATION_START);
                     event.put("frame", 0);
@@ -420,14 +402,14 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                 }
 
                 @Override
-                public void onAnimationCancel(Animator animation) {
+                public void onAnimationCancel(@NonNull Animator animation) {
                     KrollDict event = new KrollDict();
                     event.put("status", AnimationViewProxy.ANIMATION_CANCEL);
                     ((AnimationViewProxy) proxy).updateEvent(event);
                 }
 
                 @Override
-                public void onAnimationRepeat(Animator animation) {
+                public void onAnimationRepeat(@NonNull Animator animation) {
                     KrollDict event = new KrollDict();
                     event.put("status", AnimationViewProxy.ANIMATION_END);
                     event.put("repeat", true);
@@ -436,7 +418,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                 }
 
                 @Override
-                public void onAnimationEnd(Animator animation) {
+                public void onAnimationEnd(@NonNull Animator animation) {
                     KrollDict event = new KrollDict();
                     event.put("status", AnimationViewProxy.ANIMATION_END);
                     event.put("repeat", false);
@@ -536,7 +518,7 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             if (animationName instanceof String) {
                 riveView.play((String) animationName, Loop.ONESHOT, Direction.AUTO, false, true);
             } else if (animationName instanceof Object[] objVal) {
-                List<String> lst = new ArrayList<String>();
+                List<String> lst = new ArrayList<>();
                 for (Object s : objVal) {
                     lst.add((String) s);
                 }
@@ -547,6 +529,10 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
     public void resetAnimation() {
         if (animationType == ANIMATION_RIVE) {
+            if (riveView == null) {
+                return;
+            }
+
             try {
                 riveView.stop();
                 riveView.clearAnimation();
@@ -556,16 +542,23 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
                 Log.e(LCAT, e.getMessage());
             }
         } else {
-            if (va != null) {
-                va.removeAllListeners();
-                va.cancel();
-                va = null;
+            if (va == null) {
+                return;
             }
+
+            va.removeAllListeners();
+            va.removeAllUpdateListeners();
+            va.cancel();
+            va = null;
         }
     }
 
     protected class AnimatorUpdateListener implements ValueAnimator.AnimatorUpdateListener {
-        public void onAnimationUpdate(ValueAnimator animation) {
+        public void onAnimationUpdate(@NonNull ValueAnimator animation) {
+            if (lottieView == null) {
+                return;
+            }
+
             KrollDict event = new KrollDict();
             event.put("frame", lottieView.getFrame());
             event.put("status", AnimationViewProxy.ANIMATION_RUNNING);
@@ -575,39 +568,51 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
 
     @Override
     public void release() {
-        if (lottieView != null) {
-            try {
-                if (animatorListener != null) {
-                    lottieView.removeAnimatorListener(animatorListener);
-                }
-            } catch (Exception e) {
-                // ignore - method may not exist in all Lottie versions
-            }
-            lottieView.cancelAnimation();
-        }
-        if (va != null) {
-            va.removeAllListeners();
-            va.cancel();
-            va = null;
-        }
+        closeByteBuffer();
+        resetAnimation();
+        releaseLottie();
+
         delegate = null;
         callbackReady = null;
-        lottieView = null;
         riveView = null;
-        animatorUpdateListener = null;
-        animatorListener = null;
+        lottieView = null;
         super.release();
     }
 
+    private void closeByteBuffer() {
+        if (byteBuffer == null) {
+            return;
+        }
+
+        try {
+            byteBuffer.close();
+        } catch (Exception e) {
+            // ignore
+        }
+        byteBuffer = null;
+    }
+
+    private void releaseLottie() {
+        if (lottieView == null) {
+            return;
+        }
+
+        lottieView.removeAllUpdateListeners();
+        lottieView.removeAllAnimatorListeners();
+        lottieView.removeAllLottieOnCompositionLoadedListener();
+        lottieView.cancelAnimation();
+        lottieView.setImageDrawable(null);
+    }
+
     protected class AnimatorListener implements Animator.AnimatorListener {
-        public void onAnimationStart(Animator animation) {
+        public void onAnimationStart(@NonNull Animator animation) {
             KrollDict event = new KrollDict();
             event.put("status", AnimationViewProxy.ANIMATION_START);
             event.put("frame", 0);
             ((AnimationViewProxy) proxy).updateEvent(event);
         }
 
-        public void onAnimationEnd(Animator animation) {
+        public void onAnimationEnd(@NonNull Animator animation) {
             KrollDict event = new KrollDict();
             event.put("status", AnimationViewProxy.ANIMATION_END);
             event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
@@ -615,13 +620,13 @@ public class AnimationView extends TiUIView implements LottieOnCompositionLoaded
             ((AnimationViewProxy) proxy).completeEvent(event);
         }
 
-        public void onAnimationCancel(Animator animation) {
+        public void onAnimationCancel(@NonNull Animator animation) {
             KrollDict event = new KrollDict();
             event.put("status", AnimationViewProxy.ANIMATION_CANCEL);
             ((AnimationViewProxy) proxy).updateEvent(event);
         }
 
-        public void onAnimationRepeat(Animator animation) {
+        public void onAnimationRepeat(@NonNull Animator animation) {
             KrollDict event = new KrollDict();
             event.put("status", AnimationViewProxy.ANIMATION_END);
             event.put("loop", TiConvert.toBoolean(proxy.getProperty("loop")));
